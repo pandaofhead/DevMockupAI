@@ -7,7 +7,7 @@ function Header() {
   const path = usePathname();
 
   return (
-    <div className="items-center flex p-4 justify-between bg-secondary shadow-sm">
+    <div className="items-center flex p-6 justify-between bg-secondary shadow-sm">
       <Image src={"/logo.svg"} width={150} height={100} />
       <ul className="hidden md:flex gap-6 ">
         <li
@@ -35,7 +35,7 @@ function Header() {
           How it works?
         </li>
       </ul>
-      <UserButton />
+      <UserButton/>
     </div>
   );
 }
