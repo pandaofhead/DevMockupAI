@@ -4,9 +4,11 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div>
-      <h1>AI Mockup Website</h1>
-      <p>An interview mockup website</p>
-      <Button>Click Me</Button>
+      <h1>DevMockupAI</h1>
+      <p>An AI-powered mockup and resume builder for developers</p>
+      <Button as="a" variant="dark" size="lg" className="mt-4">
+        Get Started
+      </Button>
     </div>
   );
 }
