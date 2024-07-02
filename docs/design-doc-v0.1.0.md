@@ -1,9 +1,11 @@
 # DevMockupAI
 
 ## Overview
+
 Briefly describe the purpose of the website, its main features, and the problem it aims to solve. Include a high-level summary of the project's goals.
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [User Personas and Use Cases](#user-personas-and-use-cases)
 3. [Requirements](#requirements)
@@ -17,32 +19,99 @@ Briefly describe the purpose of the website, its main features, and the problem 
 11. [Appendix](#appendix)
 
 ## Introduction
+
 ### Background
-Explain the context and background of the project. Why is this website being developed? What needs does it address?
+
+Job seekers often struggle to create different resumes for different job applications. They need a tool that can generate custom resumes based on job descriptions and then generate AI mockup interviews.
 
 ### Objectives
-Define the main objectives of the website. What are the key goals and success criteria?
+
+The goal of this project is to create a website that allows users to:
+
+- Create custom resumes based on job descriptions.
+- Generate AI mockup interviews to practice interview skills.
+- Get feedback on resumes and interviews from AI.
 
 ### Scope
-Outline the scope of the project. What will be included and what will be excluded?
+
+The website will include the following features:
+
+- User registration and login.
+- User resume input and Job description input.
+- Resume builder with job description analysis.
+- AI mockup interview generator.
+- AI feedback on resumes and interviews.
+- User profile with resume and interview history.
 
 ## User Personas and Use Cases
+
 ### User Personas
-Describe the target audience for the website. Create detailed user personas to represent different types of users.
+
+Tech Job Seeker:
+
+- **Name:** John Doe
+- **Age:** 25
+- **Occupation:** Software Developer
+- **Goals:** Find a job at a tech company.
+- **Challenges:** Creating custom resumes for different job applications.
 
 ### Use Cases
-Outline specific use cases for the website. How will different personas interact with the site? Include user stories to illustrate typical user interactions.
+
+1. **User Registration:** John creates an account on the website.
+2. **Resume Creation:** John inputs his resume details.
+3. **Job Description Input:** John inputs a job URL or job description.
+4. **Resume Analysis:** The website analyzes John's resume and the job description.
+5. **Resume Generation:** The website generates a custom resume and interview for John.
+6. **AI Mockup Interview:** John practices an AI mockup interview.
+7. **Feedback:** The AI provides feedback on John's resume and interview.
+8. **Profile Update:** John updates his profile with resume and interview history.
 
 ## Requirements
+
 ### Functional Requirements
-List all the functionalities the website must have. This includes both front-end and back-end features.
+
+1. **User Registration:** Users can create an account on the website.
+2. **User Login:** Users can log in to the website.
+3. **Resume Input:** Users can input their resume details.
+4. **Job Description Input:** Users can input a job URL or job description.
+5. **Resume Analysis:** The website analyzes the user's resume and the job description.
+6. **Resume Generation:** The website generates a custom resume based on the analysis.
+7. **AI Mockup Interview:** The website generates an AI mockup interview for the user.
+8. **Feedback:** The AI provides feedback on the user's resume and interview.
+9. **Profile Update:** Users can update their profile with resume and interview history.
+10. **User Dashboard:** Users can view their resume and interview history on their dashboard.
 
 ### Non-Functional Requirements
-Include performance, security, usability, and other non-functional requirements.
+
+1. **Performance:** The website should load quickly and respond to user actions promptly.
+2. **Security:** User data should be stored securely and protected from unauthorized access.
+3. **Usability:** The website should be easy to use and navigate, with clear instructions for each feature.
+4. **Scalability:** The website should be able to handle a large number of users and data.
+5. **Reliability:** The website should be available and functional at all times, with minimal downtime.
 
 ## Site Map and Navigation
+
 ### Site Map
-Create a visual representation of the website’s structure. Show how different pages are connected.
+
+Provide a site map that shows the structure of the website, including key pages and their relationships.
+
+````
+- Home
+    - About Us
+    - Contact Us
+- User Registration
+- User Login
+- User Dashboard
+    - Resume Input
+    - Job Description Input
+    - Resume Analysis
+    - Resume Generation
+    - AI Mockup Interview
+    - Feedback
+- User Profile
+    - Resume History
+    - Interview History
+````
 
 ### Navigation
 Explain the navigation flow. How will users move from one page to another?
@@ -56,8 +125,8 @@ Provide high-fidelity mockups that show the design and visual elements of the pa
 
 ## Technical Architecture
 ### Overview
-Describe the overall technical architecture of the website.
 
+The website will be built using a combination of frontend and backend technologies. The frontend will be developed using Next.js, 
 ### Frontend
 Explain the technologies and frameworks used for the frontend development.
 
@@ -69,13 +138,19 @@ Describe how different parts of the system will integrate with each other and wi
 
 ## Development Plan
 ### Timeline
-Provide a timeline for the project with key milestones.
+
+
 
 ### Tasks
-Break down the development tasks into manageable chunks. Assign responsibilities to team members.
+
+- **Frontend Development:** Develop the user interface using Next.js and Tailwind CSS.
+- **Backend Development:** Set up the server, database, and APIs using Node.js and Express.
+- **AI Integration:** Integrate AI services for resume analysis and mockup interviews.
+- **User Authentication:** Implement user registration, login, and profile management.
+- **Testing:** Write unit tests and integration tests for critical functionalities.
 
 ### Resources
-List the resources needed for the project, including software, hardware, and personnel.
+
 
 ## Testing Plan
 ### Testing Strategy
@@ -103,3 +178,4 @@ Describe the strategy for updating the website with new features and improvement
 
 ## Appendix
 Include any additional information, such as glossary of terms, acronyms, or references to external documents.
+````
