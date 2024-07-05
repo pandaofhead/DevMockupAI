@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { UserButton } from "@clerk/nextjs";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -78,10 +78,6 @@ function Header() {
           </Link>
         </li>
       </ul>
-
-      <div className="hidden md:block">
-        <UserButton />
-      </div>
 
       {/* {isMobileMenuOpen && (
         <div className="block md:hidden bg-background p-4 shadow-md w-full">

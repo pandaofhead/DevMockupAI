@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { LoaderCircle } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
-function AddNewInterview() {
+function AddNewResume() {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -37,23 +37,25 @@ function AddNewInterview() {
         className="p-10 border rounded-lg bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h2 className="font-bold text-lg text-white text-center">+ Add New Interview</h2>
+        <h2 className="font-bold text-lg text-white text-center">
+          + Add New Resume
+        </h2>
       </div>
       <Dialog open={openDialog}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle className="text-2xl">
-              Tell us about the job
+              Please enter the job URL or description
             </DialogTitle>
             <DialogDescription>
               <form onSubmit={onSubmit}>
                 <div>
                   <div className="mt-7 my-3">
-                    <label className="my-3">Job Title</label>
+                    <label className="my-3 font-semibold">Job URL</label>
                     <Input
-                      type="text"
-                      placeholder="Frontend Developer"
-                      className="border border-gray-300 rounded-lg p-2 w-full"
+                      type="URL"
+                      placeholder="https://example.com"
+                      className="border border-gray-300 rounded-lg p-2"
                       required
                       onChange={(e) => setJobPosition(e.target.value)}
                     />
@@ -63,21 +65,9 @@ function AddNewInterview() {
                     <label className="my-3">Job Description/Tech Stack</label>
                     <Textarea
                       placeholder="React, Node, Express, MongoDB"
-                      className="border border-gray-300 rounded-lg p-2 w-full"
+                      className="border border-gray-300 rounded-lg p-2"
                       required
                       onChange={(e) => setJobDescription(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="my-3">
-                    <label className="my-3">Years of Experience</label>
-                    <Input
-                      type="number"
-                      max="40"
-                      placeholder="2"
-                      className="border border-gray-300 rounded-lg p-2 w-full"
-                      required
-                      onChange={(e) => setJobExperience(e.target.value)}
                     />
                   </div>
                 </div>
@@ -92,11 +82,11 @@ function AddNewInterview() {
                   <Button type="submit" disabled={loading}>
                     {loading ? (
                       <>
-                        <LoaderCircle className="animate-spin" /> Generating
-                        from AI
+                        <LoaderCircle className="animate-spin" /> Generating ...
+                        
                       </>
                     ) : (
-                      "Start Interview"
+                      "Generate Resume"
                     )}
                   </Button>
                 </div>
@@ -109,4 +99,4 @@ function AddNewInterview() {
   );
 }
 
-export default AddNewInterview;
+export default AddNewResume;

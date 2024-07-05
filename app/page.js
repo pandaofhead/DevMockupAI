@@ -17,7 +17,7 @@ export default function Home() {
 
       <main className="flex flex-col justify-center items-center text-center p-8 bg-gradient-to-b from-background to-secondary h-screen">
         <ReactTyped
-          className="text-4xl font-bold mb-4"
+          className="text-4xl font-bold mb-8"
           strings={["Customize your resume and interviews with AI"]}
           typeSpeed={40}
         />
@@ -37,13 +37,13 @@ export default function Home() {
           </div>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white">
-              <CountUp end={15} duration={1} delay={2} />s
+              <CountUp end={15} duration={1} delay={1.5} />s
             </h2>
             <p className="text-xl text-white">Build Resume</p>
           </div>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white">
-              <CountUp end={5} duration={1} delay={3} /> pages
+              <CountUp end={5} duration={1} delay={2} /> pages
             </h2>
             <p className="text-xl text-white">Feedback</p>
           </div>
