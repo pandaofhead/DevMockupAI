@@ -3,9 +3,13 @@ import {
   FacebookIcon,
   GithubIcon,
   InstagramIcon,
-  LinkedinIcon,
   TwitterIcon,
 } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import Link from "next/link";
 export default function Footer() {
   return (
@@ -56,18 +60,37 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-4">
-            <a
-              href="#"
-              className="text-secondary hover:text-white hover:scale-105 "
-            >
-              <InstagramIcon size={30} />
-            </a>
-            <a
-              href="#"
-              className="text-secondary hover:text-white hover:scale-105 "
-            >
-              <LinkedinIcon size={30} />
-            </a>
+            <HoverCard>
+              <HoverCardTrigger>
+                <a
+                  href="#"
+                  className="text-secondary hover:text-white hover:scale-105 "
+                >
+                  <InstagramIcon size={30} />
+                </a>
+              </HoverCardTrigger>
+              <HoverCardContent>
+                <p className="text-secondary">
+                  Sorry we don't have Instagram for now
+                </p>
+              </HoverCardContent>
+            </HoverCard>
+            <HoverCard>
+              <HoverCardTrigger>
+                <a
+                  href="#"
+                  className="text-secondary hover:text-white hover:scale-105 "
+                >
+                  <FacebookIcon size={30} />
+                </a>
+              </HoverCardTrigger>
+              <HoverCardContent>
+                <p className="text-secondary">
+                  Sorry we don't have Facebook for now
+                </p>
+              </HoverCardContent>
+            </HoverCard>
+
             <a
               href="#"
               className="text-secondary hover:text-white hover:scale-105 "
@@ -78,7 +101,8 @@ export default function Footer() {
         </div>
       </div>
       <div className="text-center mt-8">
-        <p>&copy; 2024 DevMockupAI. All rights reserved.</p>
+        <p>&copy; 2024 DevMockupAI</p>
+        <p>All rights reserved</p>
       </div>
     </footer>
   );

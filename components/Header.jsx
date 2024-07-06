@@ -1,12 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function Header() {
+  const headerList = [
+    {
+      name: "Home",
+      link: "/",
+    },
+    {
+      name: "Dashboard",
+      link: "/dashboard",
+    },
+    {
+      name: "Questions",
+      link: "/questions",
+    },
+    {
+      name: "Login",
+      link: "/(auth)/sign-in",
+    },
+  ];
   const path = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -32,58 +49,23 @@ function Header() {
           isMobileMenuOpen ? "block" : "hidden"
         } md:block absolute md:relative top-16 md:top-auto right-0 left-0 bg-background md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none`}
       >
-        <li>
-          <Link
-            href="/"
-            className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105 
-            ${path == "/" && "text-secondary font-bold"}`}
-          >
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/dashboard"
-            className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105 
-            ${path == "/dashboard" && "text-secondary font-bold"}`}
-          >
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/questions"
-            className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105
-            ${path == "/questions" && "text-secondary font-bold"}`}
-          >
-            Questions
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/upgrade"
-            className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105 
-            ${path == "/upgrade" && "text-secondary font-bold"}`}
-          >
-            Upgrade
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/howitworks"
-            className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105
-            ${path == "/howitworks" && "text-secondary font-bold"}`}
-          >
-            How it works?
-          </Link>
-        </li>
+        {headerList.map((item, index) => (
+          <li key={index}>
+            <Link
+              href={item.link}
+              className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105 
+                ${
+                  (item.link === "/" && path === "/") ||
+                  (item.link !== "/" && path.startsWith(item.link))
+                    ? "text-secondary font-bold"
+                    : ""
+                }`}
+            >
+              {item.name}
+            </Link>
+          </li>
+        ))}
       </ul>
-
-      {/* {isMobileMenuOpen && (
-        <div className="block md:hidden bg-background p-4 shadow-md w-full">
-          <UserButton />
-        </div>
-      )} */}
     </div>
   );
 }

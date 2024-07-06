@@ -1,4 +1,5 @@
 "use client";
+import React, { useContext } from "react";
 import { UserButton } from "@clerk/nextjs";
 import {
   Command,
@@ -14,36 +15,58 @@ import {
   NotepadText,
   FileCode2,
   MessageSquareQuote,
+  Play,
+  CircleHelp,
+  ChevronsLeft,
+  ChevronsRight,
 } from "lucide-react";
-
+import { usePathname } from "next/navigation";
+import { SidebarContext } from "@/context/SidebarContext";
 export default function Sidebar() {
+  const path = usePathname();
+  const { isCollapsed, toggleSidebar } = useContext(SidebarContext);
   const menuList = [
     {
-      group: "Resumes",
+      group: "Get Started",
       items: [
         {
           link: "/dashboard",
+          name: "How to use",
+          icon: <Play />,
+        },
+        {
+          link: "/faqs",
+          name: "FAQs",
+          icon: <CircleHelp />,
+        },
+      ],
+    },
+    {
+      group: "Resume",
+      items: [
+        {
+          link: "/dashboard/resume/default",
           name: "Default",
           icon: <NotepadText />,
         },
         {
-          link: "/",
+          link: "/dashboard/resume/custom",
           name: "Custom",
           icon: <FileCode2 />,
         },
       ],
     },
     {
-      group: "Interviews",
+      group: "Interview",
       items: [
         {
-          link: "/",
-          name: "Upcoming",
+          link: "/dashboard/interview/interviews",
+          name: "Interviews",
           icon: <Video />,
         },
         {
-          link: "/",
-          name: "Rating",
+          link: "/dashboard/interview/feeddback",
+          name: "Feedback",
           icon: <MessageSquareQuote />,
         },
       ],
@@ -52,33 +75,44 @@ export default function Sidebar() {
       group: "Settings",
       items: [
         {
-          link: "/",
+          link: "/dashboard/profile",
           name: "Profile",
           icon: <UserButton />,
         },
         {
-          link: "/",
+          link: "/dashboard/notifications",
           name: "Notifications",
           icon: <BellRing />,
         },
         {
-          link: "/",
+          link: "/terms",
           name: "Terms",
           icon: <Handshake />,
         },
       ],
     },
   ];
+
   return (
-    <div className="flex flex-col w-[300px] min-h-screen p-9">
+    <div
+      className={`flex flex-col min-h-screen p-9 ${
+        isCollapsed ? "w-25" : "w-[300px]"
+      } transition-width duration-500`}
+    >
       <Command className="bg-transparent">
         <CommandList>
-          {menuList.map((menu) => (
-            <CommandGroup heading={menu.group}>
-              {menu.items.map((item) => (
-                <Link href={item.link}>
-                  <CommandItem className="cursor-pointer flex flex-row justify-between">
-                    {item.name}
+          {menuList.map((menu, index) => (
+            <CommandGroup heading={menu.group} key={index}>
+              {menu.items.map((item, idx) => (
+                <Link href={item.link} key={idx}>
+                  <CommandItem
+                    className={`cursor-pointer flex flex-row justify-between items-center ${
+                      path === item.link
+                        ? "bg-white font-bold text-secondary"
+                        : ""
+                    }`}
+                  >
+                    {!isCollapsed && <span className="ml-2">{item.name}</span>}
                     {item.icon}
                   </CommandItem>
                 </Link>
@@ -87,6 +121,12 @@ export default function Sidebar() {
           ))}
         </CommandList>
       </Command>
+      <button
+        onClick={toggleSidebar}
+        className="flex w-full justify-end mb-4 p-2 bg-white rounded-md hover:scale-105 transition-all"
+      >
+        {isCollapsed ? <ChevronsRight /> : <ChevronsLeft />}
+      </button>
     </div>
   );
 }

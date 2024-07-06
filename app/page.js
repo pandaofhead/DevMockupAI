@@ -10,6 +10,8 @@ import {
 import { ReactTyped } from "react-typed";
 import CountUp from "react-countup";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
@@ -24,28 +26,30 @@ export default function Home() {
         <p className="text-lg my-3">Automatic resume generation</p>
         <p className="text-lg">&</p>
         <p className="text-lg my-3">Personalized interview preparation</p>
-        <button className="mt-4 px-6 py-3 bg-primary text-white text-xl rounded-full border-2 hover:scale-110 hover: shadow-md cursor-pointer transition-all">
-          Get Started
-        </button>
+        <Link href="/dashboard">
+          <button className="mt-4 px-6 py-3 bg-primary text-white text-xl rounded-full border-2 hover:scale-110 hover: shadow-md cursor-pointer transition-all">
+            Get Started
+          </button>
+        </Link>
 
         <div className="mt-24 flex justify-center items-center space-x-10">
-          <div className="text-center ">
-            <h2 className="text-3xl font-bold text-white">
-              <CountUp end={90} duration={2.5} />%
-            </h2>
-            <p className="text-xl text-white">Time Saved</p>
-          </div>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white">
-              <CountUp end={15} duration={1} delay={1.5} />s
+              <CountUp end={15} duration={1} />s
             </h2>
             <p className="text-xl text-white">Build Resume</p>
           </div>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white">
-              <CountUp end={5} duration={1} delay={2} /> pages
+              <CountUp end={5} duration={1} delay={1} /> pages
             </h2>
             <p className="text-xl text-white">Feedback</p>
+          </div>
+          <div className="text-center ">
+            <h2 className="text-3xl font-bold text-white">
+              <CountUp end={90} duration={2} delay={1.5} />%
+            </h2>
+            <p className="text-xl text-white">Time Saved</p>
           </div>
         </div>
       </main>
@@ -91,17 +95,17 @@ export default function Home() {
             FAQs
           </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="flex justify-between items-center bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
+                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
                   <span className="text-lg font-semibold">
                     What can I do on DevMockupAI?
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl">
                   DevMockupAI can help you with resume generation, interview
-                  preparation, and more. By entering your resume details and job
+                  preparation, and more. By entering your default resume and job
                   description, DevMockupAI can generate a resume for you. You
                   can also practice interviews with AI.
                 </AccordionContent>
@@ -110,12 +114,12 @@ export default function Home() {
 
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="flex justify-between items-center bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
+                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
                   <span className="text-lg font-semibold">
                     How to get started?
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl">
+                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
                   To get started, simply sign up on DevMockupAI and start
                   entering your resume details.
                 </AccordionContent>
@@ -124,12 +128,12 @@ export default function Home() {
 
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="flex justify-between items-center bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
+                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
                   <span className="text-lg font-semibold">
                     Do I need to pay for the services?
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl">
+                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
                   For the basic services, you do not need to pay. However, for
                   premium services like interview preparation, you may need to
                   pay.
@@ -139,15 +143,23 @@ export default function Home() {
 
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="flex justify-between items-center bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
+                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
                   <span className="text-lg font-semibold">How to pay?</span>
                 </AccordionTrigger>
-                <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl">
+                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
                   DevMockupAI now supports payments through credit cards and
                   PayPal.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+            <div className="flex justify-center items-center mt-5">
+              <Button
+                className=" bg-white text-primary border-2 text-lg p-4 hover:bg-primary hover:text-white"
+                href="/faqs"
+              >
+                View all FAQs
+              </Button>
+            </div>
           </div>
         </div>
       </section>

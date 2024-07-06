@@ -42,7 +42,7 @@ function AddNewResume() {
         </h2>
       </div>
       <Dialog open={openDialog}>
-        <DialogContent className="">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-2xl">
               Please enter the job URL or description
@@ -83,7 +83,6 @@ function AddNewResume() {
                     {loading ? (
                       <>
                         <LoaderCircle className="animate-spin" /> Generating ...
-                        
                       </>
                     ) : (
                       "Generate Resume"
