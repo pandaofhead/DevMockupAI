@@ -1,6 +1,4 @@
 "use client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import {
   Accordion,
   AccordionContent,
@@ -10,13 +8,10 @@ import {
 import { ReactTyped } from "react-typed";
 import CountUp from "react-countup";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-
+import Workflow from "@/components/Workflow";
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-
+    <div>
       <main className="flex flex-col justify-center items-center text-center p-8 bg-gradient-to-b from-background to-secondary h-screen">
         <ReactTyped
           className="text-4xl font-bold mb-8"
@@ -54,9 +49,11 @@ export default function Home() {
         </div>
       </main>
 
-      <section className="flex flex-col justify-center items-center py-12 bg-secondary h-screen">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl text-white font-bold mb-8">How it works</h2>
+      <section className="flex flex-col justify-center items-center py-12 bg-secondary h-auto">
+        <div className="max-w-6xl mx-auto text-center ">
+          <h2 className="text-3xl text-white font-bold mb-20">
+            What can DevMockupAI do?
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-6 bg-gray-100 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-4">
@@ -87,6 +84,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="flex flex-col justify-center items-center py-12 bg-secondary text-white">
+        <Workflow />
       </section>
 
       <section className="pb-20 bg-gradient-to-b from-secondary to-accent ">
@@ -120,8 +121,8 @@ export default function Home() {
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
-                  To get started, simply sign up on DevMockupAI and start
-                  entering your resume details.
+                  To get started, simply sign up on DevMockupAI and navigate to
+                  Dashboard.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -134,37 +135,19 @@ export default function Home() {
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
-                  For the basic services, you do not need to pay. However, for
-                  premium services like interview preparation, you may need to
-                  pay.
+                  For now DevMockupAI is free to use, please enjoy our services!
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
-                  <span className="text-lg font-semibold">How to pay?</span>
-                </AccordionTrigger>
-                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
-                  DevMockupAI now supports payments through credit cards and
-                  PayPal.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <div className="flex justify-center items-center mt-5">
-              <Button
-                className=" bg-white text-primary border-2 text-lg p-4 hover:bg-primary hover:text-white"
-                href="/faqs"
-              >
-                View all FAQs
-              </Button>
-            </div>
+            <Link href="/faqs" className="justify-center mt-4 flex">
+              <button className="mt-4 px-6 py-3 bg-primary text-white rounded-full hover:scale-110 hover: shadow-md cursor-pointer transition-all">
+                View All Questions
+              </button>
+            </Link>
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

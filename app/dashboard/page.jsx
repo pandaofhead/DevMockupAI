@@ -1,7 +1,4 @@
 import React from "react";
-import AddNewInterview from "./_components/AddNewInterview";
-import AddNewResume from "./_components/AddNewResume";
-import BasicResume from "./_components/DefaultResume";
 function Dashboard() {
   return (
     <div className="p-10">

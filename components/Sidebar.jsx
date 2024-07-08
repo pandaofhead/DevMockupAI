@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserButton } from "@clerk/nextjs";
 import {
   Command,
@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SidebarContext } from "@/context/SidebarContext";
+
 export default function Sidebar() {
   const path = usePathname();
   const { isCollapsed, toggleSidebar } = useContext(SidebarContext);
@@ -65,7 +66,7 @@ export default function Sidebar() {
           icon: <Video />,
         },
         {
-          link: "/dashboard/interview/feeddback",
+          link: "/dashboard/interview/feedback",
           name: "Feedback",
           icon: <MessageSquareQuote />,
         },
@@ -75,7 +76,7 @@ export default function Sidebar() {
       group: "Settings",
       items: [
         {
-          link: "/dashboard/profile",
+          link: "/user-profile",
           name: "Profile",
           icon: <UserButton />,
         },
@@ -99,6 +100,12 @@ export default function Sidebar() {
         isCollapsed ? "w-25" : "w-[300px]"
       } transition-width duration-500`}
     >
+      <button
+        onClick={toggleSidebar}
+        className="flex w-full justify-end bg-transparent rounded-md hover:scale-105 transition-all "
+      >
+        {isCollapsed ? <ChevronsRight /> : <ChevronsLeft />}
+      </button>
       <Command className="bg-transparent">
         <CommandList>
           {menuList.map((menu, index) => (
@@ -121,12 +128,6 @@ export default function Sidebar() {
           ))}
         </CommandList>
       </Command>
-      <button
-        onClick={toggleSidebar}
-        className="flex w-full justify-end mb-4 p-2 bg-white rounded-md hover:scale-105 transition-all"
-      >
-        {isCollapsed ? <ChevronsRight /> : <ChevronsLeft />}
-      </button>
     </div>
   );
 }

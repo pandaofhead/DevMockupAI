@@ -16,12 +16,16 @@ function Header() {
       link: "/dashboard",
     },
     {
-      name: "Questions",
-      link: "/questions",
+      name: "FAQs",
+      link: "/faqs",
+    },
+    {
+      name: "Contact",
+      link: "/contact",
     },
     {
       name: "Login",
-      link: "/(auth)/sign-in",
+      link: "/auth/sign-in",
     },
   ];
   const path = usePathname();
@@ -34,7 +38,7 @@ function Header() {
       <div className="md:hidden">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-gray-500 hover:text-secondary focus:outline-none focus:text-secondary"
+          className="text-gray-500 hover:text-primary focus:outline-none focus:text-primary transition-all"
         >
           {isMobileMenuOpen ? (
             <XMarkIcon className="w-6 h-6" />
@@ -53,12 +57,12 @@ function Header() {
           <li key={index}>
             <Link
               href={item.link}
-              className={`block py-2 md:py-0 font-semibold hover:text-secondary hover:font-bold transition-all cursor-pointer hover:scale-105 
+              className={`block py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
                 ${
                   (item.link === "/" && path === "/") ||
                   (item.link !== "/" && path.startsWith(item.link))
-                    ? "text-secondary font-bold"
-                    : ""
+                    ? "text-primary font-bold flex items-center justify-center"
+                    : "flex items-center justify-center"
                 }`}
             >
               {item.name}
