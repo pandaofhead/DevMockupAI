@@ -3,7 +3,7 @@ import React from "react";
 
 function DashboardLayout({ children }) {
   return (
-    <div className="flex flex-row m-0 bg-gradient-to-b from-background to-accent h-screen">
+    <div className="flex flex-row m-0 bg-white h-screen">
       <Sidebar />
       {children}
     </div>

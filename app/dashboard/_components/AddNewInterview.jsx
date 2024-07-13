@@ -37,22 +37,24 @@ function AddNewInterview() {
         className="p-10 border rounded-lg bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h2 className="font-bold text-lg text-white text-center">+ Add New Interview</h2>
+        <h2 className="font-bold text-lg text-white text-center">
+          + Add New Interview
+        </h2>
       </div>
       <Dialog open={openDialog}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-xl">
           <DialogHeader>
             <DialogTitle className="text-2xl">
-              Tell us about the job
+              Tell us about the Interview you want to conduct
             </DialogTitle>
             <DialogDescription>
               <form onSubmit={onSubmit}>
                 <div>
-                  <div className="mt-7 my-3">
-                    <label className="my-3">Job Title</label>
+                  <div className="my-3">
+                    <p className="font-semibold text-black mb-2">Job Title</p>
                     <Input
                       type="text"
-                      placeholder="Frontend Developer"
+                      placeholder="For example: Frontend Developer"
                       className="border border-gray-300 rounded-lg p-2 w-full"
                       required
                       onChange={(e) => setJobPosition(e.target.value)}
@@ -60,9 +62,11 @@ function AddNewInterview() {
                   </div>
 
                   <div className="my-3">
-                    <label className="my-3">Job Description/Tech Stack</label>
+                    <p className="font-semibold text-black mb-2">
+                      Job Description/Tech Stack
+                    </p>
                     <Textarea
-                      placeholder="React, Node, Express, MongoDB"
+                      placeholder="For example: React, Node, Express, MongoDB"
                       className="border border-gray-300 rounded-lg p-2 w-full"
                       required
                       onChange={(e) => setJobDescription(e.target.value)}
@@ -70,7 +74,9 @@ function AddNewInterview() {
                   </div>
 
                   <div className="my-3">
-                    <label className="my-3">Years of Experience</label>
+                    <p className="font-semibold text-black mb-2">
+                      Years of Experience
+                    </p>
                     <Input
                       type="number"
                       max="40"
@@ -89,7 +95,11 @@ function AddNewInterview() {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={loading}>
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="hover:scale-105"
+                  >
                     {loading ? (
                       <>
                         <LoaderCircle className="animate-spin" /> Generating

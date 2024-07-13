@@ -51,7 +51,7 @@ function Contact() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-gradient-to-b from-background to-accent h-screen">
+    <div className="flex flex-col justify-center items-center bg-white h-screen">
       <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
       <form
         onSubmit={handleSubmit}

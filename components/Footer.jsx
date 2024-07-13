@@ -13,8 +13,8 @@ import {
 import Link from "next/link";
 export default function Footer() {
   return (
-    <footer className="bg-accent text-secondary py-8">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-accent text-secondary py-14">
+      <div className="max-w-6xl grid grid-cols-2 md:grid-cols-3 gap-8 mx-8 md:mx-auto ">
         <div>
           <h3 className="text-lg font-semibold mb-4">DevMockupAI</h3>
           <div className="flex flex-col">

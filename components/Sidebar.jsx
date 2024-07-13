@@ -1,6 +1,6 @@
 "use client";
-import React, { useContext, useEffect } from "react";
-import { UserButton } from "@clerk/nextjs";
+import React, { useContext } from "react";
+
 import {
   Command,
   CommandGroup,
@@ -76,11 +76,6 @@ export default function Sidebar() {
       group: "Settings",
       items: [
         {
-          link: "/user-profile",
-          name: "Profile",
-          icon: <UserButton />,
-        },
-        {
           link: "/dashboard/notifications",
           name: "Notifications",
           icon: <BellRing />,
@@ -102,7 +97,7 @@ export default function Sidebar() {
     >
       <button
         onClick={toggleSidebar}
-        className="flex w-full justify-end bg-transparent rounded-md hover:scale-105 transition-all "
+        className="flex w-full justify-end rounded-md hover:scale-105 transition-all "
       >
         {isCollapsed ? <ChevronsRight /> : <ChevronsLeft />}
       </button>
@@ -114,9 +109,7 @@ export default function Sidebar() {
                 <Link href={item.link} key={idx}>
                   <CommandItem
                     className={`cursor-pointer flex flex-row justify-between items-center ${
-                      path === item.link
-                        ? "bg-white font-bold text-secondary"
-                        : ""
+                      path === item.link ? "font-bold text-secondary" : ""
                     }`}
                   >
                     {!isCollapsed && <span className="ml-2">{item.name}</span>}

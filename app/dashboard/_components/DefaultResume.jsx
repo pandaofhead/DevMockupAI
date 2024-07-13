@@ -27,7 +27,7 @@ function DefaultResume() {
           onClick={handleClick}
         >
           <h2 className="font-bold text-lg text-center">
-            ⬆Upload Default Resume
+            + Default Resume
           </h2>
 
           <input

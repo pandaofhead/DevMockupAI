@@ -30,7 +30,7 @@ function Faqs() {
   ];
 
   return (
-    <div className="flex flex-col justify-center items-center bg-gradient-to-b from-background to-accent h-screen">
+    <div className="flex flex-col justify-center items-center bg-white h-screen">
       <div className="max-w-5xl">
         <h2 className="text-3xl font-bold mb-6 font-custom text-center">
           FAQs

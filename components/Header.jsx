@@ -4,7 +4,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import { Moon, Sun } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 function Header() {
   const headerList = [
     {
@@ -23,17 +24,13 @@ function Header() {
       name: "Contact",
       link: "/contact",
     },
-    {
-      name: "Login",
-      link: "/auth/sign-in",
-    },
   ];
   const path = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-between p-6 bg-background shadow-sm">
-      <Image src={"/favicon.svg"} width={70} height={70} alt="Logo" />
+    <div className="fixed top-0  left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-8 py-3 bg-white">
+      <Image src={"/favicon.svg"} width={60} height={60} alt="Logo" />
 
       <div className="md:hidden">
         <button
@@ -43,7 +40,10 @@ function Header() {
           {isMobileMenuOpen ? (
             <XMarkIcon className="w-6 h-6" />
           ) : (
-            <Bars3Icon className="w-6 h-6" />
+            <div className="flex ">
+              <p className="mx-2">Menu</p>
+              <Bars3Icon className="w-6 h-6" />
+            </div>
           )}
         </button>
       </div>
@@ -51,7 +51,7 @@ function Header() {
       <ul
         className={`md:flex gap-6 ${
           isMobileMenuOpen ? "block" : "hidden"
-        } md:block absolute md:relative top-16 md:top-auto right-0 left-0 bg-background md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none`}
+        } md:block absolute md:relative top-16 md:top-auto right-0 left-0 p-4 md:p-0 shadow-md bg-white md:shadow-none`}
       >
         {headerList.map((item, index) => (
           <li key={index}>
@@ -69,6 +69,13 @@ function Header() {
             </Link>
           </li>
         ))}
+
+        <li>
+          <Moon />
+        </li>
+        <li>
+          <UserButton />
+        </li>
       </ul>
     </div>
   );
