@@ -1,6 +1,6 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
-import DefaultResume from "../../_components/DefaultResume";
+import DefaultResume from "../_components/DefaultResume";
 
 function Default() {
   const breadcrumbItems = [

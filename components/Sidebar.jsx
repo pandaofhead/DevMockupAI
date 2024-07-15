@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-
 import {
   Command,
   CommandGroup,
@@ -46,12 +45,12 @@ export default function Sidebar() {
       group: "Resume",
       items: [
         {
-          link: "/dashboard/resume/default",
+          link: "/dashboard/default",
           name: "Default",
           icon: <NotepadText />,
         },
         {
-          link: "/dashboard/resume/custom",
+          link: "/dashboard/custom",
           name: "Custom",
           icon: <FileCode2 />,
         },
@@ -61,15 +60,15 @@ export default function Sidebar() {
       group: "Interview",
       items: [
         {
-          link: "/dashboard/interview/interviews",
+          link: "/dashboard/interview",
           name: "Interviews",
           icon: <Video />,
         },
-        {
-          link: "/dashboard/interview/feedback",
-          name: "Feedback",
-          icon: <MessageSquareQuote />,
-        },
+        // {
+        //   link: "/dashboard/feedback",
+        //   name: "Feedback",
+        //   icon: <MessageSquareQuote />,
+        // },
       ],
     },
     {
@@ -108,9 +107,19 @@ export default function Sidebar() {
               {menu.items.map((item, idx) => (
                 <Link href={item.link} key={idx}>
                   <CommandItem
-                    className={`cursor-pointer flex flex-row justify-between items-center ${
-                      path === item.link ? "font-bold text-secondary" : ""
+                    className={`cursor-pointer flex flex-row justify-between items-center 
+                    ${
+                      (item.link === "/" && path === "/") ||
+                      (item.link !== "/" && path.startsWith(item.link))
+                        ? "font-bold text-secondary"
+                        : ""
                     }`}
+                    // ${
+                    //   (item.link === "/" && path === "/") ||
+                    //   (item.link !== "/" && path.startsWith(item.link))
+                    //     ? "text-primary font-bold flex items-center justify-center"
+                    //     : "flex items-center justify-center"
+                    // }`}
                   >
                     {!isCollapsed && <span className="ml-2">{item.name}</span>}
                     {item.icon}

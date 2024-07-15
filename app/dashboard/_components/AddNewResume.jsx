@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -64,7 +63,6 @@ function AddNewResume() {
                   <div className="my-3">
                     <label className="my-3">Job Description/Tech Stack</label>
                     <Textarea
-                      placeholder="React, Node, Express, MongoDB"
                       className="border border-gray-300 rounded-lg p-2"
                       required
                       onChange={(e) => setJobDescription(e.target.value)}

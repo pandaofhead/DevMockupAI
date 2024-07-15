@@ -6,28 +6,70 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { chatSession } from "@/utils/GeminiAIModal";
 import { LoaderCircle } from "lucide-react";
+import { MockInterview } from "@/utils/schema";
 import { v4 as uuidv4 } from "uuid";
+import { db } from "@/utils/db";
+import { useUser } from "@clerk/nextjs";
+import moment from "moment";
+import { useRouter } from "next/navigation";
 
 function AddNewInterview() {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobDesc, setJobDesc] = useState("");
   const [jobExperience, setJobExperience] = useState("");
   const [loading, setLoading] = useState(false);
   const [jsonResponse, setJsonResponse] = useState([]);
+  const { user } = useUser();
+  const router = useRouter();
 
   const onSubmit = async (e) => {
-    setLoading(true);
+    // disable refresh screen
     e.preventDefault();
-    console.log("jobPosition", jobPosition);
-    console.log("jobDescription", jobDescription);
-    console.log("jobExperience", jobExperience);
+    setLoading(true);
+
+    // Prompt for the user to input the job position, job description and years of experience
+    const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}, Depends on Job Position, Description and Years of Experience give us ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} Interview question along with Answer in JSON format, Give us question and Answer field on JSON,Each question and answer should be in the format:
+    {
+      "question": "Your question here",
+      "answer": "Your answer here"
+    }`;
+
+    const result = await chatSession.sendMessage(inputPrompt);
+    const MockJsonResp = result.response
+      .text()
+      .replace("```json", "")
+      .replace("```", "");
+    console.log(MockJsonResp);
+    setJsonResponse(MockJsonResp);
+
+    if (MockJsonResp) {
+      // Insert the interview into the database
+      const resp = await db
+        .insert(MockInterview)
+        .values({
+          mockId: uuidv4(),
+          jsonMockResp: MockJsonResp,
+          jobPosition: jobPosition,
+          jobDesc: jobDesc,
+          jobExperience: jobExperience,
+          createdBy: user?.primaryEmailAddress?.emailAddress,
+          createdAt: moment().format("MM-DD-YYYY"),
+        })
+        .returning({ mockId: MockInterview.mockId });
+      if (resp) {
+        setOpenDialog(false);
+        router.push("/interview/" + resp[0]?.mockId);
+      }
+    } else {
+      console.log("Error in generating interview questions");
+    }
     setLoading(false);
   };
 
@@ -41,7 +83,7 @@ function AddNewInterview() {
           + Add New Interview
         </h2>
       </div>
-      <Dialog open={openDialog}>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-xl">
           <DialogHeader>
             <DialogTitle className="text-2xl">
@@ -54,7 +96,6 @@ function AddNewInterview() {
                     <p className="font-semibold text-black mb-2">Job Title</p>
                     <Input
                       type="text"
-                      placeholder="For example: Frontend Developer"
                       className="border border-gray-300 rounded-lg p-2 w-full"
                       required
                       onChange={(e) => setJobPosition(e.target.value)}
@@ -66,10 +107,9 @@ function AddNewInterview() {
                       Job Description/Tech Stack
                     </p>
                     <Textarea
-                      placeholder="For example: React, Node, Express, MongoDB"
                       className="border border-gray-300 rounded-lg p-2 w-full"
                       required
-                      onChange={(e) => setJobDescription(e.target.value)}
+                      onChange={(e) => setJobDesc(e.target.value)}
                     />
                   </div>
 
@@ -80,7 +120,7 @@ function AddNewInterview() {
                     <Input
                       type="number"
                       max="40"
-                      placeholder="2"
+                      min="0"
                       className="border border-gray-300 rounded-lg p-2 w-full"
                       required
                       onChange={(e) => setJobExperience(e.target.value)}

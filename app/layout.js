@@ -5,6 +5,7 @@ import { SidebarProvider } from "@/context/SidebarContext";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ThemeContextProvider } from "@/context/ThemeContext";
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["200", "400", "500", "600", "700", "800", "900"],
@@ -17,18 +18,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <SidebarProvider>
-        <html lang="en">
-          <body
-            className={`${montserrat.className} flex flex-col min-h-screen`}
-          >
-            <Header />
-            <main className="flex-grow mt-20">{children}</main>
-            <Toaster />
-            <Footer />
-          </body>
-        </html>
-      </SidebarProvider>
+      <ThemeContextProvider>
+        <SidebarProvider>
+          <html lang="en">
+            <body
+              className={`${montserrat.className} flex flex-col min-h-screen`}
+            >
+              <Header />
+              <main className="flex-grow mt-20">{children}</main>
+              <Toaster />
+              <Footer />
+            </body>
+          </html>
+        </SidebarProvider>
+      </ThemeContextProvider>
     </ClerkProvider>
   );
 }
