@@ -38,11 +38,10 @@ const Feedback = ({ params }) => {
   return (
     <div className="p-10">
       <Breadcrumb items={breadcrumbItems} />
-      <h2 className="text-3xl font-bold text-green-600">Congratulations!</h2>
-      <h2 className="font-bold text-2xl">Here is your interview feedback</h2>
+      <h2 className="font-bold text-2xl ">Here is your interview feedback</h2>
       {feedbackList?.length == 0 ? (
-        <h2 className="font-bold text-lg text-green-500">
-          No interview Feedback
+        <h2 className="font-bold text-lg my-10 text-gray-400">
+          No Feedback Available
         </h2>
       ) : (
         <>
@@ -85,7 +84,7 @@ const Feedback = ({ params }) => {
         onClick={() => router.replace("/dashboard/interview")}
       >
         {" "}
-        Go to Interview
+        Back to Interview
       </Button>
     </div>
   );

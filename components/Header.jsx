@@ -29,7 +29,7 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="fixed top-0  left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-8 py-3 bg-white">
+    <div className="fixed top-0  left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-8 py-3 bg-white dark:bg-slate-800">
       <Link href="/">
         <Image src={"/favicon.svg"} width={60} height={60} alt="Logo" />
       </Link>
@@ -37,12 +37,12 @@ function Header() {
       <div className="md:hidden">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-gray-500 hover:text-primary focus:outline-none focus:text-primary transition-all"
+          className="text-gray-500 hover:text-primary focus:outline-none focus:text-primary transition-all dark:bg-slate-800"
         >
           {isMobileMenuOpen ? (
             <XMarkIcon className="w-6 h-6" />
           ) : (
-            <div className="flex ">
+            <div className="flex dark:text-white">
               <p className="mx-2">Menu</p>
               <Bars3Icon className="w-6 h-6" />
             </div>
@@ -53,7 +53,7 @@ function Header() {
       <ul
         className={`md:flex gap-6 ${
           isMobileMenuOpen ? "block" : "hidden"
-        } md:block absolute md:relative top-16 md:top-auto right-0 left-0 p-4 md:p-0 shadow-md bg-white md:shadow-none`}
+        } md:block absolute md:relative top-16 md:top-auto right-0 left-0 p-4 md:p-0 shadow-md bg-white md:shadow-none dark:bg-slate-800 flex items-center justify-center`}
       >
         {headerList.map((item, index) => (
           <li key={index}>
@@ -63,8 +63,8 @@ function Header() {
                 ${
                   (item.link === "/" && path === "/") ||
                   (item.link !== "/" && path.startsWith(item.link))
-                    ? "text-primary font-bold flex items-center justify-center"
-                    : "flex items-center justify-center"
+                    ? "text-primary font-bold "
+                    : ""
                 }`}
             >
               {item.name}

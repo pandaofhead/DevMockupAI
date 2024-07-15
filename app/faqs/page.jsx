@@ -30,9 +30,9 @@ function Faqs() {
   ];
 
   return (
-    <div className="flex flex-col justify-center items-center bg-white h-screen">
-      <div className="max-w-5xl">
-        <h2 className="text-3xl font-bold mb-6 font-custom text-center">
+    <div className="flex flex-col justify-center items-center bg-white h-screen dark:bg-slate-700">
+      <div className="w-1/2">
+        <h2 className="text-3xl font-bold mb-6 font-custom text-center text-secondary dark:text-white">
           FAQs
         </h2>
 
@@ -40,12 +40,12 @@ function Faqs() {
           {questionList.map((question, index) => (
             <Accordion type="single" collapsible key={index}>
               <AccordionItem value={`item-${index}`}>
-                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
+                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all border-secondary border-2 text-secondary dark:bg-slate-800">
                   <span className="text-lg font-semibold">
                     {question.question}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
+                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
                   {question.answer}
                 </AccordionContent>
               </AccordionItem>

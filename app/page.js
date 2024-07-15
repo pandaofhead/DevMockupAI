@@ -11,8 +11,8 @@ import Link from "next/link";
 import Workflow from "@/components/Workflow";
 export default function Home() {
   return (
-    <div>
-      <main className="flex flex-col justify-center items-center text-center p-8 bg-gradient-to-b from-white to-secondary h-screen">
+    <div className="">
+      <main className="flex flex-col justify-center items-center text-center p-8 bg-gradient-to-b from-white to-secondary h-screen dark:from-slate-800 dark:to-slate-700">
         <h1 className="text-5xl font-thin mb-20">DevMockupAI</h1>
 
         <ReactTyped
@@ -48,13 +48,13 @@ export default function Home() {
         </div>
       </main>
 
-      <section className="flex flex-col justify-center items-center py-12 bg-secondary h-auto">
+      <section className="flex flex-col justify-center items-center py-12 bg-secondary h-auto dark:bg-slate-700">
         <div className="max-w-6xl text-center ">
           <h2 className="text-3xl text-white font-bold mb-20">
             What can DevMockupAI do?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-8 sm:mx-auto">
-            <div className="p-6 rounded-lg shadow-md bg-gray-100 group hover:scale-105">
+            <div className="p-6 rounded-lg shadow-md bg-gray-100 group hover:scale-105 dark:bg-slate-800">
               <h3 className="text-xl group relative font-semibold mb-4">
                 <span>Automatic resume generation</span>
                 <span class="absolute -bottom-1 left-0 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-full"></span>
@@ -64,7 +64,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md group hover:scale-105">
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md group hover:scale-105 dark:bg-slate-800">
               <h3 className="text-xl font-semibold mb-4 group relative">
                 <span className="px-1 relative z-10 group-hover:text-white">
                   Personalized interview preparation
@@ -77,7 +77,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="p-6 bg-gray-100 rounded-lg shadow-md  group hover:scale-105">
+            <div className="p-6 bg-gray-100 rounded-lg shadow-md  group hover:scale-105 dark:bg-slate-800">
               <h3 className="text-xl relative group font-semibold mb-4">
                 <span>AI assistance</span>
                 <span class="absolute -bottom-1 right-0 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-full"></span>
@@ -91,11 +91,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex flex-col justify-center items-center py-12 bg-secondary text-white">
+      <section className="flex flex-col justify-center items-center py-12 bg-secondary text-white dark:bg-slate-700">
         <Workflow />
       </section>
 
-      <section className="pb-20 bg-gradient-to-b from-secondary to-accent ">
+      <section className="pb-20 bg-gradient-to-b from-secondary to-accent dark:from-slate-700 dark:to-slate-800">
         <div className="max-w-6xl mx-8 md:mx-auto">
           <h2 className="text-3xl font-bold mb-6 font-custom text-center text-white">
             FAQs

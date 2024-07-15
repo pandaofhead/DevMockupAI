@@ -13,7 +13,7 @@ import {
   Video,
   NotepadText,
   FileCode2,
-  MessageSquareQuote,
+  BarChartBig,
   Play,
   CircleHelp,
   ChevronsLeft,
@@ -64,15 +64,15 @@ export default function Sidebar() {
           name: "Interviews",
           icon: <Video />,
         },
-        // {
-        //   link: "/dashboard/feedback",
-        //   name: "Feedback",
-        //   icon: <MessageSquareQuote />,
-        // },
+        {
+          link: "/dashboard/analytics",
+          name: "Analytics",
+          icon: <BarChartBig />,
+        },
       ],
     },
     {
-      group: "Settings",
+      group: "General",
       items: [
         {
           link: "/dashboard/notifications",
@@ -107,7 +107,7 @@ export default function Sidebar() {
               {menu.items.map((item, idx) => (
                 <Link href={item.link} key={idx}>
                   <CommandItem
-                    className={`cursor-pointer flex flex-row justify-between items-center 
+                    className={`cursor-pointer flex flex-row justify-between items-center dark:hover:text-secondary
                     ${
                       (item.link === "/" && path === "/") ||
                       (item.link !== "/" && path.startsWith(item.link))

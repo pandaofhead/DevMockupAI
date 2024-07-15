@@ -12,11 +12,11 @@ function Interview() {
     <div className="p-10">
       <Breadcrumb items={breadcrumbItems} />
       <div>
-        <p className="text-gray-500">Generate your Interview here</p>
+        <p className="text-2xl font-bold">Generate your Interview here</p>
         <div className="grid grid-cols-1 md:grid-cols-3 my-5 gap-4">
           <AddNewInterview />
         </div>
-        <h2 className="text-2xl font-bold text-gray-500 mt-10">Previous Interviews</h2>
+        <h2 className="text-2xl font-bold mt-10">Previous Interviews</h2>
         <InterviewList />
       </div>
     </div>
