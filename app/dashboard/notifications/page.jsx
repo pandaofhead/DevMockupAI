@@ -10,8 +10,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 function Notifications() {
+  const [openDialog, setOpenDialog] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(3);
   const breadcrumbItems = [
     { label: "Dashboard", href: "/dashboard" },
@@ -62,9 +70,31 @@ function Notifications() {
                 <Trash2
                   className="hover:text-red-500"
                   onClick={() => {
-                    setUnreadMessages(unreadMessages - 1);
+                    setOpenDialog(true);
                   }}
                 />
+                <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle className="text-xl">
+                        Are you sure you want to delete this notification?
+                      </DialogTitle>
+                      <DialogDescription>
+                        <div className="flex justify-between mt-10 ">
+                          <Button
+                            className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all"
+                            onClick={() => setOpenDialog(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button className="hover:scale-105">
+                            Delete
+                          </Button>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
             <SheetContent>

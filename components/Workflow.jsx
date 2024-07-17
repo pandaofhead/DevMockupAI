@@ -29,7 +29,7 @@ const Workflow = () => {
         "We generate job interviews for you by matching your resume with the job requirements, including tech and behavioral questions.",
       buttonText: "Read more",
       buttonLink: "/dashboard",
-      imageSrc: "/images/example3.png",
+      imageSrc: "/img/example3.png",
       imageAlt: "Example 3",
       reverse: false,
     },

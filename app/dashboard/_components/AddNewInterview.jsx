@@ -65,7 +65,7 @@ function AddNewInterview() {
         .returning({ mockId: MockInterview.mockId });
       if (resp) {
         setOpenDialog(false);
-        router.push("/interview/" + resp[0]?.mockId);
+        router.push("/dashborad/interview/" + resp[0]?.mockId);
       }
     } else {
       console.log("Error in generating interview questions");
@@ -93,17 +93,17 @@ function AddNewInterview() {
               <form onSubmit={onSubmit}>
                 <div>
                   <div className="my-3">
-                    <p className="font-semibold text-black mb-2">Job Title</p>
+                    <p className="font-semibold mb-2">Job Title</p>
                     <Input
                       type="text"
-                      className="border border-gray-300 rounded-lg p-2 w-full"
+                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
                       required
                       onChange={(e) => setJobPosition(e.target.value)}
                     />
                   </div>
 
                   <div className="my-3">
-                    <p className="font-semibold text-black mb-2">
+                    <p className="font-semibold mb-2">
                       Job Description/Tech Stack
                     </p>
                     <Textarea
@@ -114,14 +114,12 @@ function AddNewInterview() {
                   </div>
 
                   <div className="my-3">
-                    <p className="font-semibold text-black mb-2">
-                      Years of Experience
-                    </p>
+                    <p className="font-semibold mb-2">Years of Experience</p>
                     <Input
                       type="number"
                       max="40"
                       min="0"
-                      className="border border-gray-300 rounded-lg p-2 w-full"
+                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
                       required
                       onChange={(e) => setJobExperience(e.target.value)}
                     />
@@ -142,8 +140,7 @@ function AddNewInterview() {
                   >
                     {loading ? (
                       <>
-                        <LoaderCircle className="animate-spin" /> Generating
-                        from AI
+                        <LoaderCircle className="animate-spin" />
                       </>
                     ) : (
                       "Start Interview"

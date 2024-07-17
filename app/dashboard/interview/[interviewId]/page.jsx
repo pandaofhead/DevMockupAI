@@ -43,7 +43,7 @@ function InterviewPage({ params }) {
             />
           ) : (
             <>
-              <WebcamIcon className="h-72 border my-5 rounded-lg w-full p-20 bg-gray-200" />
+              <WebcamIcon className="h-72 border my-5 rounded-lg w-full p-20 bg-gray-200 dark:bg-slate-800" />
               <Button
                 className="w-full bg-white hover:bg-gray-100 text-black "
                 onClick={() => setWebCamEnabled(true)}
@@ -59,7 +59,7 @@ function InterviewPage({ params }) {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col p-5 my-5 rounded-lg border gap-5">
+          <div className="flex flex-col p-5 my-5 rounded-lg border gap-5 dark:border-white">
             <h2 className="text-lg">
               <strong>Job Position: </strong>
               {interviewData?.jobPosition}

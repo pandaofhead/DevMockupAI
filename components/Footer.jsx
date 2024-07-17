@@ -32,19 +32,7 @@ export default function Footer() {
               Dashboard
             </Link>
             <Link
-              href="/"
-              className="text-secondary my-3 hover:text-white hover:font-bold hover:scale-105  transition-all"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/"
-              className="text-secondary my-3 hover:text-white hover:font-bold hover:scale-105 transition-all"
-            >
-              How it works
-            </Link>
-            <Link
-              href="/"
+              href="/terms"
               className="text-secondary my-3 hover:text-white hover:font-bold hover:scale-105 transition-all"
             >
               Terms and Conditions

@@ -10,20 +10,34 @@ const InterviewItemCard = ({ interview }) => {
   const onFeedbackPress = () => {
     router.push("interview/" + interview.mockId + "/feedback");
   };
+
+  const formatName = (name) => {
+    return name
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
   return (
-    <div className="border shadow-sm rounded-sm p-3">
-      <h2 className="font-bold text-secondary text-xl mb-3">{interview?.jobPosition}</h2>
-      <div className="flex flex-row justify-between">
-        <h2 className=" text-gray-500">Tech Stack: {interview?.jobDesc}</h2>
-        <h2 className=" text-gray-500">
+    <div className="border shadow-sm rounded-sm p-3 dark:border-gray-200 flex flex-col h-full">
+      <div className="flex flex-row justify-between ">
+        <h2 className="font-bold text-secondary text-xl mb-3 dark:text-white">
+          {interview?.jobPosition && formatName(interview.jobPosition)}
+        </h2>
+        <h2 className=" text-gray-500 dark:text-gray-200">
           {interview?.createdAt}
         </h2>
       </div>
 
+      <h2 className=" text-gray-500 dark:text-gray-200">
+        Tech Stack: {interview?.jobDesc}
+      </h2>
+      {/* Spacer to push buttons to the bottom */}
+      <div className="flex-grow"></div>
       <div className="flex justify-between gap-5 mt-4">
         <Button
           size="lg"
-          variant='outline'
+          variant="outline"
           className="w-full"
           onClick={onFeedbackPress}
         >

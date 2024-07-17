@@ -14,7 +14,7 @@ export default function page() {
             className="absolute inset-0 h-full w-full object-cover opacity-80"
           />
 
-          <div className="flex mt-10 lg:relative lg:block lg:p-12">
+          <div className="flex mb-20 lg:relative lg:block lg:p-12">
             <h2 className="text-3xl font-bold text-white sm:text-3xl md:text-4xl">
               Welcome to DevMockupAI
             </h2>
@@ -42,7 +42,7 @@ export default function page() {
                 </svg>
               </a>
 
-              <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+              <h1 className="mb-20 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
                 Welcome to DevMockupAI
               </h1>
             </div>
