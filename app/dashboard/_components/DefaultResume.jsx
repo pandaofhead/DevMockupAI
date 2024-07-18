@@ -1,10 +1,5 @@
 "use client";
-import React, { useRef } from "react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import React, { useRef, useState } from "react";
 
 function DefaultResume() {
   const fileInputRef = useRef(null);
@@ -20,29 +15,20 @@ function DefaultResume() {
     }
   };
   return (
-    <HoverCard>
-      <HoverCardTrigger>
-        <div
-          className="p-10 border border-dashed border-gray-500 rounded-lg bg-gray-300 hover:scale-105 hover:shadow-md cursor-pointer transition-all"
-          onClick={handleClick}
-        >
-          <h2 className="font-bold text-lg text-center">
-            + Default Resume
-          </h2>
+    <div
+      className="p-10 border border-dashed border-gray-500 rounded-lg bg-gray-300 hover:scale-105 hover:shadow-md cursor-pointer transition-all dark:bg-gray-800"
+      onClick={handleClick}
+    >
+      <h2 className="font-bold text-lg text-center">⬆ Default Resume</h2>
 
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            accept=".pdf, .docx"
-            onChange={handleFileChange}
-          />
-        </div>
-      </HoverCardTrigger>
-      <HoverCardContent>
-        Only "docx" and "PDF" files are supported.
-      </HoverCardContent>
-    </HoverCard>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        accept=".pdf, .docx"
+        onChange={handleFileChange}
+      />
+    </div>
   );
 }
 

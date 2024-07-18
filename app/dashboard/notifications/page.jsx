@@ -68,7 +68,7 @@ function Notifications() {
               </SheetTrigger>
               <div>
                 <Trash2
-                  className="hover:text-red-500"
+                  className="hover:text-red-500 hover:scale-125 transition-all"
                   onClick={() => {
                     setOpenDialog(true);
                   }}
@@ -77,7 +77,7 @@ function Notifications() {
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle className="text-xl">
-                        Are you sure you want to delete this notification?
+                        Are you sure you want to delete it?
                       </DialogTitle>
                       <DialogDescription>
                         <div className="flex justify-between mt-10 ">
@@ -87,9 +87,7 @@ function Notifications() {
                           >
                             Cancel
                           </Button>
-                          <Button className="hover:scale-105">
-                            Delete
-                          </Button>
+                          <Button className="hover:scale-105">Delete</Button>
                         </div>
                       </DialogDescription>
                     </DialogHeader>

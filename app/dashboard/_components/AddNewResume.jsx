@@ -12,14 +12,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LoaderCircle } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+import { useUser } from "@clerk/nextjs";
+import moment from "moment";
+import { useRouter } from "next/navigation";
 
 function AddNewResume() {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobDesc, setJobDesc] = useState("");
   const [jobExperience, setJobExperience] = useState("");
   const [loading, setLoading] = useState(false);
   const [jsonResponse, setJsonResponse] = useState([]);
+  const { user } = useUser();
+  const router = useRouter();
 
   const onSubmit = async (e) => {
     setLoading(true);
@@ -40,34 +45,23 @@ function AddNewResume() {
           + Add New Resume
         </h2>
       </div>
-      <Dialog open={openDialog}>
-        <DialogContent>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle className="text-2xl">
-              Please enter the job URL or description
+              Enter the description of the job position
             </DialogTitle>
             <DialogDescription>
               <form onSubmit={onSubmit}>
-                <div>
-                  <div className="mt-7 my-3">
-                    <label className="my-3 font-semibold">Job URL</label>
-                    <Input
-                      type="URL"
-                      placeholder="https://example.com"
-                      className="border border-gray-300 rounded-lg p-2"
-                      required
-                      onChange={(e) => setJobPosition(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="my-3">
-                    <label className="my-3">Job Description/Tech Stack</label>
-                    <Textarea
-                      className="border border-gray-300 rounded-lg p-2"
-                      required
-                      onChange={(e) => setJobDescription(e.target.value)}
-                    />
-                  </div>
+                <div className="my-3">
+                  <p className="font-semibold mb-2">
+                    Job Description / Tech Stack
+                  </p>
+                  <Textarea
+                    className="border border-gray-300 rounded-lg p-2 w-full"
+                    required
+                    onChange={(e) => setJobDesc(e.target.value)}
+                  />
                 </div>
 
                 <div className="flex gap-5 justify-end my-3">
@@ -77,10 +71,14 @@ function AddNewResume() {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={loading}>
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="hover:scale-105"
+                  >
                     {loading ? (
                       <>
-                        <LoaderCircle className="animate-spin" /> Generating ...
+                        <LoaderCircle className="animate-spin" />
                       </>
                     ) : (
                       "Generate Resume"

@@ -92,15 +92,13 @@ function AddNewInterview() {
             <DialogDescription>
               <form onSubmit={onSubmit}>
                 <div>
-                  <div className="my-3">
-                    <p className="font-semibold mb-2">Job Title</p>
-                    <Input
-                      type="text"
-                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
-                      required
-                      onChange={(e) => setJobPosition(e.target.value)}
-                    />
-                  </div>
+                  <p className="font-semibold mb-2">Job Title</p>
+                  <Input
+                    type="text"
+                    className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
+                    required
+                    onChange={(e) => setJobPosition(e.target.value)}
+                  />
 
                   <div className="my-3">
                     <p className="font-semibold mb-2">

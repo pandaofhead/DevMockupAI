@@ -50,12 +50,12 @@ export default function Footer() {
           <div className="flex space-x-4">
             <HoverCard>
               <HoverCardTrigger>
-                <a
+                <Link
                   href="#"
                   className="text-secondary hover:text-white hover:scale-105 "
                 >
                   <InstagramIcon size={30} />
-                </a>
+                </Link>
               </HoverCardTrigger>
               <HoverCardContent>
                 <p className="text-secondary">
@@ -65,12 +65,12 @@ export default function Footer() {
             </HoverCard>
             <HoverCard>
               <HoverCardTrigger>
-                <a
+                <Link
                   href="#"
                   className="text-secondary hover:text-white hover:scale-105 "
                 >
                   <FacebookIcon size={30} />
-                </a>
+                </Link>
               </HoverCardTrigger>
               <HoverCardContent>
                 <p className="text-secondary">
@@ -78,13 +78,12 @@ export default function Footer() {
                 </p>
               </HoverCardContent>
             </HoverCard>
-
-            <a
+            <Link
               href="#"
               className="text-secondary hover:text-white hover:scale-105 "
             >
               <GithubIcon size={30} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

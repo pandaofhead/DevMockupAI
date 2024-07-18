@@ -38,7 +38,7 @@ const InterviewItemCard = ({ interview }) => {
         <Button
           size="lg"
           variant="outline"
-          className="w-full"
+          className="w-full dark:text-gray-800"
           onClick={onFeedbackPress}
         >
           Feedback

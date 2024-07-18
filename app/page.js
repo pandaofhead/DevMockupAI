@@ -11,7 +11,7 @@ import Link from "next/link";
 import Workflow from "@/components/Workflow";
 export default function Home() {
   return (
-    <div className="">
+    <div>
       <main className="flex flex-col justify-center items-center text-center p-8 bg-gradient-to-b from-white to-secondary h-screen dark:from-slate-800 dark:to-slate-700">
         <h1 className="text-5xl font-thin mb-20">DevMockupAI</h1>
 
@@ -57,9 +57,9 @@ export default function Home() {
             <div className="p-6 rounded-lg shadow-md bg-gray-100 group hover:scale-105 dark:bg-slate-800">
               <h3 className="text-xl group relative font-semibold mb-4">
                 <span>Automatic resume generation</span>
-                <span class="absolute -bottom-1 left-0 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-full"></span>
               </h3>
-              <p class="text-lg m-6">
+              <p className="text-lg m-6">
                 Share your knowledge with the community and help others grow.
               </p>
             </div>
@@ -69,7 +69,7 @@ export default function Home() {
                 <span className="px-1 relative z-10 group-hover:text-white">
                   Personalized interview preparation
                 </span>
-                <span class="absolute left-0 bottom-0 w-full h-0 transition-all bg-indigo-600 z-0 group-hover:h-full "></span>
+                <span className="absolute left-0 bottom-0 w-full h-0 transition-all bg-indigo-600 z-0 group-hover:h-full "></span>
               </h3>
               <p>
                 Join our community to work alongside like-minded experts in your
@@ -80,7 +80,7 @@ export default function Home() {
             <div className="p-6 bg-gray-100 rounded-lg shadow-md  group hover:scale-105 dark:bg-slate-800">
               <h3 className="text-xl relative group font-semibold mb-4">
                 <span>AI assistance</span>
-                <span class="absolute -bottom-1 right-0 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 right-0 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-full"></span>
               </h3>
               <p>
                 We use AI to help you with your resume and interview
@@ -109,7 +109,7 @@ export default function Home() {
                     What can I do on DevMockupAI?
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl">
+                <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
                   DevMockupAI can help you with resume generation, interview
                   preparation, and more. By entering your default resume and job
                   description, DevMockupAI can generate a resume for you. You
@@ -125,7 +125,7 @@ export default function Home() {
                     How to get started?
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
+                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
                   To get started, simply sign up on DevMockupAI and navigate to
                   Dashboard.
                 </AccordionContent>
@@ -139,8 +139,8 @@ export default function Home() {
                     Do I need to pay for the services?
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl">
-                  For now DevMockupAI is free to use, please enjoy our services!
+                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
+                  DevMockupAI is free to use, please enjoy the services!
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
