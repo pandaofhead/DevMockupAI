@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { MoveRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,7 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { db } from "@/utils/db";
+import { ContactInfo } from "@/utils/schema";
 function Contact() {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -18,6 +22,8 @@ function Contact() {
     subject: "",
     message: "",
   });
+  const [notificationTitle, setNotificationTitle] = useState("");
+  const [notificationContent, setNotificationContent] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,9 +33,8 @@ function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you can handle form submission, e.g., sending data to a backend
     console.log("Form data submitted:", formData);
 
     // Get the current time
@@ -44,11 +49,28 @@ function Contact() {
       minute: "2-digit",
     });
 
-    // Display the toast notification
+    const toastTitle = "Message sent!";
+    const toastContent = `Sent on ${formattedDate} at ${formattedTime}`;
     toast({
-      title: "Message sent!",
-      description: `Sent on ${formattedDate} at ${formattedTime}`,
+      title: toastTitle,
+      content: toastContent,
     });
+
+    // Insert data into the database
+    await db.insert(ContactInfo).values({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      createdAt: formattedDate + " " + formattedTime,
+    });
+
+    // await db.insert(NotificationInfo).values({
+    //   notificationTitle: toastTitle,
+    //   notificationContent: toastContent,
+    //   createdBy: formData.email,
+    //   createdAt: now.toISOString(),
+    // });
     // clear form data
     setFormData({
       name: "",
@@ -61,13 +83,16 @@ function Contact() {
   return (
     <div className="flex flex-col justify-center items-center bg-white min-h-screen dark:bg-slate-700">
       <h1 className="text-3xl font-bold">Get in touch</h1>
-      <div className="p-8 max-w-md w-full flex flex-row">
+      <p className="text-gray-600 dark:text-gray-400">
+        We would love to hear from you and help you with any queries you may
+      </p>
+      <form className="p-8 max-w-md w-full" onSubmit={handleSubmit}>
         <div className="w-full">
           <div className="mb-4">
-            <label className="block  text-sm font-bold mb-2" htmlFor="name">
+            <Label className="text-sm font-bold mb-2" htmlFor="name">
               Name
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               id="name"
               name="name"
@@ -78,10 +103,10 @@ function Contact() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2" htmlFor="email">
+            <Label className="block text-sm font-bold mb-2" htmlFor="email">
               Email
-            </label>
-            <input
+            </Label>
+            <Input
               type="email"
               id="email"
               name="email"
@@ -92,9 +117,9 @@ function Contact() {
             />
           </div>
           <div className="mb-4">
-            <label className="block  text-sm font-bold mb-2" htmlFor="subject">
+            <Label className="block  text-sm font-bold mb-2" htmlFor="subject">
               Subject
-            </label>
+            </Label>
             {/* <input
               type="text"
               id="subject"
@@ -104,22 +129,23 @@ function Contact() {
               className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
               required
             /> */}
-            <Select>
+            <Select required>
               <SelectTrigger className="w-full dark:bg-gray-400">
                 <SelectValue placeholder="choose your subject" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="usage">Usage</SelectItem>
                 <SelectItem value="technical">Technical</SelectItem>
+                <SelectItem value="Account">Account</SelectItem>
                 <SelectItem value="others">Others</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2" htmlFor="message">
+            <Label className="block text-sm font-bold mb-2" htmlFor="message">
               Message
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               id="message"
               name="message"
               value={formData.message}
@@ -138,7 +164,7 @@ function Contact() {
             />
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

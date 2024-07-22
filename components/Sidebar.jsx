@@ -12,7 +12,6 @@ import {
   BellRing,
   Video,
   NotepadText,
-  FileCode2,
   BarChartBig,
   Play,
   CircleHelp,
@@ -42,23 +41,13 @@ export default function Sidebar() {
       ],
     },
     {
-      group: "Resume",
+      group: "Features",
       items: [
         {
-          link: "/dashboard/default",
-          name: "Default",
+          link: "/dashboard/resume",
+          name: "Resumes",
           icon: <NotepadText />,
         },
-        {
-          link: "/dashboard/custom",
-          name: "Custom",
-          icon: <FileCode2 />,
-        },
-      ],
-    },
-    {
-      group: "Interview",
-      items: [
         {
           link: "/dashboard/interview",
           name: "Interviews",

@@ -20,13 +20,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { db } from "@/utils/db";
 import { Notification } from "@/utils/schema";
-function Notifications() {
+function NotificationCard() {
   const [openDialog, setOpenDialog] = useState(false);
-  const [unreadMessages, setUnreadMessages] = useState(3);
-  const breadcrumbItems = [
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Notifications" },
-  ];
   const notifications = [
     {
       id: 1,
@@ -52,7 +47,7 @@ function Notifications() {
   ];
   return (
     <div className="p-10">
-      <Breadcrumb items={breadcrumbItems} />
+      
       <div className="">
         <p className="text-gray-600 my-2 dark:text-slate-300">
           {unreadMessages === 0
@@ -110,4 +105,4 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+export default NotificationCard;

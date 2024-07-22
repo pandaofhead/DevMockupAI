@@ -1,8 +1,19 @@
+"use client";
 import React from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 function Terms() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-700 text-black dark:text-white p-20">
+      <motion.div className="fixed top-20 left-0 right-0 h-4 bg-primary origin-left" style={{ scaleX }} />
+
       <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
       <p className="mb-2">Last updated: 07-15-2024</p>
 
@@ -37,9 +48,9 @@ function Terms() {
         <p>
           "User Content" refers to any videos, resumes, or other materials you
           upload or submit to our app. You retain all rights to your User
-          Content. By submitting User Content, you grant DevMockupAI a worldwide,
-          non-exclusive, royalty-free license to use, display, and distribute
-          your content in connection with the operation of the app.
+          Content. By submitting User Content, you grant DevMockupAI a
+          worldwide, non-exclusive, royalty-free license to use, display, and
+          distribute your content in connection with the operation of the app.
         </p>
       </section>
 
@@ -110,10 +121,10 @@ function Terms() {
           10. Disclaimers and Limitation of Liability
         </h2>
         <p>
-          DevMockupAI is provided on an "as is" and "as available" basis. We make
-          no warranties, express or implied, regarding the app. To the fullest
-          extent permitted by law, we disclaim all warranties and liabilities in
-          connection with the app.
+          DevMockupAI is provided on an "as is" and "as available" basis. We
+          make no warranties, express or implied, regarding the app. To the
+          fullest extent permitted by law, we disclaim all warranties and
+          liabilities in connection with the app.
         </p>
       </section>
 
