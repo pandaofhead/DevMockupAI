@@ -1,4 +1,6 @@
 "use client";
-import { createContext } from "react";
+import { createContext, useState, useEffect } from "react";
 
-export const ResumeInfoContext = createContext(null);
+
+export const ResumeInfoContext = createContext();
+

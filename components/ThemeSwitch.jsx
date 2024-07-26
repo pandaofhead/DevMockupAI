@@ -12,7 +12,7 @@ export default function ThemeSwitch() {
       className="bg-transparent backdrop-blur-[0.5rem] hover:scale-[1.15] active:scale-105 transition-all dark:hover:scale-[1.15] dark:active:scale-105"
       onClick={toggleTheme}
     >
-      {theme === "light" ? <Moon /> : <Sun />}
+      {theme === "light" ? <Sun /> : <Moon />}
     </button>
   );
 }

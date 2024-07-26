@@ -4,13 +4,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LoaderCircle } from "lucide-react";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
-import { toast } from "sonner";
-import { list } from "postcss";
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { db } from "@/utils/db";
+import { ResumeSkills } from "@/utils/schema";
+import { eq } from "drizzle-orm";
+
 function Skills({ params }) {
+  const { toast } = useToast();
   const [skillsList, setSkillsList] = useState([
     {
       name: "",
-      list: [],
+      list: "",
     },
   ]);
 
@@ -23,7 +28,6 @@ function Skills({ params }) {
 
   const handleChange = (index, name, value) => {
     const newEntries = skillsList.slice();
-
     newEntries[index][name] = value;
     setSkillsList(newEntries);
   };
@@ -33,64 +37,86 @@ function Skills({ params }) {
       ...skillsList,
       {
         name: "",
-        list: [],
+        list: "",
       },
     ]);
   };
+
   const RemoveSkills = () => {
     setSkillsList((skillsList) => skillsList.slice(0, -1));
   };
 
-  const onSave = () => {
+  const onSave = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    const data = {
-      data: {
-        skills: skillsList.map(({ id, ...rest }) => rest),
-      },
-    };
 
-    // GlobalApi.UpdateResumeDetail(resumeId, data).then(
-    //   (resp) => {
-    //     console.log(resp);
-    //     setLoading(false);
-    //     toast("Details updated !");
-    //   },
-    //   (error) => {
-    //     setLoading(false);
-    //     toast("Server Error, Try again!");
-    //   }
-    // );
+    const data = skillsList.map((item) => ({
+      resumeId: params.resumeId,
+      name: item.name,
+      list: item.list,
+    }));
+
+    try {
+      await Promise.all(
+        data.map(async (skill) => {
+          await db
+            .update(ResumeSkills)
+            .set(skill)
+            .where(eq(ResumeSkills.resumeId, skill.resumeId));
+        })
+      );
+      setResumeInfo((prevInfo) => ({
+        ...prevInfo,
+        skills: skillsList,
+      }));
+      toast("Details updated!");
+    } catch (error) {
+      toast("Failed to update details");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const isSubmitDisabled = skillsList.some((item) => !item.name || !item.list);
+
+  // Update context on change
   useEffect(() => {
     setResumeInfo({
       ...resumeInfo,
       skills: skillsList,
     });
   }, [skillsList]);
+
   return (
     <div className="p-5 rounded-lg dark:border-2 dark:border-white">
       <h2 className="font-bold text-lg">Skills</h2>
-      <div>
+      <div className="border rounded-lg">
         {skillsList.map((item, index) => (
-          <div className="mb-2 border rounded-lg p-3 ">
-            <label className="text-xs">{item.name}</label>
+          <div key={index} className="mb-2 p-3">
+            <Input
+              className="text-sm mb-2"
+              value={item.name}
+              onChange={(e) => handleChange(index, "name", e.target.value)}
+              placeholder="Skill Name"
+              required
+            />
             <Textarea
               className="w-full"
-              defaultValue={item.list}
+              value={item.list}
               onChange={(e) => handleChange(index, "list", e.target.value)}
+              placeholder="Skill List"
+              required
             />
           </div>
         ))}
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-4">
         <div className="flex gap-2">
           <Button
             variant="outline"
             onClick={AddNewSkills}
             className="text-primary"
           >
-            {" "}
             + Add More Skill
           </Button>
           <Button
@@ -98,11 +124,10 @@ function Skills({ params }) {
             onClick={RemoveSkills}
             className="text-primary"
           >
-            {" "}
             - Remove
           </Button>
         </div>
-        <Button disabled={loading} onClick={() => onSave()}>
+        <Button disabled={loading || isSubmitDisabled} onClick={onSave}>
           {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
         </Button>
       </div>

@@ -30,7 +30,7 @@ function Faqs() {
   ];
 
   return (
-    <div className="flex flex-col justify-center items-center bg-white h-screen dark:bg-slate-700">
+    <div className="flex flex-col justify-center items-center bg-white min-h-screen dark:bg-slate-700">
       <div className="w-1/2">
         <h2 className="text-3xl font-bold mb-6 font-custom text-center text-secondary dark:text-white">
           FAQs

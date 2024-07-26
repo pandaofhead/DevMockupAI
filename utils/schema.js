@@ -1,4 +1,4 @@
-import { pgTable, varchar, serial, text } from "drizzle-orm/pg-core";
+import { pgTable, varchar, serial, text, boolean } from "drizzle-orm/pg-core";
 
 export const MockInterview = pgTable("mockInterview", {
   id: serial("id").primaryKey(),
@@ -23,7 +23,7 @@ export const UserAnswer = pgTable("userAnswer", {
   createdAt: varchar("createdAt"),
 });
 
-export const NewResume = pgTable("newResume", {
+export const Resume = pgTable("Resume", {
   id: serial("id").primaryKey(),
   resumeId: varchar("resumeId").notNull(),
   resumeTitle: varchar("resumeTitle").notNull(),
@@ -32,14 +32,65 @@ export const NewResume = pgTable("newResume", {
   createdAt: varchar("createdAt").notNull(),
 });
 
-// export const ResumeDetails = pgTable("resumeDetails", {
-//   id: serial("id").primaryKey(),
-//   resumeIdRef: varchar("resumeId").notNull(),
-//   sectionTitle: varchar("sectionTitle").notNull(),
-//   sectionContent: text("sectionContent").notNull(),
-//   createdBy: varchar("createdBy").notNull(),
-//   createdAt: varchar("createdAt").notNull(),
-// });
+export const ResumePersonal = pgTable("resumePersonal", {
+  id: serial("id").primaryKey(),
+  resumeIdRef: varchar("resumeId").notNull(),
+  firstName: varchar("firstName").notNull(),
+  lastName: varchar("lastName").notNull(),
+  jobTitle: varchar("jobTitle").notNull(),
+  address: varchar("address").notNull(),
+  phone: varchar("phone").notNull(),
+  email: varchar("email").notNull(),
+  createdAt: varchar("createdAt"),
+});
+
+export const ResumeEducation = pgTable("resumeEducation", {
+  id: serial("id").primaryKey(),
+  resumeIdRef: varchar("resumeId").notNull(),
+  universityName: varchar("universityName").notNull(),
+  startDate: varchar("startDate").notNull(),
+  endDate: varchar("endDate").notNull(),
+  degree: varchar("degree").notNull(),
+  major: varchar("major").notNull(),
+  description: text("description"),
+  createdAt: varchar("createdAt"),
+});
+
+export const ResumeExperience = pgTable("resumeExperience", {
+  id: serial("id").primaryKey(),
+  resumeIdRef: varchar("resumeId").notNull(),
+  title: varchar("title").notNull(),
+  companyName: varchar("companyName").notNull(),
+  city: varchar("city").notNull(),
+  state: varchar("state").notNull(),
+  startDate: varchar("startDate").notNull(),
+  endDate: varchar("endDate"),
+  currentlyWorking: boolean("currentlyWorking").notNull(),
+  workSummary: text("workSummary").notNull(),
+  createdAt: varchar("createdAt"),
+});
+
+export const ResumeProject = pgTable("resumeProject", {
+  id: serial("id").primaryKey(),
+  resumeIdRef: varchar("resumeId").notNull(),
+  title: varchar("title").notNull(),
+  companyName: varchar("companyName").notNull(),
+  city: varchar("city").notNull(),
+  state: varchar("state").notNull(),
+  startDate: varchar("startDate").notNull(),
+  endDate: varchar("endDate"),
+  currentlyWorking: boolean("currentlyWorking").notNull(),
+  workSummary: text("workSummary").notNull(),
+  createdAt: varchar("createdAt"),
+});
+
+export const ResumeSkills = pgTable("resumeSkills", {
+  id: serial("id").primaryKey(),
+  resumeIdRef: varchar("resumeId").notNull(),
+  name: varchar("name").notNull(),
+  list: text("list").notNull(),
+  createdAt: varchar("createdAt"), // Assuming skills list will be stored as a comma-separated string
+});
 
 export const NotificationInfo = pgTable("notificationInfo", {
   id: serial("id").primaryKey(),

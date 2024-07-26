@@ -15,10 +15,10 @@ function Interview() {
         <p className="text-gray-500 dark:text-white">
           Generate your Interview here
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 my-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 my-5 gap-4">
           <AddNewInterview />
         </div>
-        <h2 className="text-2xl font-bold mt-10">Previous Interviews</h2>
+        <h2 className="text-2xl font-bold my-8">Your Interviews</h2>
         <InterviewList />
       </div>
     </div>

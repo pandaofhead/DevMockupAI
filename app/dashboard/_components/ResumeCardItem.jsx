@@ -1,15 +1,10 @@
 "use client";
-import {
-  Loader2Icon,
-  MoreVertical,
-  Trash2,
-  MessageSquareMore,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Loader2Icon, MoreVertical, Trash2, Download } from "lucide-react";
 import React, { useState } from "react";
-import { db } from "@/utils/db";
-import { MockInterview } from "@/utils/schema";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { db } from "@/utils/db";
+import { Resume } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import {
   DropdownMenu,
@@ -29,28 +24,31 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-const InterviewItemCard = ({ interview }) => {
+
+function ResumeCardItem({ resume, refreshData }) {
   const router = useRouter();
   const [openAlert, setOpenAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onFeedbackPress = () => {
-    router.push("interview/" + interview.mockId + "/feedback");
-  };
-
   const onDelete = async () => {
+    setLoading(true);
     try {
       await db
         .delete()
-        .from(MockInterview)
-        .where(eq(MockInterview.mockId, interview.mockId));
-      toast.success("Interview deleted successfully", {
+        .from(Resume)
+        .where(eq(Resume.resumeId, resume.resumeId));
+      refreshData();
+      setOpenAlert(false);
+      toast.success("Resume deleted successfully", {
         duration: 3000,
       });
     } catch (e) {
       console.log(e);
+      setLoading(false);
     }
+    setLoading(false);
   };
+
   const formatName = (name) => {
     return name
       .toLowerCase()
@@ -59,32 +57,32 @@ const InterviewItemCard = ({ interview }) => {
       .join(" ");
   };
   return (
-    <div className="border-2 rounded-md dark:border-gray-200">
-      <Link href={"/dashboard/interview/" + interview?.mockId}>
+    <div className="border-2 rounded-md dark:border-gray-200 ">
+      <Link href={"/dashboard/resume/" + resume?.resumeId + "/edit"}>
         <div className="bg-white dark:bg-slate-700 h-[150px] rounded-t-md">
           <div className="flex justify-center items-center h-full flex-col hover:scale-105">
-            <h2 className="text-xl font-semibold">
-              {interview?.jobPosition && formatName(interview.jobPosition)}
-            </h2>
+            <h2 className="text-xl font-semibold">{formatName(resume?.resumeTitle)}</h2>
           </div>
         </div>
       </Link>
       <div className="p-4 bg-secondary flex justify-between text-white rounded-b-md ">
-        <p>Created At: {interview?.createdAt}</p>
+        <p>Created At: {resume?.createdAt}</p>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <MoreVertical className="h-4 w-4 cursor-pointer" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={onFeedbackPress}
               className="flex justify-between"
+              onClick={() =>
+                router.push("/my-resume/" + resume?.resumeId + "/view")
+              }
             >
-              Feedback <MessageSquareMore />
+              Download <Download />
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => setOpenAlert(true)}
               className="flex justify-between"
+              onClick={() => setOpenAlert(true)}
             >
               Delete <Trash2 color="red" />
             </DropdownMenuItem>
@@ -113,6 +111,6 @@ const InterviewItemCard = ({ interview }) => {
       </div>
     </div>
   );
-};
+}
 
-export default InterviewItemCard;
+export default ResumeCardItem;

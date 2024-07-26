@@ -5,50 +5,60 @@ import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { LoaderCircle } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-
+import { db } from "@/utils/db";
+import { ResumePersonal } from "@/utils/schema";
+import moment from "moment";
 function PersonalDetail({ enabledNext, params }) {
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
 
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState(resumeInfo || {});
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    console.log("---", resumeInfo);
-  }, []);
+    if (resumeInfo) {
+      setFormData(resumeInfo);
+    }
+  }, [resumeInfo]);
 
   const handleInputChange = (e) => {
     enabledNext(false);
     const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
-    setResumeInfo({
-      ...resumeInfo,
+    }));
+    setResumeInfo((prevInfo) => ({
+      ...prevInfo,
       [name]: value,
-    });
+    }));
   };
 
-  const onSave = (e) => {
+  const onSave = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const data = {
-      data: formData,
-    };
-    // GlobalApi.UpdateResumeDetail(params?.resumeId, data).then(
-    //   (resp) => {
-    //     console.log(resp);
-    //     enabledNext(true);
-    //     setLoading(false);
-    //     toast("Details updated");
-    //   },
-    //   (error) => {
-    //     setLoading(false);
-    //   }
-    // );
+
+    try {
+      await db.update(ResumePersonal).set({
+        resumeIdRef: params?.resumeId,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        jobTitle: formData.jobTitle,
+        address: formData.address,
+        phone: formData.phone,
+        email: formData.email,
+        createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+      });
+      enabledNext(true);
+      toast("Personal details updated!");
+    } catch (error) {
+      toast.error("Failed to update details");
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
-    <div className="p-5 rounded-lg dark:border-2 dark:border-white">
+    <div className="p-5 rounded-lg">
       <h2 className="font-bold text-lg">Personal Detail</h2>
       <form onSubmit={onSave}>
         <div className="grid grid-cols-2 mt-5 gap-3">

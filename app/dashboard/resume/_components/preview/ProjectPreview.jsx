@@ -7,19 +7,18 @@ function ProjectPreview({ resumeInfo }) {
         Project
       </h2>
 
-      {resumeInfo?.experience?.map((experience, index) => (
+      {resumeInfo?.project?.map((project, index) => (
         <div key={index} className="">
-          <h2 className="text-sm font-bold">{experience?.title}</h2>
           <h2 className="text-xs flex justify-between">
-            {experience?.companyName},{experience?.city},{experience?.state}
-            <span>
-              {experience?.startDate} To{" "}
-              {experience?.currentlyWorking ? "Present" : experience.endDate}{" "}
+            <h2 className="text-sm font-bold">{project?.title}</h2>
+            <span className="font-normal">
+              {project?.startDate} -{" "}
+              {project?.currentlyWorking ? "Present" : project.endDate}{" "}
             </span>
           </h2>
           <div
             className="text-xs my-2"
-            dangerouslySetInnerHTML={{ __html: experience?.workSummery }}
+            dangerouslySetInnerHTML={{ __html: project?.projectSummary }}
           />
         </div>
       ))}

@@ -5,11 +5,7 @@ import {
   InstagramIcon,
   TwitterIcon,
 } from "lucide-react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { Tooltip } from "antd";
 import Link from "next/link";
 export default function Footer() {
   return (
@@ -48,42 +44,31 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-4">
-            <HoverCard>
-              <HoverCardTrigger>
-                <Link
-                  href="#"
-                  className="text-secondary hover:text-white hover:scale-105 "
-                >
-                  <InstagramIcon size={30} />
-                </Link>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p className="text-secondary">
-                  Sorry we don't have Instagram for now
-                </p>
-              </HoverCardContent>
-            </HoverCard>
-            <HoverCard>
-              <HoverCardTrigger>
-                <Link
-                  href="#"
-                  className="text-secondary hover:text-white hover:scale-105 "
-                >
-                  <FacebookIcon size={30} />
-                </Link>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p className="text-secondary">
-                  Sorry we don't have Facebook for now
-                </p>
-              </HoverCardContent>
-            </HoverCard>
-            <Link
-              href="#"
-              className="text-secondary hover:text-white hover:scale-105 "
-            >
-              <GithubIcon size={30} />
-            </Link>
+            <Tooltip title="Unavailable for now">
+              <Link
+                href="#"
+                className="text-secondary hover:text-white hover:scale-105 "
+              >
+                <InstagramIcon size={30} />
+              </Link>
+            </Tooltip>
+
+            <Tooltip title="Unavailable for now">
+              <Link
+                href="#"
+                className="text-secondary hover:text-white hover:scale-105 "
+              >
+                <FacebookIcon size={30} />
+              </Link>
+            </Tooltip>
+            <Tooltip title="Star if you like it!">
+              <Link
+                href="#"
+                className="text-secondary hover:text-white hover:scale-105 "
+              >
+                <GithubIcon size={30} />
+              </Link>
+            </Tooltip>
           </div>
         </div>
       </div>

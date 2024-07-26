@@ -16,7 +16,7 @@ import { db } from "@/utils/db";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { NewResume } from "@/utils/schema";
+import { Resume } from "@/utils/schema";
 
 function AddResume() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -31,15 +31,15 @@ function AddResume() {
     setLoading(true);
     // Insert data into the database
     const resp = await db
-      .insert(NewResume)
+      .insert(Resume)
       .values({
         resumeId: uuidv4(),
         resumeTitle: resumeTitle,
         jobDesc: jobDesc,
         createdBy: user?.primaryEmailAddress?.emailAddress,
-        createdAt: moment().format("MM-DD-YYYY"),
+        createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
       })
-      .returning({ resumeId: NewResume.resumeId });
+      .returning({ resumeId: Resume.resumeId });
     if (resp) {
       setOpenDialog(false);
       router.push("/dashboard/resume/" + resp[0]?.resumeId + "/edit");
@@ -50,16 +50,18 @@ function AddResume() {
   return (
     <div>
       <div
-        className="p-10 border rounded-lg bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all h-44 w-44 flex items-center justify-center"
+        className="p-10 border rounded-md bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all flex items-center justify-center"
         onClick={() => setOpenDialog(true)}
       >
-        <PlusSquare color="white" />
+        <h2 className="font-bold text-lg text-white text-center">
+          + Add New Resume
+        </h2>
       </div>
 
       <Dialog open={openDialog}>
-        <DialogContent>
+        <DialogContent className="max-w-xl">
           <DialogHeader>
-            <DialogTitle>Create New Resume</DialogTitle>
+            <DialogTitle className="text-2xl">Create New Resume</DialogTitle>
             <DialogDescription>
               <form onSubmit={onSubmit}>
                 <div>
@@ -74,8 +76,8 @@ function AddResume() {
                   />
                   <div className="my-3">
                     <p className="font-semibold mb-2">
-                      Add the job description for your target position (150
-                      words)
+                      Add the job description for your target position or enter
+                      a URL
                     </p>
                     <Textarea
                       className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"

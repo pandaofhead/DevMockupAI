@@ -9,12 +9,9 @@ import { LoaderCircle } from "lucide-react";
 
 const formField = {
   title: "",
-  companyName: "",
-  city: "",
-  state: "",
   startDate: "",
   endDate: "",
-  workSummery: "",
+  worksummary: "",
 };
 function Project() {
   const [experinceList, setExperinceList] = useState([]);
@@ -44,7 +41,7 @@ function Project() {
         state: "",
         startDate: "",
         endDate: "",
-        workSummery: "",
+        worksummary: "",
       },
     ]);
   };
@@ -97,35 +94,11 @@ function Project() {
             <div key={index}>
               <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
                 <div>
-                  <label className="text-xs">Position Title</label>
+                  <label className="text-xs">Project Title</label>
                   <Input
                     name="title"
                     onChange={(event) => handleChange(index, event)}
                     defaultValue={item?.title}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs">Company Name</label>
-                  <Input
-                    name="companyName"
-                    onChange={(event) => handleChange(index, event)}
-                    defaultValue={item?.companyName}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs">City</label>
-                  <Input
-                    name="city"
-                    onChange={(event) => handleChange(index, event)}
-                    defaultValue={item?.city}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs">State</label>
-                  <Input
-                    name="state"
-                    onChange={(event) => handleChange(index, event)}
-                    defaultValue={item?.state}
                   />
                 </div>
                 <div>
@@ -147,12 +120,12 @@ function Project() {
                   />
                 </div>
                 <div className="col-span-2">
-                  {/* Work Summery  */}
+                  {/* Work summary  */}
                   <RichTextEditor
                     index={index}
-                    defaultValue={item?.workSummery}
+                    defaultValue={item?.worksummary}
                     onRichTextEditorChange={(event) =>
-                      handleRichTextEditor(event, "workSummery", index)
+                      handleRichTextEditor(event, "worksummary", index)
                     }
                   />
                 </div>

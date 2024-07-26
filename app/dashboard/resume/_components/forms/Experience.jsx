@@ -2,41 +2,60 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useContext, useEffect, useState } from "react";
-import RichTextEditor from "../RichTextEditor";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
+import { Bot, LoaderCircle } from "lucide-react";
+import { chatSession } from "@/utils/GeminiAIModal";
+import { db } from "@/utils/db";
+import { Resume } from "@/utils/schema";
+import { ResumeExperience } from "@/utils/schema";
+import {
+  BtnBold,
+  BtnBulletList,
+  BtnClearFormatting,
+  BtnItalic,
+  BtnLink,
+  BtnNumberedList,
+  BtnUnderline,
+  Editor,
+  EditorProvider,
+  Separator,
+  Toolbar,
+} from "react-simple-wysiwyg";
 
-const formField = {
-  title: "",
-  companyName: "",
-  city: "",
-  state: "",
-  startDate: "",
-  endDate: "",
-  workSummery: "",
-};
-function Experience() {
-  const [experinceList, setExperinceList] = useState([]);
+const PROMPT =
+  "Given experience: {workSummary}, title: {positionTitle} and Job Description: {jobDesc}, revise resume workSummary in 3-4 bullet points to better fit the Job Description (Please do not include word Summary and No JSON array) , give me result in HTML tags";
+function Experience({ resume }) {
+  const [value, setValue] = useState("");
+  const [experienceList, setExperienceList] = useState([]);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
   const [loading, setLoading] = useState(false);
 
+  // // Fetch resume job description from the database
+  // const jobDesc = db.get(Resume, resume.resumeId).jobDesc;
+
   useEffect(() => {
     resumeInfo?.experience.length > 0 &&
-      setExperinceList(resumeInfo?.experience);
+      setExperienceList(resumeInfo?.experience);
   }, []);
 
   const handleChange = (index, event) => {
-    const newEntries = experinceList.slice();
+    const newEntries = experienceList.slice();
     const { name, value } = event.target;
     newEntries[index][name] = value;
     console.log(newEntries);
-    setExperinceList(newEntries);
+    setExperienceList(newEntries);
+  };
+
+  const handleRichTextEditorChange = (value, index) => {
+    const newEntries = experienceList.slice();
+    newEntries[index].workSummary = value;
+    setExperienceList(newEntries);
   };
 
   const AddNewExperience = () => {
-    setExperinceList([
-      ...experinceList,
+    setExperienceList([
+      ...experienceList,
       {
         title: "",
         companyName: "",
@@ -44,56 +63,58 @@ function Experience() {
         state: "",
         startDate: "",
         endDate: "",
-        workSummery: "",
+        workSummary: "",
       },
     ]);
   };
 
   const RemoveExperience = () => {
-    setExperinceList((experinceList) => experinceList.slice(0, -1));
-  };
-
-  const handleRichTextEditor = (e, name, index) => {
-    const newEntries = experinceList.slice();
-    newEntries[index][name] = e.target.value;
-
-    setExperinceList(newEntries);
+    setExperienceList((experienceList) => experienceList.slice(0, -1));
   };
 
   useEffect(() => {
     setResumeInfo({
       ...resumeInfo,
-      Experience: experinceList,
+      experience: experienceList,
     });
-  }, [experinceList]);
+  }, [experienceList]);
 
-  const onSave = () => {
+  const GenerateSummaryFromAI = async (index) => {
+    if (!resumeInfo?.experience[index]?.title) {
+      console.log("Please Add Position Title");
+      toast("Please Add Position Title", "error");
+      return;
+    }
     setLoading(true);
+    const prompt = PROMPT.replace("{workSummary}", value)
+      .replace("{positionTitle}", resumeInfo.experience[index].title)
+      .replace("{jobDesc}", jobDesc);
+
+    const result = await chatSession.sendMessage(prompt);
+    const resp = result.response.text();
+
+    setValue(resp.replace("[", "").replace("]", ""));
+    setLoading(false);
+  };
+
+  const onSave = async () => {
+    setLoading(true);
+
     const data = {
       data: {
-        Experience: experinceList.map(({ id, ...rest }) => rest),
+        experience: experienceList.map(({ id, ...rest }) => rest),
       },
     };
 
-    console.log(experinceList);
-
-    // GlobalApi.UpdateResumeDetail(params?.resumeId, data).then(
-    //   (res) => {
-    //     console.log(res);
-    //     setLoading(false);
-    //     toast("Details updated !");
-    //   },
-    //   (error) => {
-    //     setLoading(false);
-    //   }
-    // );
+    console.log(experienceList);
   };
+
   return (
     <div>
       <div className="p-5 rounded-lg dark:border-2 dark:border-white">
         <h2 className="font-bold text-lg">Experience</h2>
         <div>
-          {experinceList.map((item, index) => (
+          {experienceList.map((item, index) => (
             <div key={index}>
               <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
                 <div>
@@ -147,14 +168,45 @@ function Experience() {
                   />
                 </div>
                 <div className="col-span-2">
-                  {/* Work Summery  */}
-                  <RichTextEditor
-                    index={index}
-                    defaultValue={item?.workSummery}
-                    onRichTextEditorChange={(event) =>
-                      handleRichTextEditor(event, "workSummery", index)
-                    }
-                  />
+                  {/* Work Summary  */}
+                  <div className="flex justify-between my-2">
+                    <label className="text-xs">Summery</label>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={GenerateSummaryFromAI}
+                      disabled={loading || !item?.workSummary}
+                      className="flex gap-2 border-primary text-primary"
+                    >
+                      {loading ? (
+                        <LoaderCircle className="animate-spin" />
+                      ) : (
+                        <>
+                          <Bot className="h-4 w-4" /> Generate from AI
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                  <EditorProvider>
+                    <Editor
+                      value={item?.workSummary || ""}
+                      onChange={(e) => {
+                        handleChange(e.target.value, index);
+                      }}
+                    >
+                      <Toolbar>
+                        <BtnBold />
+
+                        <BtnItalic />
+                        <BtnUnderline />
+                        <Separator />
+                        <BtnNumberedList />
+                        <BtnBulletList />
+                        <Separator />
+                        <BtnLink />
+                      </Toolbar>
+                    </Editor>
+                  </EditorProvider>
                 </div>
               </div>
             </div>

@@ -6,24 +6,40 @@ import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import ThemeSwitch from "./Themeswitch";
 import { UserButton } from "@clerk/nextjs";
-
+import { Dropdown, Space, Tooltip } from "antd";
+import { ChevronDown } from "lucide-react";
 function Header() {
-  const headerList = [
+  const dashboradItems = [
     {
-      name: "Home",
-      link: "/",
+      key: "1",
+      label: <a href="/dashboard/resume">Resume</a>,
     },
     {
-      name: "Dashboard",
-      link: "/dashboard",
+      key: "2",
+      label: <a href="/dashboard/interview">Interview</a>,
     },
     {
-      name: "FAQs",
-      link: "/faqs",
+      key: "3",
+      label: <a href="/dashboard/analytics">Analytics</a>,
     },
     {
-      name: "Contact",
-      link: "/contact",
+      key: "4",
+      label: <a href="/dashboard/notifications">Notifications</a>,
+    },
+  ];
+
+  const faqsItems = [
+    {
+      key: "1",
+      label: <a href="/faqs">General</a>,
+    },
+    {
+      key: "2",
+      label: <a href="/faqs">Technical</a>,
+    },
+    {
+      key: "3",
+      label: <a href="/faqs">Behavioral</a>,
     },
   ];
   const path = usePathname();
@@ -56,25 +72,90 @@ function Header() {
           isMobileMenuOpen ? "block" : "hidden"
         } md:block absolute md:relative top-16 md:top-auto right-0 left-0 p-4 md:p-0 shadow-md bg-white md:shadow-none dark:bg-slate-800 flex items-center justify-center`}
       >
-        {headerList.map((item, index) => (
-          <li key={index}>
-            <Link
-              href={item.link}
-              className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
+        <li>
+          <Link
+            href="/"
+            className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
                 ${
-                  (item.link === "/" && path === "/") ||
-                  (item.link !== "/" && path.startsWith(item.link))
+                  path === "/" || path.startsWith(Link)
                     ? "text-primary font-bold "
                     : ""
                 }`}
-            >
-              {item.name}
-            </Link>
-          </li>
-        ))}
+          >
+            Home
+          </Link>
+        </li>
 
         <li>
-          <ThemeSwitch />
+          <Dropdown
+            menu={{
+              items: dashboradItems,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Link
+                href="/dashboard"
+                className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
+                ${
+                  path === "/dashboard" || path.startsWith("/dashboard")
+                    ? "text-primary font-bold "
+                    : ""
+                }`}
+              >
+                <Space>
+                  Dashboard
+                  <ChevronDown />
+                </Space>
+              </Link>
+            </a>
+          </Dropdown>
+        </li>
+
+        <li>
+          <Dropdown
+            menu={{
+              items: faqsItems,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Link
+                href="/faqs"
+                className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
+                ${
+                  path === "/faqs" || path.startsWith("/faqs")
+                    ? "text-primary font-bold "
+                    : ""
+                }`}
+              >
+                <Space>
+                  FAQs
+                  <ChevronDown />
+                </Space>
+              </Link>
+            </a>
+          </Dropdown>
+        </li>
+
+        <li>
+          <Link
+            href="/contact"
+            className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
+                ${
+                  path === "/contact" || path.startsWith("/contact")
+                    ? "text-primary font-bold "
+                    : ""
+                }`}
+          >
+            Contact
+          </Link>
+        </li>
+
+        <li>
+          <Tooltip title="switch mode">
+            <span>
+              <ThemeSwitch />
+            </span>
+          </Tooltip>
         </li>
         <li>
           <UserButton />

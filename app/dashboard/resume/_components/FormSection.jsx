@@ -9,6 +9,7 @@ import Skills from "./forms/Skills";
 import Project from "./forms/Project";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Tooltip } from "antd";
 function FormSection({ resumeId }) {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
   const [enableNext, setEnableNext] = useState(true);
@@ -18,12 +19,14 @@ function FormSection({ resumeId }) {
   // )
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mx-4">
         <div className="flex gap-5">
           <Link href={"/dashboard/resume"}>
-            <Button>
-              <NotepadText />
-            </Button>
+            <Tooltip title="Resumes">
+              <Button>
+                <NotepadText />
+              </Button>
+            </Tooltip>
           </Link>
         </div>
         <div className="flex gap-2">

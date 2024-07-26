@@ -1,103 +1,94 @@
 export default {
-  firstName: "James",
-  lastName: "Carter",
-  jobTitle: "full stack developer",
-  address: "525 N tryon Street, NC 28117",
+  firstName: "Harry",
+  lastName: "Potter",
+  jobTitle: "Auror",
+  address: "4 Privet Drive, Little Whinging, Surrey",
   phone: "(123)-456-7890",
-  email: "exmaple@gmail.com",
+  email: "harry.potter@hogwarts.co.uk",
   themeColor: "#000000",
-  summery:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  experience: [
-    {
-      id: 1,
-      title: "Full Stack Developer",
-      companyName: "Amazon",
-      city: "New York",
-      state: "NY",
-      startDate: "Jan 2021",
-      endDate: "",
-      currentlyWorking: true,
-      workSummery:
-        " Designed, developed, and maintained full-stack applications using React and Node.js.\n" +
-        "• Implemented responsive user interfaces with React, ensuring seamless user experiences across\n" +
-        "various devices and browsers.\n" +
-        "• Maintaining the React Native in-house organization application." +
-        "• CreatedRESTfulAPIs withNode.js and Express,facilitating data communicationbetween the front-end" +
-        "and back-end systems.",
-    },
-    {
-      id: 2,
-      title: "Frontend Developer",
-      companyName: "Google",
-      city: "Charlotte",
-      state: "NC",
-      startDate: "May 2019",
-      endDate: "Jan 2021",
-      currentlyWorking: false,
-      workSummery:
-        " Designed, developed, and maintained full-stack applications using React and Node.js." +
-        "• Implemented responsive user interfaces with React, ensuring seamless user experiences across" +
-        "various devices and browsers." +
-        "• Maintaining the React Native in-house organization application." +
-        "• CreatedRESTfulAPIs withNode.js and Express,facilitating data communicationbetween the front-end" +
-        "and back-end systems.",
-    },
-  ],
   education: [
     {
       id: 1,
-      universityName: "Western Illinois University",
-      startDate: "Aug 2018",
-      endDate: "Dec:2019",
-      degree: "Master",
-      major: "Computer Science",
-      description: "Merit Scholarships.",
-    },
-    {
-      id: 2,
-      universityName: "Western Illinois University",
-      startDate: "Aug 2018",
-      endDate: "Dec:2019",
-      degree: "Master",
-      major: "Computer Science",
-      description: "",
+      universityName: "Hogwarts School of Witchcraft and Wizardry",
+      startDate: "Sept 1991",
+      endDate: "Jun 1997",
+      degree: "N.E.W.T.s",
+      major: "Defense Against the Dark Arts",
+      description:
+        "Top grades in Defense Against the Dark Arts, Transfiguration, and Potions.",
     },
   ],
   skills: [
     {
       id: 1,
-      name: "Languages",
-      list: [
-        "JavaScript",
-        "Python",
-        "Java",
-        "C++",
-        "C#",
-        "HTML",
-        "CSS",
-        "SQL",
-        "PHP",
-        "Ruby",
-        "Swift",
-      ],
+      name: "Magic",
+      list: "Defense Against the Dark Arts, Transfiguration, Potions, Charms",
     },
     {
-      id: 1,
-      name: "Operating Systems",
-      list: ["Windows", "MacOS", "Linux"],
+      id: 2,
+      name: "Non-Magical Skills",
+      list: "Leadership, Teamwork, Problem-Solving, Critical Thinking",
     },
     {
-      id: 1,
+      id: 3,
       name: "Tools",
-      list: [
-        "Git",
-        "Jira",
-        "Slack",
-        "Visual Studio Code",
-        "Eclipse",
-        "IntelliJ IDEA",
-      ],
+      list: "Wand, Broomstick, Invisibility Cloak, Marauder's Map",
+    },
+  ],
+  experience: [
+    {
+      id: 1,
+      title: "Auror",
+      companyName: "Ministry of Magic",
+      city: "London",
+      state: "England",
+      startDate: "Sept 1998",
+      endDate: "",
+      currentlyWorking: true,
+      workSummary:
+        "Successfully led numerous missions to capture and neutralize dark wizards and magical threats.\n" +
+        "• Collaborated with fellow Aurors to develop and implement effective defense strategies.\n" +
+        "• Conducted extensive research on dark magic and protective spells.\n" +
+        "• Trained new recruits in advanced defensive and offensive magic techniques.",
+    },
+    {
+      id: 2,
+      title: "Defense Against the Dark Arts Instructor",
+      companyName: "Hogwarts School of Witchcraft and Wizardry",
+      city: "Hogsmeade",
+      state: "Scotland",
+      startDate: "Sept 1997",
+      endDate: "Jun 1998",
+      currentlyWorking: false,
+      workSummary:
+        "• Taught advanced Defense Against the Dark Arts to students from years 1 through 7.\n" +
+        "• Developed comprehensive lesson plans and practical exercises.\n" +
+        "• Mentored students in mastering defensive spells and counter-curses.\n" +
+        "• Organized and supervised practical exams and defense challenges.",
+    },
+  ],
+  project: [
+    {
+      id: 1,
+      title: "Defeat of the Basilisk",
+      startDate: "1992",
+      endDate: "1993",
+      currentlyWorking: false,
+      projectSummary:
+        "• Discovered the secret entrance to the Chamber of Secrets.\n" +
+        "• Rescued Ginny Weasley from the Basilisk's lair.\n" +
+        "• Destroyed Tom Riddle's diary, thereby vanquishing the Basilisk.",
+    },
+    {
+      id: 2,
+      title: "Triwizard Tournament",
+      startDate: "1994",
+      endDate: "1995",
+      currentlyWorking: false,
+      projectSummary:
+        "• Competed in the Triwizard Tournament as the Hogwarts champion.\n" +
+        "• Survived numerous challenges and obstacles to reach the final task.\n" +
+        "• Rescued Cedric Diggory from Lord Voldemort's trap.",
     },
   ],
 };

@@ -86,7 +86,7 @@ const RecordAnswerSection = ({
       feedback: JsonfeedbackResp?.feedback,
       rating: JsonfeedbackResp?.rating,
       userEmail: user?.primaryEmailAddress?.emailAddress,
-      createdAt: moment().format("MM-DD-YYYY"),
+      createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
     });
 
     if (resp) {

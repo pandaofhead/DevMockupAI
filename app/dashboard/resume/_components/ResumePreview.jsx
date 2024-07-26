@@ -10,7 +10,7 @@ function ResumePreview() {
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
 
   return (
-    <div className="h-full p-6 ">
+    <div className="h-full px-6 py-4">
       {/* Personal Detail  */}
       <PersonalDetailPreview resumeInfo={resumeInfo} />
       {/* Educational  */}

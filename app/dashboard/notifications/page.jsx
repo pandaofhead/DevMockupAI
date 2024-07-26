@@ -11,22 +11,45 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { db } from "@/utils/db";
 import { Notification } from "@/utils/schema";
 function Notifications() {
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(3);
+  const [loading, setLoading] = useState(false);
   const breadcrumbItems = [
     { label: "Dashboard", href: "/dashboard" },
     { label: "Notifications" },
   ];
+  const onDelete = async () => {
+    setLoading(true);
+    try {
+      await db
+        .delete()
+        .from(Notification)
+        .where(eq(Notification.notificationId, notifications.notificationId));
+      refreshData();
+      setOpenAlert(false);
+      toast.success("Notification deleted successfully", {
+        duration: 3000,
+      });
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
+    setLoading(false);
+  };
+
   const notifications = [
     {
       id: 1,
@@ -72,29 +95,35 @@ function Notifications() {
                 <Trash2
                   className="hover:text-red-500 hover:scale-125 transition-all"
                   onClick={() => {
-                    setOpenDialog(true);
+                    setOpenAlert(true);
                   }}
                 />
-                <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle className="text-xl">
-                        Are you sure you want to delete it?
-                      </DialogTitle>
-                      <DialogDescription>
-                        <div className="flex justify-between mt-10 ">
-                          <Button
-                            className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all"
-                            onClick={() => setOpenDialog(false)}
-                          >
-                            Cancel
-                          </Button>
-                          <Button className="hover:scale-105">Delete</Button>
-                        </div>
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
+                <AlertDialog open={openAlert}>
+                  <AlertDialogContent className="bg-white dark:bg-slate-800">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel onClick={() => setOpenAlert(false)}>
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction onClick={onDelete} disabled={loading}>
+                        {loading ? (
+                          <Loader2Icon className="animate-spin" />
+                        ) : (
+                          "Delete"
+                        )}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
             <SheetContent>

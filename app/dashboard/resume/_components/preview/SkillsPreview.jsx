@@ -10,15 +10,8 @@ function SkillsPreview({ resumeInfo }) {
       <div className="">
         {resumeInfo?.skills.map((skill, index) => (
           <div key={index} className="flex items-center">
-            <h3 className="text-xs font-semibold mr-2">{skill.name}:</h3>
-            <p className="inline">
-              {skill.list.map((item, index) => (
-                <span key={index} className="text-xs inline">
-                  {item}
-                  {index !== skill.list.length - 1 && ", "}
-                </span>
-              ))}
-            </p>
+            <h3 className="text-xs font-semibold mr-2">{skill.name} :</h3>
+            <p className="inline text-xs">{skill.list}</p>
           </div>
         ))}
       </div>

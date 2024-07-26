@@ -5,8 +5,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { LoaderCircle } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
+import { db } from "@/utils/db";
 import { toast } from "sonner";
-
+import { ResumeEducation } from "@/utils/schema";
 function Education({ params }) {
   const [loading, setLoading] = useState(false);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
@@ -47,25 +48,37 @@ function Education({ params }) {
   const RemoveEducation = () => {
     setEducationalList((educationalList) => educationalList.slice(0, -1));
   };
-  const onSave = () => {
-    setLoading(true);
-    const data = {
-      data: {
-        education: educationalList.map(({ id, ...rest }) => rest),
-      },
-    };
 
-    // GlobalApi.UpdateResumeDetail(params.resumeId, data).then(
-    //   (resp) => {
-    //     console.log(resp);
-    //     setLoading(false);
-    //     toast("Details updated !");
-    //   },
-    //   (error) => {
-    //     setLoading(false);
-    //     toast("Server Error, Please try again!");
-    //   }
-    // );
+  const onSave = async () => {
+    setLoading(true);
+    const data = educationalList.map((item) => ({
+      resumeIdRef: params?.resumeId,
+      universityName: item.universityName,
+      degree: item.degree,
+      major: item.major,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      description: item.description,
+      createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+    }));
+
+    try {
+      await Promise.all(
+        data.map(async (edu) => {
+          await db.update(ResumeEducation).set(edu);
+        })
+      );
+      setResumeInfo((prevInfo) => ({
+        ...prevInfo,
+        education: educationalList,
+      }));
+
+      toast("Education details updated!");
+    } catch (error) {
+      toast.error("Failed to update details");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +88,7 @@ function Education({ params }) {
     });
   }, [educationalList]);
   return (
-    <div className="p-5 shadow-lg rounded-lg mt-2">
+    <div className="p-5 rounded-lg mt-2">
       <h2 className="font-bold text-lg">Education</h2>
       <div>
         {educationalList.map((item, index) => (
@@ -108,7 +121,7 @@ function Education({ params }) {
               <div>
                 <label>Start Date</label>
                 <Input
-                  type="date"
+                  type="month"
                   name="startDate"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.startDate}
@@ -117,7 +130,7 @@ function Education({ params }) {
               <div>
                 <label>End Date</label>
                 <Input
-                  type="date"
+                  type="month"
                   name="endDate"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.endDate}

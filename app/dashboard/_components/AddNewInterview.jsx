@@ -60,7 +60,7 @@ function AddNewInterview() {
           jobDesc: jobDesc,
           jobExperience: jobExperience,
           createdBy: user?.primaryEmailAddress?.emailAddress,
-          createdAt: moment().format("MM-DD-YYYY"),
+          createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
         })
         .returning({ mockId: MockInterview.mockId });
       if (resp) {
@@ -76,7 +76,7 @@ function AddNewInterview() {
   return (
     <div>
       <div
-        className="p-10 border rounded-lg bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all"
+        className="p-10 border rounded-md bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
         <h2 className="font-bold text-lg text-white text-center">

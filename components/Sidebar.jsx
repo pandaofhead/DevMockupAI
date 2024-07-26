@@ -45,12 +45,12 @@ export default function Sidebar() {
       items: [
         {
           link: "/dashboard/resume",
-          name: "Resumes",
+          name: "Resume",
           icon: <NotepadText />,
         },
         {
           link: "/dashboard/interview",
-          name: "Interviews",
+          name: "Interview",
           icon: <Video />,
         },
         {
@@ -98,8 +98,8 @@ export default function Sidebar() {
                   <CommandItem
                     className={`cursor-pointer flex flex-row justify-between items-center dark:hover:text-secondary
                     ${
-                      (item.link === "/" && path === "/") ||
-                      (item.link !== "/" && path.startsWith(item.link))
+                      (item.link === "/dashborad" && path === "/dashboard") ||
+                      (item.link !== "/dashboard" && path.startsWith(item.link))
                         ? "font-bold text-secondary"
                         : ""
                     }`}

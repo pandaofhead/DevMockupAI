@@ -2,12 +2,9 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import AddResume from "@/app/dashboard/_components/AddResume";
-import { useUser } from "@clerk/nextjs";
-
-// import ResumeCardItem from "./components/ResumeCardItem";
+import ResumeList from "../_components/ResumeList";
 
 function Resume() {
-  const { user } = useUser();
   const breadcrumbItems = [
     { label: "Dashboard", href: "/dashboard" },
     { label: "Resumes" },
@@ -19,20 +16,11 @@ function Resume() {
         <p className="text-gray-500 dark:text-white">
           Add and customize your resume here
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 my-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 my-5 gap-4">
           <AddResume />
-          {/* {resumeList.length > 0
-            ? resumeList.map((resume, index) => (
-                <ResumeCardItem
-                  resume={resume}
-                  key={index}
-                  refreshData={GetResumesList}
-                />
-              ))
-            : [1, 2, 3, 4].map((item, index) => (
-                <div className="h-[280px] rounded-lg bg-slate-200 animate-pulse"></div>
-              ))} */}
         </div>
+        <h2 className="text-2xl font-bold my-8">Your resumes</h2>
+        <ResumeList />
       </div>
     </div>
   );
