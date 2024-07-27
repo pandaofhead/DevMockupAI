@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import ThemeSwitch from "./Themeswitch";
+import ThemeSwitch from "./ThemeSwitch";
 import { UserButton } from "@clerk/nextjs";
 import { Dropdown, Space, Tooltip } from "antd";
 import { ChevronDown } from "lucide-react";
