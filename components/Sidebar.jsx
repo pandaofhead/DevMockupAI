@@ -103,12 +103,6 @@ export default function Sidebar() {
                         ? "font-bold text-secondary"
                         : ""
                     }`}
-                    // ${
-                    //   (item.link === "/" && path === "/") ||
-                    //   (item.link !== "/" && path.startsWith(item.link))
-                    //     ? "text-primary font-bold flex items-center justify-center"
-                    //     : "flex items-center justify-center"
-                    // }`}
                   >
                     {!isCollapsed && <span className="ml-2">{item.name}</span>}
                     {item.icon}

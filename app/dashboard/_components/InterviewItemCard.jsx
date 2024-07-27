@@ -63,17 +63,17 @@ const InterviewItemCard = ({ interview }) => {
       <Link href={"/dashboard/interview/" + interview?.mockId}>
         <div className="bg-white dark:bg-slate-700 h-[150px] rounded-t-md">
           <div className="flex justify-center items-center h-full flex-col hover:scale-105">
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl">
               {interview?.jobPosition && formatName(interview.jobPosition)}
             </h2>
           </div>
         </div>
       </Link>
       <div className="p-4 bg-secondary flex justify-between text-white rounded-b-md ">
-        <p>Created At: {interview?.createdAt}</p>
+        <p>Created At : {interview?.createdAt}</p>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <MoreVertical className="h-4 w-4 cursor-pointer" />
+            <MoreVertical className="h-4 w-4 cursor-pointer hover:scale-125" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem

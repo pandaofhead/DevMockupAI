@@ -11,7 +11,7 @@ const formField = {
   title: "",
   startDate: "",
   endDate: "",
-  worksummary: "",
+  workSummary: "",
 };
 function Project() {
   const [experinceList, setExperinceList] = useState([]);

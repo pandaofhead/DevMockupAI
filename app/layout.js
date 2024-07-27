@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
               className={`${montserrat.className} flex flex-col min-h-screen`}
             >
               <Header />
-              <main className="flex-grow mt-20">{children}</main>
+              <main className="flex-grow mt-16">{children}</main>
               <Toaster />
               <Footer />
             </body>

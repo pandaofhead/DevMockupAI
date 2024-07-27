@@ -61,7 +61,9 @@ function ResumeCardItem({ resume, refreshData }) {
       <Link href={"/dashboard/resume/" + resume?.resumeId + "/edit"}>
         <div className="bg-white dark:bg-slate-700 h-[150px] rounded-t-md">
           <div className="flex justify-center items-center h-full flex-col hover:scale-105">
-            <h2 className="text-xl font-semibold">{formatName(resume?.resumeTitle)}</h2>
+            <h2 className="text-xl">
+              {formatName(resume?.resumeTitle)}
+            </h2>
           </div>
         </div>
       </Link>

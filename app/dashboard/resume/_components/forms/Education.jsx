@@ -8,6 +8,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { db } from "@/utils/db";
 import { toast } from "sonner";
 import { ResumeEducation } from "@/utils/schema";
+import moment from "moment";
 function Education({ params }) {
   const [loading, setLoading] = useState(false);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
@@ -65,7 +66,7 @@ function Education({ params }) {
     try {
       await Promise.all(
         data.map(async (edu) => {
-          await db.update(ResumeEducation).set(edu);
+          await db.insert(ResumeEducation).values(edu);
         })
       );
       setResumeInfo((prevInfo) => ({
@@ -75,6 +76,7 @@ function Education({ params }) {
 
       toast("Education details updated!");
     } catch (error) {
+      console.log(error);
       toast.error("Failed to update details");
     } finally {
       setLoading(false);

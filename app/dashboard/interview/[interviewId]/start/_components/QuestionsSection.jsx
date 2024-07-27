@@ -1,7 +1,6 @@
 "use client";
 import { Volume2, VolumeX } from "lucide-react";
 import React, { useState } from "react";
-import { set } from "react-hook-form";
 
 const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
   const [speechOn, setSpeechOn] = useState(false);

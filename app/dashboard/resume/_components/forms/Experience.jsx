@@ -3,37 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useContext, useEffect, useState } from "react";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
-import { toast } from "sonner";
-import { Bot, LoaderCircle } from "lucide-react";
-import { chatSession } from "@/utils/GeminiAIModal";
-import { db } from "@/utils/db";
-import { Resume } from "@/utils/schema";
+import { LoaderCircle } from "lucide-react";
 import { ResumeExperience } from "@/utils/schema";
-import {
-  BtnBold,
-  BtnBulletList,
-  BtnClearFormatting,
-  BtnItalic,
-  BtnLink,
-  BtnNumberedList,
-  BtnUnderline,
-  Editor,
-  EditorProvider,
-  Separator,
-  Toolbar,
-} from "react-simple-wysiwyg";
-
-const PROMPT =
-  "Given experience: {workSummary}, title: {positionTitle} and Job Description: {jobDesc}, revise resume workSummary in 3-4 bullet points to better fit the Job Description (Please do not include word Summary and No JSON array) , give me result in HTML tags";
-function Experience({ resume }) {
-  const [value, setValue] = useState("");
+import moment from "moment";
+import RichTextEditor from "../RichTextEditor";
+import { toast } from "sonner";
+function Experience({ params }) {
   const [experienceList, setExperienceList] = useState([]);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
   const [loading, setLoading] = useState(false);
 
-  // // Fetch resume job description from the database
-  // const jobDesc = db.get(Resume, resume.resumeId).jobDesc;
-
+  // Fetch Experience
   useEffect(() => {
     resumeInfo?.experience.length > 0 &&
       setExperienceList(resumeInfo?.experience);
@@ -47,7 +27,7 @@ function Experience({ resume }) {
     setExperienceList(newEntries);
   };
 
-  const handleRichTextEditorChange = (value, index) => {
+  const handleRichTextEditor = (value, index) => {
     const newEntries = experienceList.slice();
     newEntries[index].workSummary = value;
     setExperienceList(newEntries);
@@ -79,34 +59,31 @@ function Experience({ resume }) {
     });
   }, [experienceList]);
 
-  const GenerateSummaryFromAI = async (index) => {
-    if (!resumeInfo?.experience[index]?.title) {
-      console.log("Please Add Position Title");
-      toast("Please Add Position Title", "error");
-      return;
-    }
-    setLoading(true);
-    const prompt = PROMPT.replace("{workSummary}", value)
-      .replace("{positionTitle}", resumeInfo.experience[index].title)
-      .replace("{jobDesc}", jobDesc);
-
-    const result = await chatSession.sendMessage(prompt);
-    const resp = result.response.text();
-
-    setValue(resp.replace("[", "").replace("]", ""));
-    setLoading(false);
-  };
-
   const onSave = async () => {
     setLoading(true);
 
-    const data = {
-      data: {
-        experience: experienceList.map(({ id, ...rest }) => rest),
-      },
-    };
-
-    console.log(experienceList);
+    try {
+      await db.insert(ResumeExperience).values(
+        experienceList.map((exp) => ({
+          resumeIdRef: params.resumeId,
+          title: exp.title,
+          companyName: exp.companyName,
+          city: exp.city,
+          state: exp.state,
+          startDate: exp.startDate,
+          endDate: exp.endDate,
+          currentlyWorking: exp.currentlyWorking,
+          workSummary: exp.workSummary,
+          createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+        }))
+      );
+      toast("Details updated!");
+    } catch (error) {
+      console.error("Failed to save resume experience data:", error);
+      toast.error("Failed to save data");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -169,44 +146,13 @@ function Experience({ resume }) {
                 </div>
                 <div className="col-span-2">
                   {/* Work Summary  */}
-                  <div className="flex justify-between my-2">
-                    <label className="text-xs">Summery</label>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={GenerateSummaryFromAI}
-                      disabled={loading || !item?.workSummary}
-                      className="flex gap-2 border-primary text-primary"
-                    >
-                      {loading ? (
-                        <LoaderCircle className="animate-spin" />
-                      ) : (
-                        <>
-                          <Bot className="h-4 w-4" /> Generate from AI
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                  <EditorProvider>
-                    <Editor
-                      value={item?.workSummary || ""}
-                      onChange={(e) => {
-                        handleChange(e.target.value, index);
-                      }}
-                    >
-                      <Toolbar>
-                        <BtnBold />
-
-                        <BtnItalic />
-                        <BtnUnderline />
-                        <Separator />
-                        <BtnNumberedList />
-                        <BtnBulletList />
-                        <Separator />
-                        <BtnLink />
-                      </Toolbar>
-                    </Editor>
-                  </EditorProvider>
+                  <RichTextEditor
+                    index={index}
+                    defaultValue={item?.workSummary}
+                    onRichTextEditorChange={(event) =>
+                      handleRichTextEditor(event, "workSummary", index)
+                    }
+                  />
                 </div>
               </div>
             </div>

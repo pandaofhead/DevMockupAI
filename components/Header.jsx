@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -46,9 +45,9 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="fixed top-0 left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-8 py-3 bg-white dark:bg-slate-800">
+    <div className="fixed top-0 left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-10 py-4 bg-white dark:bg-slate-800">
       <Link href="/">
-        <Image src={"/favicon.svg"} width={60} height={60} alt="Logo" />
+        <h1>DevMockupAI</h1>
       </Link>
 
       <div className="md:hidden">
