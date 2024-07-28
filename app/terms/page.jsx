@@ -12,7 +12,7 @@ function Terms() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-700 text-black dark:text-white p-20">
-      <motion.div className="fixed top-20 left-0 right-0 h-4 bg-primary origin-left" style={{ scaleX }} />
+      <motion.div className="fixed top-16 left-0 right-0 h-4 bg-primary origin-left" style={{ scaleX }} />
 
       <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
       <p className="mb-2">Last updated: 07-15-2024</p>

@@ -37,8 +37,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-col">
           <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-          <p className="my-3">Email: hhquan1257@gmail.com</p>
-          <p className="my-3">Phone: 914-804-6120</p>
+          <p className="my-3">Email: devmockupai@gmail.com</p>
           <p className="my-3">Address: New York, NY, USA</p>
         </div>
         <div>
@@ -63,7 +62,7 @@ export default function Footer() {
             </Tooltip>
             <Tooltip title="Star if you like it!">
               <Link
-                href="#"
+                href="#" // https://github.com/pandaofhead/DevMockupAI
                 className="text-secondary hover:text-white hover:scale-105 "
               >
                 <GithubIcon size={30} />
