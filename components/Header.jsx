@@ -45,7 +45,7 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="fixed top-0 left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-10 py-4 bg-white dark:bg-slate-800">
+    <div className="fixed top-0 left-0 right-0 transition-all duration-100 z-[999] w-full flex items-center justify-between px-10 py-5 bg-white dark:bg-slate-800">
       <Link href="/">
         <h1>DevMockupAI</h1>
       </Link>

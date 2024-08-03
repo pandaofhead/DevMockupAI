@@ -19,12 +19,13 @@ import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 
-function AddNewInterview() {
+function AddInterview() {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
   const [jobDesc, setJobDesc] = useState("");
   const [jobExperience, setJobExperience] = useState("");
   const [loading, setLoading] = useState(false);
+  const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [jsonResponse, setJsonResponse] = useState([]);
   const { user } = useUser();
   const router = useRouter();
@@ -35,7 +36,7 @@ function AddNewInterview() {
     setLoading(true);
 
     // Prompt for the user to input the job position, job description and years of experience
-    const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}, Depends on Job Position, Description and Years of Experience give us ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} Interview question along with Answer in JSON format, Give us question and Answer field on JSON,Each question and answer should be in the format:
+    const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}, Depends on Job Position, Description and Years of Experience give us ${numberOfQuestions} Interview question along with Answer in JSON format, Give us question and Answer field on JSON,Each question and answer should be in the format:
     {
       "question": "Your question here",
       "answer": "Your answer here"
@@ -59,6 +60,7 @@ function AddNewInterview() {
           jobPosition: jobPosition,
           jobDesc: jobDesc,
           jobExperience: jobExperience,
+          numberOfQuestions: numberOfQuestions,
           createdBy: user?.primaryEmailAddress?.emailAddress,
           createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
         })
@@ -123,17 +125,33 @@ function AddNewInterview() {
                     />
                   </div>
                 </div>
+                <div className="my-3">
+                  <div className="my-3">
+                    <p className="font-semibold mb-2">Number of questions</p>
+                    <Input
+                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
+                      type="number"
+                      max="10"
+                      min="1"
+                      required
+                      onChange={(e) => setNumberOfQuestions(e.target.value)}
+                    />
+                  </div>
+                </div>
 
                 <div className="flex gap-5 justify-end my-3">
-                  <Button
-                    className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all"
-                    onClick={() => setOpenDialog(false)}
-                  >
+                  <Button variant="ghost" onClick={() => setOpenDialog(false)}>
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    disabled={loading}
+                    disabled={
+                      !jobPosition ||
+                      !jobDesc ||
+                      !jobExperience ||
+                      numberOfQuestions ||
+                      loading
+                    }
                     className="hover:scale-105"
                   >
                     {loading ? (
@@ -154,4 +172,4 @@ function AddNewInterview() {
   );
 }
 
-export default AddNewInterview;
+export default AddInterview;

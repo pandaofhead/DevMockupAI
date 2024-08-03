@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 function useParallax(value, distance) {
-  return useTransform(value, [0, 0.7], [-distance * 2, distance * 2]);
+  return useTransform(value, [0, 2], [-distance * 2, distance * 2]);
 }
 
 function Image({ id, title, src, alt, reverse }) {
@@ -23,7 +23,7 @@ function Image({ id, title, src, alt, reverse }) {
       </div>
       <motion.h2
         style={{ y }}
-        className="font-bold text-3xl text-white w-1/2 p-6"
+        className="font-bold text-3xl text-primary w-1/2 p-6"
       >
         {title}
       </motion.h2>

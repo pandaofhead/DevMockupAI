@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import { useChat } from "ai/react";
 import { useRef, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumb";
-export default function Resume({ params }) {
+export default function Chat({ params }) {
   const breadcrumbItems = [
     { label: "Dashboard", href: "/dashboard" },
-    { label: "Resume" },
+    { label: "Resume", href: "/dashboard/resume" },
+    { label: "Chat" },
   ];
-
+  
   // call the useChat hook
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "api/resumebot",

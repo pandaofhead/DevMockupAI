@@ -38,7 +38,7 @@ const Feedback = ({ params }) => {
   return (
     <div className="p-10">
       <Breadcrumb items={breadcrumbItems} />
-      <h2 className="font-bold text-2xl ">Here is your interview feedback</h2>
+      <h2 className="font-bold text-2xl ">Interview feedback</h2>
       {feedbackList?.length == 0 ? (
         <h2 className="font-bold text-lg my-10 text-gray-400">
           No Feedback Available

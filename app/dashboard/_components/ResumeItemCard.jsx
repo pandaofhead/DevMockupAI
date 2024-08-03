@@ -24,8 +24,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-
-function ResumeCardItem({ resume, refreshData }) {
+import FormatName from "./FormatName";
+function ResumeItemCard({ resume, refreshData }) {
   const router = useRouter();
   const [openAlert, setOpenAlert] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,21 +49,12 @@ function ResumeCardItem({ resume, refreshData }) {
     setLoading(false);
   };
 
-  const formatName = (name) => {
-    return name
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
   return (
     <div className="border-2 rounded-md dark:border-gray-200 ">
       <Link href={"/dashboard/resume/" + resume?.resumeId + "/edit"}>
         <div className="bg-white dark:bg-slate-700 h-[150px] rounded-t-md">
           <div className="flex justify-center items-center h-full flex-col hover:scale-105">
-            <h2 className="text-xl">
-              {formatName(resume?.resumeTitle)}
-            </h2>
+            <h2 className="text-xl">{FormatName(resume?.resumeTitle)}</h2>
           </div>
         </div>
       </Link>
@@ -71,22 +62,15 @@ function ResumeCardItem({ resume, refreshData }) {
         <p>Created At: {resume?.createdAt}</p>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <MoreVertical className="h-4 w-4 cursor-pointer" />
+            <MoreVertical className="h-4 w-4 cursor-pointer hover:scale-125" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
               className="flex justify-between"
-              onClick={() =>
-                router.push("/my-resume/" + resume?.resumeId + "/view")
-              }
-            >
-              Download <Download />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex justify-between"
               onClick={() => setOpenAlert(true)}
             >
-              Delete <Trash2 color="red" />
+              Delete
+              <Trash2 color="red" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -115,4 +99,4 @@ function ResumeCardItem({ resume, refreshData }) {
   );
 }
 
-export default ResumeCardItem;
+export default ResumeItemCard;

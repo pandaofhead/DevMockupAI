@@ -4,7 +4,7 @@ import { Resume } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { desc, eq } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
-import ResumeCardItem from "./ResumeCardItem";
+import ResumeItemCard from "./ResumeItemCard";
 
 const ResumeList = () => {
   const { user } = useUser();
@@ -29,7 +29,7 @@ const ResumeList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 my-3">
         {resumeList &&
           resumeList.map((resume, index) => (
-            <ResumeCardItem resume={resume} key={index} />
+            <ResumeItemCard resume={resume} key={index} />
           ))}
       </div>
     </div>

@@ -36,13 +36,14 @@ function AddResume() {
         resumeId: uuidv4(),
         resumeTitle: resumeTitle,
         jobDesc: jobDesc,
+        resumeText: resumeText,
         createdBy: user?.primaryEmailAddress?.emailAddress,
         createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
       })
       .returning({ resumeId: Resume.resumeId });
     if (resp) {
       setOpenDialog(false);
-      router.push("/dashboard/resume/" + resp[0]?.resumeId + "/edit");
+      router.push("/dashboard/resume/" + resp[0]?.resumeId + "/chat");
     }
 
     setLoading(false);
@@ -76,15 +77,25 @@ function AddResume() {
                   />
                   <div className="my-3">
                     <p className="font-semibold mb-2">
-                      Add the job description for your target position or enter
-                      a URL
+                      Add the job description or enter a job URL
                     </p>
                     <Textarea
                       className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
-                      placeholder="Our company is looking for a Full Stack Developer..."
+                      placeholder="Ex. https://www.linkedin.com/jobs/view/..."
                       required
                       maxLength={150}
                       onChange={(e) => setJobDesc(e.target.value)}
+                    />
+                  </div>
+                  <div className="my-3">
+                    <p className="font-semibold mb-2">
+                      Upload your resume file
+                    </p>
+                    <Input
+                      id="resume"
+                      type="file"
+                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
+                      required
                     />
                   </div>
                 </div>

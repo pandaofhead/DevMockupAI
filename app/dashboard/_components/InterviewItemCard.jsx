@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import FormatName from "./FormatName";
 import { toast } from "sonner";
 const InterviewItemCard = ({ interview }) => {
   const router = useRouter();
@@ -51,20 +52,14 @@ const InterviewItemCard = ({ interview }) => {
       console.log(e);
     }
   };
-  const formatName = (name) => {
-    return name
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
+
   return (
     <div className="border-2 rounded-md dark:border-gray-200">
       <Link href={"/dashboard/interview/" + interview?.mockId}>
         <div className="bg-white dark:bg-slate-700 h-[150px] rounded-t-md">
           <div className="flex justify-center items-center h-full flex-col hover:scale-105">
             <h2 className="text-xl">
-              {interview?.jobPosition && formatName(interview.jobPosition)}
+              {interview?.jobPosition && FormatName(interview?.jobPosition)}
             </h2>
           </div>
         </div>
@@ -86,7 +81,8 @@ const InterviewItemCard = ({ interview }) => {
               onClick={() => setOpenAlert(true)}
               className="flex justify-between"
             >
-              Delete <Trash2 color="red" />
+              Delete
+              <Trash2 color="red" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

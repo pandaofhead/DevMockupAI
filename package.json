@@ -15,6 +15,8 @@
     "@google/generative-ai": "^0.14.0",
     "@heroicons/react": "^2.1.4",
     "@hookform/resolvers": "^3.9.0",
+    "@langchain/community": "^0.2.22",
+    "@langchain/openai": "^0.0.28",
     "@neondatabase/serverless": "^0.9.3",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -32,19 +34,23 @@
     "@types/d3": "^7.4.3",
     "@types/pg": "^8.11.6",
     "@types/prop-types": "^15.7.12",
-    "@types/react": "^18.3.3",
     "@types/resize-observer-browser": "^0.1.11",
+    "ai": "^3.0.23",
     "antd": "^5.19.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "drizzle-orm": "^0.31.2",
     "framer-motion": "^11.3.8",
+    "langchain": "^0.1.36",
     "lucide-react": "^0.400.0",
     "moment": "^2.30.1",
     "next": "^14.2.4",
     "next-themes": "^0.3.0",
     "next-transpile-modules": "^10.0.1",
+    "openai": "^4.37.1",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^4.5.136",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
@@ -67,7 +73,6 @@
   "devDependencies": {
     "drizzle-kit": "^0.22.7",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "5.5.3"
+    "tailwindcss": "^3.4.1"
   }
 }

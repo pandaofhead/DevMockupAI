@@ -28,6 +28,7 @@ export const Resume = pgTable("Resume", {
   resumeId: varchar("resumeId").notNull(),
   resumeTitle: varchar("resumeTitle").notNull(),
   jobDesc: text("jobDesc").notNull(),
+  resumeText: text("resumeText").notNull(),
   createdBy: varchar("createdBy").notNull(),
   createdAt: varchar("createdAt").notNull(),
 });
