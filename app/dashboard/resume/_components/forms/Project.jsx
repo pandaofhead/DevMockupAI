@@ -1,159 +1,157 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import React, { useContext, useEffect, useState } from "react";
 import RichTextEditor from "../RichTextEditor";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
-import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
 
-const formField = {
-  title: "",
-  startDate: "",
-  endDate: "",
-  workSummary: "",
-};
-function Project() {
-  const [experinceList, setExperinceList] = useState([]);
+function Project({ params, errors = [] }) {
+  const [projectList, setProjectList] = useState([]);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    resumeInfo?.experience.length > 0 &&
-      setExperinceList(resumeInfo?.experience);
+    resumeInfo?.projects?.length > 0 && setProjectList(resumeInfo.projects);
   }, []);
 
   const handleChange = (index, event) => {
-    const newEntries = experinceList.slice();
+    const newEntries = projectList.slice();
     const { name, value } = event.target;
     newEntries[index][name] = value;
-    console.log(newEntries);
-    setExperinceList(newEntries);
+    setProjectList(newEntries);
   };
 
-  const AddNewExperience = () => {
-    setExperinceList([
-      ...experinceList,
+  const handleCheckbox = (index, checked) => {
+    const newEntries = projectList.slice();
+    newEntries[index].currentlyWorking = checked;
+    if (checked) {
+      newEntries[index].endDate = '';
+    }
+    setProjectList(newEntries);
+  };
+
+  const handleRichTextEditor = (value, index) => {
+    const newEntries = projectList.slice();
+    newEntries[index].workSummary = value;
+    setProjectList(newEntries);
+  };
+
+  const AddNewProject = () => {
+    setProjectList([
+      ...projectList,
       {
         title: "",
-        companyName: "",
-        city: "",
-        state: "",
         startDate: "",
         endDate: "",
-        worksummary: "",
+        currentlyWorking: false,
+        workSummary: "",
       },
     ]);
   };
 
-  const RemoveExperience = () => {
-    setExperinceList((experinceList) => experinceList.slice(0, -1));
-  };
-
-  const handleRichTextEditor = (e, name, index) => {
-    const newEntries = experinceList.slice();
-    newEntries[index][name] = e.target.value;
-
-    setExperinceList(newEntries);
+  const RemoveProject = () => {
+    setProjectList((list) => list.slice(0, -1));
   };
 
   useEffect(() => {
-    setResumeInfo({
-      ...resumeInfo,
-      Experience: experinceList,
-    });
-  }, [experinceList]);
+    setResumeInfo(prev => ({
+      ...prev,
+      projects: projectList,
+    }));
+  }, [projectList]);
 
-  const onSave = () => {
-    setLoading(true);
-    const data = {
-      data: {
-        Experience: experinceList.map(({ id, ...rest }) => rest),
-      },
-    };
-
-    console.log(experinceList);
-
-    // GlobalApi.UpdateResumeDetail(params?.resumeId, data).then(
-    //   (res) => {
-    //     console.log(res);
-    //     setLoading(false);
-    //     toast("Details updated !");
-    //   },
-    //   (error) => {
-    //     setLoading(false);
-    //   }
-    // );
-  };
   return (
-    <div>
-      <div className="p-5 rounded-lg dark:border-2 dark:border-white">
-        <h2 className="font-bold text-lg">Project</h2>
-        <div>
-          {experinceList.map((item, index) => (
-            <div key={index}>
-              <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
-                <div>
-                  <label className="text-xs">Project Title</label>
-                  <Input
-                    name="title"
-                    onChange={(event) => handleChange(index, event)}
-                    defaultValue={item?.title}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs">Start Date</label>
-                  <Input
-                    type="month"
-                    name="startDate"
-                    onChange={(event) => handleChange(index, event)}
-                    defaultValue={item?.startDate}
-                  />
-                </div>
-                <div>
-                  <label className="text-xs">End Date</label>
+    <div className="p-5 rounded-lg dark:border-2 dark:border-white">
+      <h2 className="font-bold text-lg">Projects</h2>
+      <div>
+        {projectList.map((item, index) => (
+          <div key={index}>
+            <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
+              <div className="col-span-2">
+                <label className="text-xs">Project Title</label>
+                <Input
+                  name="title"
+                  onChange={(event) => handleChange(index, event)}
+                  defaultValue={item?.title}
+                  className={errors[index]?.title ? "border-red-500" : ""}
+                />
+                {errors[index]?.title && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].title}</p>
+                )}
+              </div>
+              <div>
+                <label className="text-xs">Start Date</label>
+                <Input
+                  type="month"
+                  name="startDate"
+                  onChange={(event) => handleChange(index, event)}
+                  defaultValue={item?.startDate}
+                  className={errors[index]?.startDate ? "border-red-500" : ""}
+                />
+                {errors[index]?.startDate && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].startDate}</p>
+                )}
+              </div>
+              <div>
+                <label className="text-xs">End Date</label>
+                <div className="space-y-2">
                   <Input
                     type="month"
                     name="endDate"
                     onChange={(event) => handleChange(index, event)}
                     defaultValue={item?.endDate}
+                    disabled={item.currentlyWorking}
+                    className={errors[index]?.endDate ? "border-red-500" : ""}
                   />
-                </div>
-                <div className="col-span-2">
-                  {/* Work summary  */}
-                  <RichTextEditor
-                    index={index}
-                    defaultValue={item?.worksummary}
-                    onRichTextEditorChange={(event) =>
-                      handleRichTextEditor(event, "worksummary", index)
-                    }
-                  />
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`currently-working-${index}`}
+                      checked={item.currentlyWorking}
+                      onCheckedChange={(checked) => handleCheckbox(index, checked)}
+                    />
+                    <label
+                      htmlFor={`currently-working-${index}`}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Currently Working
+                    </label>
+                  </div>
+                  {errors[index]?.endDate && (
+                    <p className="text-sm text-red-500">{errors[index].endDate}</p>
+                  )}
                 </div>
               </div>
+              <div className="col-span-2">
+                <label className="text-xs mb-2 block">Project Description</label>
+                <RichTextEditor
+                  index={index}
+                  defaultValue={item?.workSummary}
+                  onRichTextEditorChange={(value) => handleRichTextEditor(value, index)}
+                />
+                {errors[index]?.workSummary && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].workSummary}</p>
+                )}
+              </div>
             </div>
-          ))}
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={AddNewExperience}
-              className="text-primary"
-            >
-              {" "}
-              + Add More Experience
-            </Button>
-            <Button
-              variant="outline"
-              onClick={RemoveExperience}
-              className="text-primary"
-            >
-              {" "}
-              - Remove
-            </Button>
           </div>
-          <Button disabled={loading} onClick={() => onSave()}>
-            {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
+        ))}
+      </div>
+      <div className="flex justify-between">
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={AddNewProject}
+            className="text-primary"
+          >
+            + Add More Project
+          </Button>
+          <Button
+            variant="outline"
+            onClick={RemoveProject}
+            className="text-primary"
+            disabled={projectList.length <= 1}
+          >
+            - Remove
           </Button>
         </div>
       </div>

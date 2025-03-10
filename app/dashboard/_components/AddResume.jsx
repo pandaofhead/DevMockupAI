@@ -17,6 +17,8 @@ import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { Resume } from "@/utils/schema";
+import { eq } from "drizzle-orm";
+import { toast } from "sonner";
 
 function AddResume() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -28,30 +30,66 @@ function AddResume() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    // Insert data into the database
-    const resp = await db
-      .insert(Resume)
-      .values({
-        resumeId: uuidv4(),
-        resumeTitle: resumeTitle,
-        jobDesc: jobDesc,
-        resumeText: resumeText,
-        createdBy: user?.primaryEmailAddress?.emailAddress,
-        createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
-      })
-      .returning({ resumeId: Resume.resumeId });
-    if (resp) {
-      setOpenDialog(false);
-      router.push("/dashboard/resume/" + resp[0]?.resumeId + "/chat");
+    
+    if (!user?.primaryEmailAddress?.emailAddress) {
+      toast.error('User email not found. Please ensure you are logged in.');
+      return;
     }
 
-    setLoading(false);
+    if (!resumeTitle || !jobDesc) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      // First, get the default resume data
+      const defaultResume = await db
+        .select()
+        .from(Resume)
+        .where(eq(Resume.isDefault, true))
+        .then((res) => res[0]);
+
+      if (!defaultResume) {
+        toast.error("No default resume found. Please create a default resume first.");
+        router.push("/dashboard/resume/new");
+        return;
+      }
+
+      const defaultSections = JSON.parse(defaultResume.resumeSections);
+      const resumeId = uuidv4();
+
+      // Create new resume with default data but keep the new title
+      const resumeData = {
+        resumeId: resumeId,
+        resumeTitle: resumeTitle.trim(),
+        jobDesc: jobDesc.trim(),
+        resumeText: "",
+        resumeSections: JSON.stringify({
+          ...defaultSections,
+          resumeTitle: resumeTitle.trim() // Add the title to sections as well
+        }),
+        createdBy: user.primaryEmailAddress.emailAddress,
+        createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+        isDefault: false,
+      };
+
+      await db.insert(Resume).values(resumeData);
+      setOpenDialog(false);
+      router.push(`/dashboard/resume/${resumeId}/edit?title=${encodeURIComponent(resumeTitle.trim())}`);
+      toast.success("Resume created successfully!");
+    } catch (error) {
+      console.error('Error creating resume:', error);
+      toast.error(error.message || 'Failed to create resume');
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div>
       <div
-        className="p-10 border rounded-md bg-secondary hover:scale-105 hover: shadow-md cursor-pointer transition-all flex items-center justify-center"
+        className="p-10 border rounded-md bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all flex items-center justify-center"
         onClick={() => setOpenDialog(true)}
       >
         <h2 className="font-bold text-lg text-white text-center">
@@ -59,53 +97,51 @@ function AddResume() {
         </h2>
       </div>
 
-      <Dialog open={openDialog}>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-xl">
           <DialogHeader>
             <DialogTitle className="text-2xl">Create New Resume</DialogTitle>
             <DialogDescription>
               <form onSubmit={onSubmit}>
-                <div>
-                  <p className="font-semibold mb-2">
-                    Add a title for your new resume
-                  </p>
-                  <Input
-                    className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
-                    placeholder="Ex.Full Stack resume"
-                    required
-                    onChange={(e) => setResumeTitle(e.target.value)}
-                  />
-                  <div className="my-3">
+                <div className="space-y-4">
+                  <div>
                     <p className="font-semibold mb-2">
-                      Add the job description or enter a job URL
+                      Add a title for your new resume
+                    </p>
+                    <Input
+                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
+                      placeholder="Ex. Full Stack Resume"
+                      required
+                      value={resumeTitle}
+                      onChange={(e) => setResumeTitle(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <p className="font-semibold mb-2">
+                      Add the job description
                     </p>
                     <Textarea
                       className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
-                      placeholder="Ex. https://www.linkedin.com/jobs/view/..."
+                      placeholder="Paste the job description here..."
                       required
-                      maxLength={150}
+                      value={jobDesc}
                       onChange={(e) => setJobDesc(e.target.value)}
                     />
                   </div>
-                  <div className="my-3">
-                    <p className="font-semibold mb-2">
-                      Upload your resume file
-                    </p>
-                    <Input
-                      id="resume"
-                      type="file"
-                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
-                      required
-                    />
-                  </div>
                 </div>
-                <div className="flex justify-end gap-5">
-                  <Button onClick={() => setOpenDialog(false)} variant="ghost">
+
+                <div className="flex justify-end gap-5 mt-6">
+                  <Button 
+                    type="button" 
+                    onClick={() => setOpenDialog(false)} 
+                    variant="ghost"
+                  >
                     Cancel
                   </Button>
                   <Button
-                    disabled={!resumeTitle || !jobDesc || loading}
-                    onClick={() => onCreate()}
+                    type="submit"
+                    disabled={loading || !resumeTitle || !jobDesc}
                   >
                     {loading ? <Loader2 className="animate-spin" /> : "Create"}
                   </Button>

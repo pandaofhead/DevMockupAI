@@ -1,0 +1,57 @@
+---
+description: Define your project features and workflows.
+globs: 
+alwaysApply: false
+---
+You are developing a web application that uses AI to help users in tech industry with resumes modifications, intererview preperations and result analysis.
+
+## Features
+### Resumes Modification
+- New user will be naviagted to "Create default resume", for now users can mannually add their default resume.
+- Once user saves default resume, it will be shown under "Your Resumes" as the first item.
+- User click add new reusme and input information(resume name and job descriptions), then click create.
+- Navigate to resume editing page, same interface as default resume page, but now with "Generate with AI" button on each experience and project section.
+- Click save and export will export PDF, and present this resume's editing entrance under "Your resumes" allowing users keep editing and exporting this reusme.
+
+### Intererview Preperation
+- User click add new interview and input information(job title, job description, experience and number of questions), then click start.
+- Navigate to interview page, and asks user to enable web cam and microphone. Click "start interview".
+- Left side is user real-time video, allows user to start/stop recording and go to next/previous question, right side presents interview question the user chooses.
+- click "end interview", navigate to feedback section where displays interview feedback.
+
+### Result Analysis
+- Based on resumes and interview feedbacks, summarize user's resume types(frontend/backend/full satck developers), tech stack frequency, and interview performance.
+
+## Tech Stacks
+### Frontend Framework
+- Next.js 14 (with React 18)
+- TypeScript support
+- Tailwind CSS for styling
+### UI Components & Design
+- Shadcn UI (based on the components.json and Radix UI dependencies)
+- Radix UI primitives (multiple components like Dialog, Dropdown, etc.)
+- Framer Motion for animations
+- Various UI libraries:
+    react-joyride for guided tours
+    react-resizable-panels
+    sonner for toast notifications
+    react-webcam for camera integration
+### Authentication & Authorization
+- Clerk (@clerk/nextjs) for authentication
+### Database & ORM
+- NeonDB (@neondatabase/serverless) - Serverless Postgres database
+- Drizzle ORM for database operations
+- Drizzle Kit for database migrations and management
+### AI & Machine Learning
+- OpenAI integration
+- Google's Generative AI
+- LangChain for AI operations
+- PDF parsing capabilities (pdf-parse, pdfjs-dist)
+### Data Visualization
+- Recharts for charts
+- react-flow-renderer for flow diagrams
+- D3.js support
+
+There might be minor changes in tech stacks during development, but the main idea stays the same. 
+
+

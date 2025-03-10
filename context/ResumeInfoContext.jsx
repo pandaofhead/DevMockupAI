@@ -1,6 +1,18 @@
 "use client";
-import { createContext, useState, useEffect } from "react";
+import { createContext } from "react";
 
-
-export const ResumeInfoContext = createContext();
-
+export const ResumeInfoContext = createContext({
+  resumeInfo: {
+    firstName: "",
+    lastName: "",
+    jobTitle: "",
+    address: "",
+    phone: "",
+    email: "",
+    education: [],
+    experience: [],
+    projects: [],
+    skills: []
+  },
+  setResumeInfo: () => {}
+});

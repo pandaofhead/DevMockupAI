@@ -26,21 +26,6 @@ function Header() {
       label: <a href="/dashboard/notifications">Notifications</a>,
     },
   ];
-
-  const faqsItems = [
-    {
-      key: "1",
-      label: <a href="/faqs">General</a>,
-    },
-    {
-      key: "2",
-      label: <a href="/faqs">Technical</a>,
-    },
-    {
-      key: "3",
-      label: <a href="/faqs">Behavioral</a>,
-    },
-  ];
   const path = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -111,28 +96,19 @@ function Header() {
         </li>
 
         <li>
-          <Dropdown
-            menu={{
-              items: faqsItems,
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Link
-                href="/faqs"
-                className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
+          <a onClick={(e) => e.preventDefault()}>
+            <Link
+              href="/faqs"
+              className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
                 ${
                   path === "/faqs" || path.startsWith("/faqs")
                     ? "text-primary font-bold "
                     : ""
                 }`}
-              >
-                <Space>
-                  FAQs
-                  <ChevronDown />
-                </Space>
-              </Link>
-            </a>
-          </Dropdown>
+            >
+              FAQs
+            </Link>
+          </a>
         </li>
 
         <li>

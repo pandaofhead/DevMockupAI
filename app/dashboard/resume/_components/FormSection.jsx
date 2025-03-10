@@ -1,64 +1,125 @@
 "use client";
-import React, { useState } from "react";
-import PersonalDetail from "./forms/PersonalDetail";
+import React, { useContext, useState, useEffect } from "react";
+import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, NotepadText, LayoutGrid } from "lucide-react";
-import Experience from "./forms/Experience";
-import Education from "./forms/Education";
-import Skills from "./forms/Skills";
-import Project from "./forms/Project";
+import { ArrowLeft, ArrowRight, NotepadText } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Tooltip } from "antd";
+import { Input, message } from "antd";
+import { OpenAI } from 'openai';
+
+const { TextArea } = Input;
+
 function FormSection({ resumeId }) {
-  const [activeFormIndex, setActiveFormIndex] = useState(1);
-  const [enableNext, setEnableNext] = useState(true);
-  const router = useRouter();
-  // : activeFormIndex == 5 ? (
-  //   <Navigate to={"/my-resume/" + resumeId + "/view"} />
-  // )
+  const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Fetch resume data when component mounts
+    const fetchResumeData = async () => {
+      try {
+        const response = await fetch(`/api/resume/${resumeId}`);
+        const data = await response.json();
+        
+        if (response.ok && data.resume) {
+          setResumeInfo({
+            ...data.resume,
+            ...JSON.parse(data.resume.resumeSections)
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching resume:', error);
+        message.error('Failed to load resume data');
+      }
+    };
+
+    if (resumeId) {
+      fetchResumeData();
+    }
+  }, [resumeId]);
+
+  const handleSectionChange = (section, value) => {
+    setResumeInfo(prev => ({
+      ...prev,
+      [section]: value
+    }));
+  };
+
+  const improveSection = async (section) => {
+    try {
+      setLoading(true);
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: `You are a professional resume writer. Improve the following ${section} section while maintaining the core information and facts. Make it more impactful and professional.`
+          },
+          {
+            role: "user",
+            content: resumeInfo[section]
+          }
+        ],
+      });
+
+      const improvedContent = response.choices[0].message.content;
+      handleSectionChange(section, improvedContent);
+      message.success(`${section} section improved!`);
+    } catch (error) {
+      console.error('Error improving section:', error);
+      message.error('Failed to improve section. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sections = [
+    'contact',
+    'summary',
+    'experience',
+    'education',
+    'skills',
+    'projects'
+  ];
+
   return (
     <div>
-      <div className="flex justify-between items-center mx-4">
-        <div className="flex gap-5">
-          <Link href={"/dashboard/resume"}>
-            <Tooltip title="Resumes">
-              <Button>
-                <NotepadText />
-              </Button>
-            </Tooltip>
-          </Link>
-        </div>
-        <div className="flex gap-2">
-          {activeFormIndex > 1 && (
-            <Button onClick={() => setActiveFormIndex(activeFormIndex - 1)}>
-              {" "}
-              <ArrowLeft />{" "}
+      <div className="flex justify-between items-center mx-4 mb-6">
+        <Link href="/dashboard/resume">
+          <Tooltip title="Back to Resumes">
+            <Button>
+              <ArrowLeft className="mr-2" />
+              Back
             </Button>
-          )}
-          <Button
-            disabled={!enableNext}
-            className="flex gap-2"
-            onClick={() => setActiveFormIndex(activeFormIndex + 1)}
-          >
-            {" "}
-            Next
-            <ArrowRight />{" "}
-          </Button>
-        </div>
+          </Tooltip>
+        </Link>
       </div>
-      {/* Personal Detail  */}
-      {activeFormIndex == 1 ? (
-        <PersonalDetail enabledNext={(v) => setEnableNext(v)} />
-      ) : activeFormIndex == 2 ? (
-        <Education enabledNext={(v) => setEnableNext(v)} />
-      ) : activeFormIndex == 3 ? (
-        <Skills />
-      ) : activeFormIndex == 4 ? (
-        <Experience />
-      ) : activeFormIndex == 5 ? (
-        <Project />
-      ) : null}
+
+      <div className="p-6 space-y-6">
+        {sections.map(section => (
+          <div key={section} className="space-y-2">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold capitalize">{section}</h3>
+              <Button 
+                onClick={() => improveSection(section)}
+                disabled={loading}
+              >
+                Improve with AI
+              </Button>
+            </div>
+            <TextArea
+              value={resumeInfo[section]}
+              onChange={(e) => handleSectionChange(section, e.target.value)}
+              rows={4}
+              placeholder={`Enter your ${section} information`}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

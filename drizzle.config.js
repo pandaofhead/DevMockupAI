@@ -1,5 +1,7 @@
 /** @type { import("drizzle-kit").Config } */
-export default {
+require('dotenv').config({ path: '.env.local' });
+
+module.exports = {
   schema: "./utils/schema.js",
   dialect: "postgresql",
   dbCredentials: {

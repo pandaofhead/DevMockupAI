@@ -17,7 +17,7 @@ export default function Home() {
 
         <ReactTyped
           className="text-4xl font-bold mb-20 text-secondary "
-          strings={["Customize your resume and interviews with AI"]}
+          strings={["Customize resume and interviews with AI"]}
           typeSpeed={40}
         />
         <Link href="/dashboard/resume">
@@ -50,8 +50,8 @@ export default function Home() {
 
       <section className="flex flex-col justify-center items-center py-12 bg-white h-auto dark:bg-slate-800">
         <div className="max-w-6xl text-center ">
-          <h2 className="text-3xl text-white font-bold mb-20">
-            What can DevMockupAI do?
+          <h2 className="text-3xl dark:text-white font-bold mb-20">
+            What can we do?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-8 sm:mx-auto">
             <div className="p-6 rounded-lg shadow-md bg-pink-200 group hover:scale-105 dark:bg-slate-700">
@@ -145,9 +145,9 @@ export default function Home() {
               </AccordionItem>
             </Accordion>
 
-            <Link href="/faqs" className="justify-center mt-4 flex">
+            <Link href="/dashboard" className="justify-center mt-4 flex">
               <button className="mt-4 px-6 py-3 bg-primary text-white rounded-full hover:scale-110 hover: shadow-md cursor-pointer transition-all">
-                View All Questions
+                Get Started
               </button>
             </Link>
           </div>

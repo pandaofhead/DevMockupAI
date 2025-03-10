@@ -131,7 +131,7 @@ function Contact() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="usage">Usage</SelectItem>
-              <SelectItem value="technical">Technical</SelectItem>
+              <SelectItem value="technical">Technical Issues</SelectItem>
               <SelectItem value="Account">Account</SelectItem>
               <SelectItem value="others">Others</SelectItem>
             </SelectContent>

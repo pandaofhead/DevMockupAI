@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import React, { useContext, useEffect, useState } from "react";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { LoaderCircle } from "lucide-react";
@@ -8,7 +9,8 @@ import { ResumeExperience } from "@/utils/schema";
 import moment from "moment";
 import RichTextEditor from "../RichTextEditor";
 import { toast } from "sonner";
-function Experience({ params }) {
+
+function Experience({ params, errors = [] }) {
   const [experienceList, setExperienceList] = useState([]);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
   const [loading, setLoading] = useState(false);
@@ -23,13 +25,27 @@ function Experience({ params }) {
     const newEntries = experienceList.slice();
     const { name, value } = event.target;
     newEntries[index][name] = value;
-    console.log(newEntries);
+    setExperienceList(newEntries);
+  };
+
+  const handleCheckbox = (index, checked) => {
+    const newEntries = experienceList.slice();
+    newEntries[index].currentlyWorking = checked;
+    if (checked) {
+      newEntries[index].endDate = "";
+    }
     setExperienceList(newEntries);
   };
 
   const handleRichTextEditor = (value, index) => {
+    console.log("Updating work summary:", { index, value });
     const newEntries = experienceList.slice();
-    newEntries[index].workSummary = value;
+    // Ensure we're storing a string value
+    const sanitizedValue = typeof value === 'string' ? value : '';
+    newEntries[index] = {
+      ...newEntries[index],
+      workSummary: sanitizedValue
+    };
     setExperienceList(newEntries);
   };
 
@@ -43,6 +59,7 @@ function Experience({ params }) {
         state: "",
         startDate: "",
         endDate: "",
+        currentlyWorking: false,
         workSummary: "",
       },
     ]);
@@ -53,10 +70,11 @@ function Experience({ params }) {
   };
 
   useEffect(() => {
-    setResumeInfo({
-      ...resumeInfo,
+    console.log("Experience list updated:", experienceList);
+    setResumeInfo(prev => ({
+      ...prev,
       experience: experienceList,
-    });
+    }));
   }, [experienceList]);
 
   const onSave = async () => {
@@ -100,7 +118,13 @@ function Experience({ params }) {
                     name="title"
                     onChange={(event) => handleChange(index, event)}
                     defaultValue={item?.title}
+                    className={errors[index]?.title ? "border-red-500" : ""}
                   />
+                  {errors[index]?.title && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors[index].title}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="text-xs">Company Name</label>
@@ -108,7 +132,15 @@ function Experience({ params }) {
                     name="companyName"
                     onChange={(event) => handleChange(index, event)}
                     defaultValue={item?.companyName}
+                    className={
+                      errors[index]?.companyName ? "border-red-500" : ""
+                    }
                   />
+                  {errors[index]?.companyName && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors[index].companyName}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="text-xs">City</label>
@@ -133,26 +165,61 @@ function Experience({ params }) {
                     name="startDate"
                     onChange={(event) => handleChange(index, event)}
                     defaultValue={item?.startDate}
+                    className={errors[index]?.startDate ? "border-red-500" : ""}
                   />
+                  {errors[index]?.startDate && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors[index].startDate}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="text-xs">End Date</label>
-                  <Input
-                    type="month"
-                    name="endDate"
-                    onChange={(event) => handleChange(index, event)}
-                    defaultValue={item?.endDate}
-                  />
+                  <div className="space-y-2">
+                    <Input
+                      type="month"
+                      name="endDate"
+                      onChange={(event) => handleChange(index, event)}
+                      defaultValue={item?.endDate}
+                      disabled={item.currentlyWorking}
+                      className={errors[index]?.endDate ? "border-red-500" : ""}
+                    />
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`currently-working-${index}`}
+                        checked={item.currentlyWorking}
+                        onCheckedChange={(checked) =>
+                          handleCheckbox(index, checked)
+                        }
+                      />
+                      <label
+                        htmlFor={`currently-working-${index}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Currently Working
+                      </label>
+                    </div>
+                    {errors[index]?.endDate && (
+                      <p className="text-sm text-red-500">
+                        {errors[index].endDate}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="col-span-2">
-                  {/* Work Summary  */}
+                  <label className="text-xs mb-2 block">Work Summary</label>
                   <RichTextEditor
                     index={index}
                     defaultValue={item?.workSummary}
-                    onRichTextEditorChange={(event) =>
-                      handleRichTextEditor(event, "workSummary", index)
+                    onRichTextEditorChange={(value) =>
+                      handleRichTextEditor(value, index)
                     }
                   />
+                  {errors[index]?.workSummary && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors[index].workSummary}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -165,21 +232,17 @@ function Experience({ params }) {
               onClick={AddNewExperience}
               className="text-primary"
             >
-              {" "}
               + Add More Experience
             </Button>
             <Button
               variant="outline"
               onClick={RemoveExperience}
               className="text-primary"
+              disabled={experienceList.length <= 1}
             >
-              {" "}
               - Remove
             </Button>
           </div>
-          <Button disabled={loading} onClick={() => onSave()}>
-            {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
-          </Button>
         </div>
       </div>
     </div>

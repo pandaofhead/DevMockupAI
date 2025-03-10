@@ -1,4 +1,10 @@
-const FormatName = (name) => {
+const FormatName = (input) => {
+  // If input is an object with email property, use that
+  const name = typeof input === 'object' && input.email ? input.email : String(input || '');
+  
+  // If empty string, return it
+  if (!name) return '';
+
   return name
     .toLowerCase()
     .split(" ")

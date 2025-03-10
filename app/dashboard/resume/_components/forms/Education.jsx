@@ -9,7 +9,8 @@ import { db } from "@/utils/db";
 import { toast } from "sonner";
 import { ResumeEducation } from "@/utils/schema";
 import moment from "moment";
-function Education({ params }) {
+
+function Education({ params, errors = [] }) {
   const [loading, setLoading] = useState(false);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
   const [educationalList, setEducationalList] = useState([
@@ -26,6 +27,7 @@ function Education({ params }) {
   useEffect(() => {
     resumeInfo && setEducationalList(resumeInfo?.education);
   }, []);
+
   const handleChange = (event, index) => {
     const newEntries = educationalList.slice();
     const { name, value } = event.target;
@@ -46,6 +48,7 @@ function Education({ params }) {
       },
     ]);
   };
+
   const RemoveEducation = () => {
     setEducationalList((educationalList) => educationalList.slice(0, -1));
   };
@@ -89,12 +92,13 @@ function Education({ params }) {
       education: educationalList,
     });
   }, [educationalList]);
+
   return (
     <div className="p-5 rounded-lg mt-2">
       <h2 className="font-bold text-lg">Education</h2>
       <div>
         {educationalList.map((item, index) => (
-          <div>
+          <div key={index}>
             <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
               <div className="col-span-2">
                 <label>University Name</label>
@@ -102,7 +106,11 @@ function Education({ params }) {
                   name="universityName"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.universityName}
+                  className={errors[index]?.universityName ? "border-red-500" : ""}
                 />
+                {errors[index]?.universityName && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].universityName}</p>
+                )}
               </div>
               <div>
                 <label>Degree</label>
@@ -110,7 +118,11 @@ function Education({ params }) {
                   name="degree"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.degree}
+                  className={errors[index]?.degree ? "border-red-500" : ""}
                 />
+                {errors[index]?.degree && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].degree}</p>
+                )}
               </div>
               <div>
                 <label>Major</label>
@@ -118,7 +130,11 @@ function Education({ params }) {
                   name="major"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.major}
+                  className={errors[index]?.major ? "border-red-500" : ""}
                 />
+                {errors[index]?.major && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].major}</p>
+                )}
               </div>
               <div>
                 <label>Start Date</label>
@@ -127,7 +143,11 @@ function Education({ params }) {
                   name="startDate"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.startDate}
+                  className={errors[index]?.startDate ? "border-red-500" : ""}
                 />
+                {errors[index]?.startDate && (
+                  <p className="text-sm text-red-500 mt-1">{errors[index].startDate}</p>
+                )}
               </div>
               <div>
                 <label>End Date</label>
@@ -139,11 +159,12 @@ function Education({ params }) {
                 />
               </div>
               <div className="col-span-2">
-                <label>Description</label>
+                <label>Description (Optional)</label>
                 <Textarea
                   name="description"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.description}
+                  placeholder="Add any relevant details about your education"
                 />
               </div>
             </div>
@@ -157,21 +178,17 @@ function Education({ params }) {
             onClick={AddNewEducation}
             className="text-primary"
           >
-            {" "}
             + Add More Education
           </Button>
           <Button
             variant="outline"
             onClick={RemoveEducation}
             className="text-primary"
+            disabled={educationalList.length <= 1}
           >
-            {" "}
             - Remove
           </Button>
         </div>
-        <Button disabled={loading} onClick={() => onSave()}>
-          {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
-        </Button>
       </div>
     </div>
   );

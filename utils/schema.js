@@ -1,4 +1,4 @@
-import { pgTable, varchar, serial, text, boolean } from "drizzle-orm/pg-core";
+import { pgTable, varchar, serial, text, boolean, timestamp } from "drizzle-orm/pg-core";
 
 export const MockInterview = pgTable("mockInterview", {
   id: serial("id").primaryKey(),
@@ -23,14 +23,16 @@ export const UserAnswer = pgTable("userAnswer", {
   createdAt: varchar("createdAt"),
 });
 
-export const Resume = pgTable("Resume", {
-  id: serial("id").primaryKey(),
-  resumeId: varchar("resumeId").notNull(),
-  resumeTitle: varchar("resumeTitle").notNull(),
-  jobDesc: text("jobDesc").notNull(),
-  resumeText: text("resumeText").notNull(),
-  createdBy: varchar("createdBy").notNull(),
-  createdAt: varchar("createdAt").notNull(),
+export const Resume = pgTable("resumes", {
+  id: serial("id"),
+  resumeId: varchar("resume_id").primaryKey(),
+  resumeTitle: varchar("resume_title").notNull(),
+  jobDesc: text("job_desc"),
+  resumeText: text("resume_text"),
+  resumeSections: text("resume_sections").notNull(),
+  createdBy: varchar("created_by").notNull(),
+  createdAt: varchar("created_at").notNull(),
+  isDefault: boolean("is_default").default(false),
 });
 
 export const ResumePersonal = pgTable("resumePersonal", {
@@ -38,7 +40,7 @@ export const ResumePersonal = pgTable("resumePersonal", {
   resumeIdRef: varchar("resumeId").notNull(),
   firstName: varchar("firstName").notNull(),
   lastName: varchar("lastName").notNull(),
-  jobTitle: varchar("jobTitle").notNull(),
+  jobTitle: varchar("jobTitle"),
   address: varchar("address").notNull(),
   phone: varchar("phone").notNull(),
   email: varchar("email").notNull(),

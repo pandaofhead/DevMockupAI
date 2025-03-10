@@ -3,7 +3,7 @@
 @tailwind utilities;
 /* Apply the custom font to the body */
 body {
-  font-family: sans-serif;
+  font-family: sans-serif, 'Montserrat';
 }
 .rsw-ce ul {
   list-style: disc;
