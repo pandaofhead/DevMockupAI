@@ -23,7 +23,7 @@ function Header() {
     },
     {
       key: "4",
-      label: <a href="/dashboard/notifications">Notifications</a>,
+      label: <a href="/dashboard/credits">Credits</a>,
     },
   ];
   const path = usePathname();
@@ -109,6 +109,20 @@ function Header() {
               FAQs
             </Link>
           </a>
+        </li>
+
+        <li>
+          <Link
+            href="/pricing"
+            className={`py-2 md:py-0 font-semibold hover:text-primary hover:font-bold transition-all cursor-pointer hover:scale-105 
+                ${
+                  path === "/pricing" || path.startsWith("/pricing")
+                    ? "text-primary font-bold "
+                    : ""
+                }`}
+          >
+            Pricing
+          </Link>
         </li>
 
         <li>

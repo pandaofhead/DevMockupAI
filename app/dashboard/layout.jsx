@@ -17,7 +17,7 @@ function DashboardLayout({ children }) {
     setIsModalOpen(false);
   };
   return (
-    <div className="flex flex-row m-0 bg-white min-h-[768px] dark:bg-slate-700">
+    <div className="flex flex-row m-0 bg-white min-h-[768px] dark:bg-slate-800">
       <Sidebar />
       {children}
       <FloatButton

@@ -1,6 +1,56 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/utils/db';
 import { Resume } from '@/utils/schema';
+import { recordResumeType, recordTechnology } from '@/utils/analytics-helpers';
+
+// Function to detect resume type based on job description and resume content
+function detectResumeType(jobDesc, resumeText) {
+  const text = (jobDesc + ' ' + resumeText).toLowerCase();
+  
+  const frontendKeywords = ['frontend', 'front-end', 'react', 'vue', 'angular', 'javascript', 'css', 'html', 'ui'];
+  const backendKeywords = ['backend', 'back-end', 'server', 'api', 'database', 'node', 'python', 'java', 'php'];
+  const fullstackKeywords = ['fullstack', 'full-stack', 'full stack', 'frontend', 'backend'];
+  
+  // Count matches for each category
+  const frontendScore = frontendKeywords.filter(kw => text.includes(kw)).length;
+  const backendScore = backendKeywords.filter(kw => text.includes(kw)).length;
+  const fullstackScore = fullstackKeywords.filter(kw => text.includes(kw)).length;
+  
+  // Determine type based on highest score (with bias toward fullstack if scores are close)
+  if (fullstackScore >= 2 || (frontendScore > 0 && backendScore > 0)) {
+    return 'Full Stack';
+  }
+  if (frontendScore > backendScore) {
+    return 'Frontend';
+  }
+  if (backendScore > frontendScore) {
+    return 'Backend';
+  }
+  
+  // Default if we can't determine
+  return 'General';
+}
+
+// Function to extract technologies from resume text
+function extractTechnologies(resumeText) {
+  // Common technologies to look for
+  const technologies = [
+    'JavaScript', 'TypeScript', 'React', 'Vue', 'Angular', 'Next.js', 'Svelte',
+    'Node.js', 'Express', 'Django', 'Flask', 'Spring', 'Laravel', 'Ruby on Rails',
+    'Python', 'Java', 'C#', 'PHP', 'Go', 'Rust', 'Swift', 'Kotlin',
+    'MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch', 'Firebase',
+    'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Terraform',
+    'Git', 'GitHub', 'GitLab', 'CI/CD', 'Jenkins', 'GitHub Actions',
+    'HTML', 'CSS', 'Sass', 'Tailwind', 'Bootstrap', 'Material UI'
+  ];
+  
+  const text = resumeText.toLowerCase();
+  const foundTechnologies = technologies.filter(tech => 
+    text.includes(tech.toLowerCase())
+  );
+  
+  return foundTechnologies;
+}
 
 export async function POST(req) {
   try {
@@ -47,6 +97,22 @@ export async function POST(req) {
       .insert(Resume)
       .values(sanitizedData)
       .returning();
+
+    // Record analytics - done after the database operation to not block the response
+    try {
+      // Detect and record resume type
+      const resumeType = detectResumeType(data.job_desc, data.resume_text);
+      recordResumeType({ resumeType }).catch(err => console.error('Analytics error (resume type):', err));
+      
+      // Extract and record technologies
+      const technologies = extractTechnologies(data.resume_text);
+      technologies.forEach(tech => {
+        recordTechnology({ technology: tech }).catch(err => console.error(`Analytics error (tech: ${tech}):`, err));
+      });
+    } catch (analyticsError) {
+      // Log but don't fail the main operation
+      console.error('Error recording analytics:', analyticsError);
+    }
 
     console.log('Database result:', result);  // Debug log
 

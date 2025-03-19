@@ -1,51 +1,41 @@
-import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import { NextResponse } from "next/server";
+import { processResumeData } from "./utils/dataProcessors";
+import { generateHTMLAsPDF, generateDOC, generateSimpleDOC } from "./generators";
 
 export async function POST(req) {
   try {
-    const { html } = await req.json();
+    const { resumeId, format, resumeData } = await req.json();
 
-    if (!html) {
+    if (!resumeData) {
       return NextResponse.json(
-        { error: 'No HTML content provided' },
+        { error: "No resume data provided" },
         { status: 400 }
       );
     }
 
-    // Launch puppeteer
-    const browser = await puppeteer.launch({
-      headless: 'new'
-    });
-    const page = await browser.newPage();
+    // Process and normalize the resume data
+    const processedData = processResumeData(resumeData);
 
-    // Set content and wait for network idle
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-
-    // Generate PDF
-    const buffer = await page.pdf({
-      format: 'A4',
-      margin: {
-        top: '20mm',
-        right: '20mm',
-        bottom: '20mm',
-        left: '20mm'
-      },
-      printBackground: true
-    });
-
-    // Close browser
-    await browser.close();
-
-    // Create response with PDF buffer
-    const response = new NextResponse(buffer);
-    response.headers.set('Content-Type', 'application/pdf');
-    response.headers.set('Content-Disposition', 'attachment; filename=resume.pdf');
-
-    return response;
+    // Generate file based on format
+    if (format === "PDF") {
+      return generateHTMLAsPDF(processedData);
+    } else if (format === "DOC") {
+      try {
+        return await generateDOC(processedData);
+      } catch (error) {
+        console.error("Error with primary DOC generation method:", error);
+        return generateSimpleDOC(processedData);
+      }
+    } else {
+      return NextResponse.json(
+        { error: "Invalid format specified" },
+        { status: 400 }
+      );
+    }
   } catch (error) {
-    console.error('Error in PDF export route:', error);
+    console.error(`Error in resume export route:`, error);
     return NextResponse.json(
-      { error: 'Failed to export PDF' },
+      { error: `Failed to export resume: ${error.message}` },
       { status: 500 }
     );
   }

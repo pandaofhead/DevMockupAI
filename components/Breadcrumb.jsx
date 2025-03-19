@@ -11,7 +11,7 @@ import {
 const Breadcrumb = ({ items }) => {
   return (
     <UiBreadcrumb>
-      <BreadcrumbList className="font-bold text-3xl mb-6">
+      <BreadcrumbList className="font-bold text-lg mb-6">
         {items.map((item, index) => (
           <React.Fragment key={index}>
             <BreadcrumbItem>

@@ -43,6 +43,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "docx": "^9.2.0",
     "drizzle-orm": "^0.31.2",
     "framer-motion": "^11.3.8",
     "html-pdf-node": "^1.0.8",

@@ -9,6 +9,8 @@ import { ReactTyped } from "react-typed";
 import CountUp from "react-countup";
 import Link from "next/link";
 import Workflow from "@/components/Workflow";
+import { motion } from "framer-motion";
+
 export default function Home() {
   return (
     <div>
@@ -20,7 +22,7 @@ export default function Home() {
           strings={["Customize resume and interviews with AI"]}
           typeSpeed={40}
         />
-        <Link href="/dashboard/resume">
+        <Link href="/dashboard">
           <button className="mt-4 px-6 py-3 bg-secondary text-white text-xl rounded-full border-2 hover:scale-110 hover: shadow-md cursor-pointer transition-all">
             Get Started
           </button>
@@ -48,45 +50,132 @@ export default function Home() {
         </div>
       </main>
 
-      <section className="flex flex-col justify-center items-center py-12 bg-white h-auto dark:bg-slate-800">
-        <div className="max-w-6xl text-center ">
-          <h2 className="text-3xl dark:text-white font-bold mb-20">
-            What can we do?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-8 sm:mx-auto">
-            <div className="p-6 rounded-lg shadow-md bg-pink-200 group hover:scale-105 dark:bg-slate-700">
-              <h3 className="text-xl group relative font-semibold mb-4">
-                <span>Automatic resume generation</span>
-                <span className="absolute -bottom-1 left-0 w-0 transition-all h-1 bg-indigo-600 group-hover:w-full duration-300"></span>
-              </h3>
-              <p className="text-lg m-6">
-                Share your knowledge with the community and help others grow.
-              </p>
-            </div>
+      <section className="py-24 bg-white dark:bg-slate-800">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold mb-4 relative inline-block">
+              <span>What can we do?</span>
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
+              Our AI-powered platform helps you stand out in the job market with
+              these key features
+            </p>
+          </motion.div>
 
-            <div className="p-6 bg-pink-200 rounded-lg shadow-md group hover:scale-105 dark:bg-slate-700">
-              <h3 className="text-xl font-semibold mb-4 group relative">
-                <span className="px-1 relative z-10 group-hover:text-white">
-                  Personalized interview preparation
-                </span>
-                <span className="absolute left-0 bottom-0 w-full h-0 transition-all bg-indigo-600 z-0 group-hover:h-full "></span>
-              </h3>
-              <p>
-                Join our community to work alongside like-minded experts in your
-                domain.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-lg group hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-400 to-purple-500"></div>
+              <div className="p-8">
+                <div className="w-16 h-16 mb-6 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-pink-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-4 group-hover:text-pink-500 transition-colors">
+                  Automatic Resume Generation
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-white transition-colors">
+                  Create tailored resumes in seconds by matching your experience
+                  with job requirements.
+                </p>
+              </div>
+              <div className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-t from-pink-500/10 to-transparent group-hover:h-full transition-all duration-300"></div>
+            </motion.div>
 
-            <div className="p-6 bg-pink-200 rounded-lg shadow-md  group hover:scale-105 dark:bg-slate-700">
-              <h3 className="text-xl relative group font-semibold mb-4">
-                <span>AI assistance</span>
-                <span className="absolute -bottom-1 right-0 w-0 transition-all h-1 bg-indigo-600 group-hover:w-full duration-300"></span>
-              </h3>
-              <p>
-                We use AI to help you with your resume and interview
-                preparation.
-              </p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-lg group hover:shadow-xl transition-all duration-300"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+              <div className="p-8">
+                <div className="w-16 h-16 mb-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-blue-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-4 group-hover:text-blue-500 transition-colors">
+                  Personalized Interview Preparation
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-white transition-colors">
+                  Practice with AI-powered mock interviews customized for
+                  specific roles and companies.
+                </p>
+              </div>
+              <div className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-t from-blue-500/10 to-transparent group-hover:h-full transition-all duration-300"></div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-lg group hover:shadow-xl transition-all duration-300"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-teal-500"></div>
+              <div className="p-8">
+                <div className="w-16 h-16 mb-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-green-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-4 group-hover:text-green-500 transition-colors">
+                  AI Assistance
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-white transition-colors">
+                  Get intelligent feedback and suggestions to improve your
+                  application materials and interview skills.
+                </p>
+              </div>
+              <div className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-t from-green-500/10 to-transparent group-hover:h-full transition-all duration-300"></div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -96,61 +185,103 @@ export default function Home() {
       </section>
 
       <section className="pb-20 bg-white dark:bg-slate-800">
-        <div className="max-w-6xl mx-8 md:mx-auto">
-          <h2 className="text-3xl font-bold mb-6 font-custom text-center text-secondary">
-            FAQs
-          </h2>
+        <div className="max-w-3xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold mb-4 text-secondary dark:text-white">
+              Frequently Asked Questions
+            </h2>
+          </motion.div>
 
-          <div className="space-y-4 ">
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
-                  <span className="text-lg font-semibold">
-                    What can I do on DevMockupAI?
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="flex justify-between items-center bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
-                  DevMockupAI can help you with resume generation, interview
-                  preparation, and more. By entering your default resume and job
-                  description, DevMockupAI can generate a resume for you. You
-                  can also practice interviews with AI.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-4"
+          >
+            {[
+              {
+                question: "What is DevMockupAI?",
+                answer:
+                  "DevMockupAI is an AI-powered platform designed to help job seekers optimize their application process. Our tools use advanced AI to create tailored resumes, provide interview practice with realistic feedback, and offer personalized career guidance.",
+              },
+              {
+                question: "How does resume customization work?",
+                answer:
+                  "Our resume customization tool analyzes both your base resume and the job description you're applying for. It then intelligently highlights relevant skills and experiences, reorganizes content for maximum impact, and suggests improvements to match the specific requirements of the position.",
+              },
+              {
+                question: "What types of interview practice do you offer?",
+                answer:
+                  "We offer several interview practice formats: 1) Technical interviews with coding challenges, 2) Behavioral interviews that assess your soft skills, 3) Industry-specific interviews tailored to your field, and 4) Mock interviews that simulate the exact position you're applying for.",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="rounded-lg overflow-hidden"
+              >
+                <Accordion type="single" collapsible>
+                  <AccordionItem
+                    value={`item-${index}`}
+                    className="border-none"
+                  >
+                    <AccordionTrigger
+                      className="
+                        px-6 py-4 
+                        text-left
+                        bg-gray-50 dark:bg-slate-900
+                        hover:bg-gray-100 dark:hover:bg-slate-950
+                        border border-gray-200 dark:border-gray-700
+                        transition-colors
+                        rounded-t-lg
+                        data-[state=open]:rounded-b-none
+                        data-[state=closed]:rounded-lg
+                      "
+                    >
+                      <div className="flex items-center text-secondary dark:text-white">
+                        <span className="text-lg font-medium">
+                          {item.question}
+                        </span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent
+                      className="
+                        px-6 py-4 
+                        text-gray-700 dark:text-gray-300
+                        bg-white dark:bg-slate-800
+                        border-x border-b
+                        border-gray-200 dark:border-gray-700
+                        rounded-b-lg
+                        leading-relaxed
+                      "
+                    >
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </motion.div>
+            ))}
 
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
-                  <span className="text-lg font-semibold">
-                    How to get started?
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
-                  To get started, simply sign up on DevMockupAI and navigate to
-                  Dashboard.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger className=" bg-white p-4 rounded hover:scale-105 hover: shadow-md cursor-pointer transition-all">
-                  <span className="text-lg font-semibold">
-                    Do I need to pay for the services?
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className=" bg-white p-6 rounded shadow-md  text-xl dark:bg-slate-800">
-                  DevMockupAI is free to use, please enjoy the services!
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-
-            <Link href="/dashboard" className="justify-center mt-4 flex">
-              <button className="mt-4 px-6 py-3 bg-primary text-white rounded-full hover:scale-110 hover: shadow-md cursor-pointer transition-all">
-                Get Started
-              </button>
-            </Link>
-          </div>
+            <div className="flex justify-center mt-8">
+              <Link href="/faqs">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  View All FAQs
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

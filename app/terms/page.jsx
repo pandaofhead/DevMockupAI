@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
+import Link from "next/link";
 
 function Terms() {
   const { scrollYProgress } = useScroll();
@@ -11,156 +12,157 @@ function Terms() {
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-700 text-black dark:text-white p-20">
-      <motion.div className="fixed top-16 left-0 right-0 h-4 bg-primary origin-left" style={{ scaleX }} />
+    <div className="min-h-screen bg-white dark:bg-slate-800 text-black dark:text-white">
+      <motion.div 
+        className="fixed top-16 left-0 right-0 h-0.5 bg-secondary origin-left z-50" 
+        style={{ scaleX }} 
+      />
 
-      <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
-      <p className="mb-2">Last updated: 07-15-2024</p>
+      <div className="max-w-3xl mx-auto px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-secondary">
+            Terms of Service
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">Last updated: July 15, 2024</p>
+        </motion.div>
 
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">1. Introduction</h2>
-        <p>
-          Welcome to DevMockupAI! By accessing or using our app, you agree to be
-          bound by these Terms of Service. Please read them carefully.
-        </p>
-      </section>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="space-y-16"
+        >
+          <section className="prose dark:prose-invert max-w-none">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h2 className="text-2xl font-semibold mb-6 text-secondary border-b border-gray-200 dark:border-gray-700 pb-2">
+                1. Introduction
+              </h2>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                Welcome to DevMockupAI ("we," "our," or "us"). By accessing or using our application and services (collectively, the "Services"), you agree to be bound by these Terms of Service ("Terms"). Please read these Terms carefully before using our Services.
+              </p>
+            </motion.div>
 
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">2. Acceptance of Terms</h2>
-        <p>
-          By using DevMockupAI, you confirm that you are at least 18 years old
-          and have the legal capacity to enter into these terms. If you do not
-          agree with these terms, please do not use our app.
-        </p>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h2 className="text-2xl font-semibold mb-6 text-secondary border-b border-gray-200 dark:border-gray-700 pb-2">
+                2. Data Protection and Privacy
+              </h2>
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  2.1. We process personal data in accordance with our Privacy Policy and applicable data protection laws, including but not limited to the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA).
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  2.2. By using our Services, you acknowledge that your personal data will be processed as described in our Privacy Policy.
+                </p>
+              </div>
+            </motion.div>
 
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">3. User Accounts</h2>
-        <p>
-          To use certain features of our app, you must create an account. You
-          are responsible for maintaining the confidentiality of your account
-          information and for all activities that occur under your account.
-        </p>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h2 className="text-2xl font-semibold mb-6 text-secondary border-b border-gray-200 dark:border-gray-700 pb-2">
+                3. Intellectual Property Rights
+              </h2>
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  3.1. Our Services and all related content, features, and functionality are owned by DevMockupAI and are protected by international copyright, trademark, and other intellectual property laws.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  3.2. You retain ownership of any content you submit through our Services. By submitting content, you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, and display such content solely for the purpose of providing and improving our Services.
+                </p>
+              </div>
+            </motion.div>
 
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">4. User Content</h2>
-        <p>
-          "User Content" refers to any videos, resumes, or other materials you
-          upload or submit to our app. You retain all rights to your User
-          Content. By submitting User Content, you grant DevMockupAI a
-          worldwide, non-exclusive, royalty-free license to use, display, and
-          distribute your content in connection with the operation of the app.
-        </p>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h2 className="text-2xl font-semibold mb-6 text-secondary border-b border-gray-200 dark:border-gray-700 pb-2">
+                4. AI-Generated Content
+              </h2>
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  4.1. Our Services utilize artificial intelligence to generate content. While we strive to provide accurate and helpful content, we make no warranties about the accuracy, reliability, or completeness of AI-generated content.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  4.2. You are responsible for reviewing and verifying any AI-generated content before use. We are not liable for any consequences resulting from your use of AI-generated content.
+                </p>
+              </div>
+            </motion.div>
 
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">5. Content License</h2>
-        <p>
-          By submitting User Content, you grant us the right to use, modify, and
-          display your content within the app and for promotional purposes. We
-          will not sell your User Content to third parties.
-        </p>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h2 className="text-2xl font-semibold mb-6 text-secondary border-b border-gray-200 dark:border-gray-700 pb-2">
+                5. Limitation of Liability
+              </h2>
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  5.1. To the maximum extent permitted by law, DevMockupAI and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  5.2. Our total liability for any claims arising under these Terms shall not exceed the amount you paid for our Services in the 12 months preceding the claim.
+                </p>
+              </div>
+            </motion.div>
 
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">6. Privacy</h2>
-        <p>
-          We are committed to protecting your privacy. Please refer to our{" "}
-          <a
-            href="[link to privacy policy]"
-            className="text-blue-500 dark:text-blue-300"
-          >
-            Privacy Policy
-          </a>{" "}
-          for information on how we collect, use, and disclose your personal
-          information.
-        </p>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">
-          7. Prohibited Activities
-        </h2>
-        <p>
-          You agree not to engage in any of the following prohibited activities:
-        </p>
-        <ul className="list-disc list-inside">
-          <li>
-            Posting any content that is unlawful, harmful, or infringes on the
-            rights of others.
-          </li>
-          <li>Using the app for any fraudulent or malicious activities.</li>
-          <li>Harassing or abusing other users.</li>
-        </ul>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">
-          8. Intellectual Property
-        </h2>
-        <p>
-          All content and materials available on DevMockupAI, excluding User
-          Content, are the property of DevMockupAI and are protected by
-          copyright, trademark, and other intellectual property laws.
-        </p>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">9. Termination</h2>
-        <p>
-          We reserve the right to terminate or suspend your account at our sole
-          discretion, without prior notice, if we determine that you have
-          violated these terms. Upon termination, your right to use the app will
-          cease immediately.
-        </p>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">
-          10. Disclaimers and Limitation of Liability
-        </h2>
-        <p>
-          DevMockupAI is provided on an "as is" and "as available" basis. We
-          make no warranties, express or implied, regarding the app. To the
-          fullest extent permitted by law, we disclaim all warranties and
-          liabilities in connection with the app.
-        </p>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">11. Governing Law</h2>
-        <p>
-          These terms shall be governed and construed in accordance with the
-          laws of [State/Country], without regard to its conflict of law
-          provisions.
-        </p>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">12. Changes to Terms</h2>
-        <p>
-          We reserve the right to update these terms at any time. If we make
-          material changes, we will notify you via email or through a notice on
-          our app. Your continued use of the app after such changes signifies
-          your acceptance of the new terms.
-        </p>
-      </section>
-
-      <section className="mb-4">
-        <h2 className="text-2xl font-semibold mb-2">13. Contact Information</h2>
-        <p>
-          If you have any questions about these Terms of Service, please contact
-          us at{" "}
-          <a
-            href="mailto:[contact email]"
-            className="text-blue-500 dark:text-blue-300"
-          >
-            [contact email]
-          </a>
-          .
-        </p>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h2 className="text-2xl font-semibold mb-6 text-secondary border-b border-gray-200 dark:border-gray-700 pb-2">
+                6. Contact Information
+              </h2>
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  For any questions about these Terms, please contact us at:
+                </p>
+                <div className="mt-4">
+                  <Link 
+                    href="/contact" 
+                    className="inline-flex items-center px-6 py-3 bg-secondary text-white rounded-md hover:bg-secondary/90 transition-colors"
+                  >
+                    Contact Us
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </section>
+        </motion.div>
+      </div>
     </div>
   );
 }

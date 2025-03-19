@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, NotepadText } from "lucide-react";
 import Link from "next/link";
 import { Tooltip } from "antd";
-import { Input, message } from "antd";
+import { Input, message, Modal } from "antd";
 import { OpenAI } from 'openai';
+import { recordAiSuggestion } from "@/utils/analytics-helpers";
 
 const { TextArea } = Input;
 
@@ -67,8 +68,49 @@ function FormSection({ resumeId }) {
       });
 
       const improvedContent = response.choices[0].message.content;
-      handleSectionChange(section, improvedContent);
-      message.success(`${section} section improved!`);
+      const originalContent = resumeInfo[section];
+      
+      // Show the improved content in a modal for user confirmation
+      Modal.confirm({
+        title: `Improved ${section} section`,
+        content: (
+          <div className="mt-4">
+            <div className="mb-4">
+              <h4 className="font-medium text-sm mb-1">Original:</h4>
+              <p className="p-2 bg-gray-100 rounded-md text-sm">{originalContent}</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-sm mb-1">Improved:</h4>
+              <p className="p-2 bg-green-50 rounded-md text-sm">{improvedContent}</p>
+            </div>
+          </div>
+        ),
+        width: 700,
+        okText: 'Apply Changes',
+        cancelText: 'Keep Original',
+        onOk: () => {
+          // Apply the improved content
+          handleSectionChange(section, improvedContent);
+          message.success(`${section} section improved!`);
+          
+          // Record the acceptance for analytics
+          recordAiSuggestion({
+            category: 'resume-section',
+            action: 'accepted',
+            suggestionId: `${resumeId}-${section}-${Date.now()}`
+          }).catch(err => console.error('Analytics error:', err));
+        },
+        onCancel: () => {
+          // Record the rejection for analytics
+          recordAiSuggestion({
+            category: 'resume-section',
+            action: 'rejected',
+            suggestionId: `${resumeId}-${section}-${Date.now()}`
+          }).catch(err => console.error('Analytics error:', err));
+          
+          message.info('Original content kept');
+        }
+      });
     } catch (error) {
       console.error('Error improving section:', error);
       message.error('Failed to improve section. Please try again.');

@@ -29,6 +29,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { recordAiSuggestion } from "@/utils/analytics-helpers";
 
 const PROMPT =
   "Based on this job description:\n{jobDesc}\n\nRewrite this experience to better align with the job requirements:\n{workSummary}\n\nProvide exactly 3-4 bullet points that highlight relevant achievements and skills. Format in HTML with <ul> and <li> tags. Focus only on the most relevant experience. Be concise and specific.";
@@ -112,11 +113,40 @@ function RichTextEditor({ onRichTextEditorChange, index, defaultValue }) {
     }
   };
 
-  const handleAcceptSuggestion = () => {
+  const handleAcceptSuggestion = async () => {
     setValue(aiSuggestion);
     onRichTextEditorChange(aiSuggestion);
     setShowAIModal(false);
     toast.success("AI suggestion applied!");
+    
+    // Record the AI suggestion acceptance for analytics
+    try {
+      await recordAiSuggestion({
+        category: 'resume',
+        action: 'accepted',
+        suggestionId: `${resumeId}-exp-${index}-${Date.now()}`
+      });
+    } catch (error) {
+      console.error("Failed to record analytics:", error);
+      // Don't show error toast to user as this is background tracking
+    }
+  };
+
+  // Add a function to handle rejection with analytics
+  const handleRejectSuggestion = async () => {
+    setShowAIModal(false);
+    
+    // Record the AI suggestion rejection for analytics
+    try {
+      await recordAiSuggestion({
+        category: 'resume',
+        action: 'rejected',
+        suggestionId: `${resumeId}-exp-${index}-${Date.now()}`
+      });
+    } catch (error) {
+      console.error("Failed to record analytics:", error);
+      // Don't show error toast to user as this is background tracking
+    }
   };
 
   return (
@@ -149,13 +179,13 @@ function RichTextEditor({ onRichTextEditorChange, index, defaultValue }) {
               Select these bullet points to replace your current experience:
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 p-4 bg-muted rounded-lg prose prose-sm max-w-none">
+          <div className="mt-4 p-4 border-2 border-primary rounded-lg prose prose-sm max-w-none">
             <div dangerouslySetInnerHTML={{ __html: aiSuggestion }} />
           </div>
           <div className="flex justify-end gap-2 mt-4">
             <Button
               variant="outline"
-              onClick={() => setShowAIModal(false)}
+              onClick={handleRejectSuggestion}
               className="flex gap-2"
             >
               <X className="h-4 w-4" /> Reject

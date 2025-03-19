@@ -17,6 +17,7 @@ import {
   CircleHelp,
   ChevronsLeft,
   ChevronsRight,
+  CreditCard,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SidebarContext } from "@/context/SidebarContext";
@@ -30,7 +31,7 @@ export default function Sidebar() {
       items: [
         {
           link: "/dashboard",
-          name: "How to use",
+          name: "How to Start",
           icon: <Play />,
         },
         {
@@ -64,9 +65,9 @@ export default function Sidebar() {
       group: "General",
       items: [
         {
-          link: "/dashboard/notifications",
-          name: "Notifications",
-          icon: <BellRing />,
+          link: "/dashboard/credits",
+          name: "Credits",
+          icon: <CreditCard />,
         },
         {
           link: "/terms",

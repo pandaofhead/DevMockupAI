@@ -39,22 +39,22 @@ function InterviewPage({ params }) {
               onUserMedia={() => setWebCamEnabled(true)}
               onUserMediaError={() => setWebCamEnabled(false)}
               mirrored={true}
-              style={{ height: 300, width: 300 }}
+              style={{ height: 400, width: 400 }}
             />
           ) : (
             <>
-              <WebcamIcon className="h-72 border my-5 rounded-lg w-full p-20 bg-gray-200 dark:bg-slate-800" />
+              <WebcamIcon className="h-72 my-5 rounded-lg w-full p-20 bg-gray-200 dark:bg-slate-800 border-2 border-black" />
               <Button
-                className="w-full bg-white hover:bg-gray-100 text-black "
+                className="w-full bg-white hover:bg-gray-100 text-black border-2 border-black"
                 onClick={() => setWebCamEnabled(true)}
               >
                 Please Enable Web Cam and Microphone
               </Button>
             </>
           )}
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-6">
             <Link href={`/dashboard/interview/${params.interviewId}/start`}>
-              <Button>Start Interview</Button>
+              <Button className="text-lg p-6">Start Interview</Button>
             </Link>
           </div>
         </div>
@@ -71,6 +71,10 @@ function InterviewPage({ params }) {
             <h2 className="text-lg">
               <strong>Years of Experience: </strong>
               {interviewData?.jobExperience}
+            </h2>
+            <h2 className="text-lg">
+              <strong>Type of Questions: </strong>
+              {interviewData?.questionType}
             </h2>
           </div>
           <div className="p-5 border rounded-lg border-yellow-300 bg-yellow-100">

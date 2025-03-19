@@ -18,6 +18,13 @@ import { db } from "@/utils/db";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function AddInterview() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -25,6 +32,7 @@ function AddInterview() {
   const [jobDesc, setJobDesc] = useState("");
   const [jobExperience, setJobExperience] = useState("");
   const [loading, setLoading] = useState(false);
+  const [questionType, setQuestionType] = useState("domain");
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [jsonResponse, setJsonResponse] = useState([]);
   const { user } = useUser();
@@ -35,8 +43,18 @@ function AddInterview() {
     e.preventDefault();
     setLoading(true);
 
-    // Prompt for the user to input the job position, job description and years of experience
-    const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}, Depends on Job Position, Description and Years of Experience give us ${numberOfQuestions} Interview question along with Answer in JSON format, Give us question and Answer field on JSON,Each question and answer should be in the format:
+    // Updated prompt to include question type
+    const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. 
+    
+    Please generate 3 interview questions with answers focused on ${questionType} questions.
+    
+    ${questionType === "leetcode" ? 
+      "For Leetcode questions, include one algorithm problems relevant to the job position with detailed solution approaches." : 
+      questionType === "behavioral" ? 
+      "For Behavioral questions, focus on past experiences, teamwork, conflict resolution, and leadership relevant to the position." :
+      "For Domain Knowledge questions, focus on technical concepts, tools, and methodologies specific to the job position and description."}
+    
+    Each question and answer should be in the format:
     {
       "question": "Your question here",
       "answer": "Your answer here"
@@ -60,14 +78,14 @@ function AddInterview() {
           jobPosition: jobPosition,
           jobDesc: jobDesc,
           jobExperience: jobExperience,
-          numberOfQuestions: numberOfQuestions,
+          questionType: questionType, // Add new field to store question type
           createdBy: user?.primaryEmailAddress?.emailAddress,
           createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
         })
         .returning({ mockId: MockInterview.mockId });
       if (resp) {
         setOpenDialog(false);
-        router.push("/dashborad/interview/" + resp[0]?.mockId);
+        router.push("/dashboard/interview/" + resp[0]?.mockId); // Fixed typo in route
       }
     } else {
       console.log("Error in generating interview questions");
@@ -127,15 +145,20 @@ function AddInterview() {
                 </div>
                 <div className="my-3">
                   <div className="my-3">
-                    <p className="font-semibold mb-2">Number of questions</p>
-                    <Input
-                      className="border border-gray-300 rounded-lg p-2 w-full dark:bg-gray-800"
-                      type="number"
-                      max="10"
-                      min="1"
-                      required
-                      onChange={(e) => setNumberOfQuestions(e.target.value)}
-                    />
+                    <p className="font-semibold mb-2">Type of questions</p>
+                    <Select 
+                      defaultValue="domain" 
+                      onValueChange={setQuestionType}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select question type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="leetcode">Leetcode (Algorithms & Data Structures)</SelectItem>
+                        <SelectItem value="behavioral">Behavioral</SelectItem>
+                        <SelectItem value="domain">Domain Knowledge</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -149,7 +172,7 @@ function AddInterview() {
                       !jobPosition ||
                       !jobDesc ||
                       !jobExperience ||
-                      numberOfQuestions ||
+                      !questionType ||
                       loading
                     }
                     className="hover:scale-105"
