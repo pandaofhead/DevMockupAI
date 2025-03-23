@@ -160,7 +160,7 @@ export default function PricingPage() {
           </div>
           <div className="flex justify-center gap-4">
             <Button variant="outline" asChild>
-              <Link href="https://github.com/yourusername/devmockupai">
+              <Link href="https://github.com/pandaofhead/DevMockupAI">
                 <Github className="mr-2 h-4 w-4" />
                 View on GitHub
               </Link>

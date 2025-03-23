@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { recordAiSuggestion } from "@/utils/analytics-helpers";
+import { useUser } from "@clerk/nextjs";
 
 const PROMPT =
   "Based on this job description:\n{jobDesc}\n\nRewrite this experience to better align with the job requirements:\n{workSummary}\n\nProvide exactly 3-4 bullet points that highlight relevant achievements and skills. Format in HTML with <ul> and <li> tags. Focus only on the most relevant experience. Be concise and specific.";
@@ -45,6 +46,7 @@ function RichTextEditor({ onRichTextEditorChange, index, defaultValue }) {
   const [isDefaultResume, setIsDefaultResume] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
   const [aiSuggestion, setAiSuggestion] = useState("");
+  const { user } = useUser();
 
   // Fetch Job Description
   useEffect(() => {
@@ -88,6 +90,7 @@ function RichTextEditor({ onRichTextEditorChange, index, defaultValue }) {
       toast.error("Please add Position Title and ensure there is a job description");
       return;
     }
+    
     setLoading(true);
     
     try {

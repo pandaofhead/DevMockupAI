@@ -1,5 +1,11 @@
 "use client";
-import { Loader2Icon, MoreVertical, Trash2, Download, Star } from "lucide-react";
+import {
+  Loader2Icon,
+  MoreVertical,
+  Trash2,
+  Download,
+  Star,
+} from "lucide-react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -56,22 +62,29 @@ function ResumeItemCard({ resume, isDefault, onUpdate }) {
 
   const handleCardClick = (e) => {
     // Don't navigate if clicking on dropdown or alert dialog
-    if (e.target.closest('.dropdown-trigger') || e.target.closest('.alert-dialog')) {
+    if (
+      e.target.closest(".dropdown-trigger") ||
+      e.target.closest(".alert-dialog")
+    ) {
       return;
     }
     router.push(`/dashboard/resume/${resume.resumeId}/edit`);
   };
 
   return (
-    <div 
-      className={`bg-card rounded-lg p-4 ${isDefault ? 'border-2 border-primary' : ''} cursor-pointer hover:shadow-md transition-all`}
+    <div
+      className={`bg-card rounded-lg p-4 ${
+        isDefault ? "border-2 border-primary" : ""
+      } cursor-pointer hover:shadow-md transition-all`}
       onClick={handleCardClick}
     >
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-semibold">{resume.resumeTitle}</h2>
-            {isDefault && <Star className="h-4 w-4 text-yellow-500" fill="currentColor" />}
+            {isDefault && (
+              <Star className="h-4 w-4 text-yellow-500" fill="currentColor" />
+            )}
           </div>
           <p className="text-sm text-muted-foreground mt-1">
             Created by: <FormatName email={resume.createdBy} />
@@ -92,7 +105,7 @@ function ResumeItemCard({ resume, isDefault, onUpdate }) {
               <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem
-                    className="text-destructive alert-dialog"
+                    className="text-red-500 alert-dialog"
                     onSelect={(e) => {
                       e.preventDefault();
                       setOpenAlert(true);
@@ -102,18 +115,18 @@ function ResumeItemCard({ resume, isDefault, onUpdate }) {
                     Delete
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent open={openAlert}>
                   <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete your
-                      resume.
+                      This action cannot be undone. This will permanently delete
+                      your resume.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      className=" text-destructive-foregroun"
                       onClick={onDelete}
                     >
                       {loading ? (

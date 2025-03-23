@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 function AddInterview() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -60,37 +61,48 @@ function AddInterview() {
       "answer": "Your answer here"
     }`;
 
-    const result = await chatSession.sendMessage(inputPrompt);
-    const MockJsonResp = result.response
-      .text()
-      .replace("```json", "")
-      .replace("```", "");
-    console.log(MockJsonResp);
-    setJsonResponse(MockJsonResp);
-
-    if (MockJsonResp) {
-      // Insert the interview into the database
-      const resp = await db
-        .insert(MockInterview)
-        .values({
-          mockId: uuidv4(),
-          jsonMockResp: MockJsonResp,
-          jobPosition: jobPosition,
-          jobDesc: jobDesc,
-          jobExperience: jobExperience,
-          questionType: questionType, // Add new field to store question type
-          createdBy: user?.primaryEmailAddress?.emailAddress,
-          createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
-        })
-        .returning({ mockId: MockInterview.mockId });
-      if (resp) {
-        setOpenDialog(false);
-        router.push("/dashboard/interview/" + resp[0]?.mockId); // Fixed typo in route
+    try {
+      const result = await chatSession.sendMessage(inputPrompt);
+      const MockJsonResp = result.response
+        .text()
+        .replace("```json", "")
+        .replace("```", "");
+      
+      setJsonResponse(MockJsonResp);
+  
+      if (MockJsonResp) {
+        // Generate a unique ID for the interview
+        const mockId = uuidv4();
+        
+        // Insert the interview into the database
+        const resp = await db
+          .insert(MockInterview)
+          .values({
+            mockId: mockId,
+            jsonMockResp: MockJsonResp,
+            jobPosition: jobPosition,
+            jobDesc: jobDesc,
+            jobExperience: jobExperience,
+            questionType: questionType,
+            createdBy: user?.primaryEmailAddress?.emailAddress,
+            createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+          })
+          .returning({ mockId: MockInterview.mockId });
+          
+        if (resp) {
+          setOpenDialog(false);
+          router.push("/dashboard/interview/" + resp[0]?.mockId);
+          toast.success("Interview created successfully!");
+        }
+      } else {
+        toast.error("Error in generating interview questions");
       }
-    } else {
-      console.log("Error in generating interview questions");
+    } catch (error) {
+      console.error("Error generating interview:", error);
+      toast.error("Failed to generate interview");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -103,6 +115,7 @@ function AddInterview() {
           + Add New Interview
         </h2>
       </div>
+      
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-xl">
           <DialogHeader>
@@ -163,26 +176,25 @@ function AddInterview() {
                 </div>
 
                 <div className="flex gap-5 justify-end my-3">
-                  <Button variant="ghost" onClick={() => setOpenDialog(false)}>
+                  <Button
+                    variant="outline"
+                    className="font-bold"
+                    onClick={() => setOpenDialog(false)}
+                  >
                     Cancel
                   </Button>
-                  <Button
+                  <Button 
+                    className="font-bold" 
                     type="submit"
-                    disabled={
-                      !jobPosition ||
-                      !jobDesc ||
-                      !jobExperience ||
-                      !questionType ||
-                      loading
-                    }
-                    className="hover:scale-105"
+                    disabled={loading}
                   >
                     {loading ? (
-                      <>
-                        <LoaderCircle className="animate-spin" />
-                      </>
+                      <div className="flex space-x-2 items-center">
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
+                        <span>Generating...</span>
+                      </div>
                     ) : (
-                      "Start Interview"
+                      "Generate Interview"
                     )}
                   </Button>
                 </div>

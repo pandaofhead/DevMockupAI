@@ -72,17 +72,21 @@ const InterviewItemCard = ({ interview }) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
+              className="text-blue-500 alert-dialog"
               onClick={onFeedbackPress}
-              className="flex justify-between"
             >
-              Feedback <MessageSquareMore />
+              <MessageSquareMore className="h-4 w-4 mr-2" />
+              Feedback
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => setOpenAlert(true)}
-              className="flex justify-between"
+              className="text-red-500 alert-dialog"
+              onSelect={(e) => {
+                e.preventDefault();
+                setOpenAlert(true);
+              }}
             >
+              <Trash2 className="h-4 w-4 mr-2" />
               Delete
-              <Trash2 color="red" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

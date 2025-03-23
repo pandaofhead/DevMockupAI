@@ -19,13 +19,7 @@ import {
 } from "@/utils/validations";
 import { toast } from "sonner";
 import { db } from "@/utils/db";
-import {
-  Resume,
-  ResumePersonal,
-  ResumeEducation,
-  ResumeExperience,
-  ResumeSkills,
-} from "@/utils/schema";
+import { Resume } from "@/utils/schema";
 import moment from "moment";
 import { eq } from "drizzle-orm";
 import {
@@ -34,18 +28,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { 
-  detectResumeType, 
-  extractTechnologies, 
-  recordResumeType, 
-  recordTechStack 
+import {
+  detectResumeType,
+  extractTechnologies,
+  recordResumeType,
+  recordTechStack,
 } from "@/utils/analytics-helpers";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { createDefaultResume } from "@/lib/actions/resume";
 
 export default function DefaultResumeForm({
   isEditing = false,
   existingResumeId = null,
   resumeTitle = null,
+  onComplete = null,
 }) {
+  console.log("DefaultResumeForm rendered");
+  
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const router = useRouter();
@@ -53,6 +54,11 @@ export default function DefaultResumeForm({
   const { user } = useUser();
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
   const [originalTitle, setOriginalTitle] = useState("");
+
+  console.log("DefaultResumeForm user state:", { 
+    isLoaded: !!user, 
+    email: user?.primaryEmailAddress?.emailAddress 
+  });
 
   useEffect(() => {
     const fetchResumeData = async () => {
@@ -83,6 +89,8 @@ export default function DefaultResumeForm({
   }, [existingResumeId, setResumeInfo]);
 
   const validateForm = () => {
+    console.log("Validating form...");
+    
     const personalValidation = validatePersonalDetails(resumeInfo);
     const educationValidation = validateEducation(resumeInfo.education);
     const experienceValidation = validateExperience(resumeInfo.experience);
@@ -96,26 +104,37 @@ export default function DefaultResumeForm({
     };
 
     setErrors(newErrors);
-
-    return (
+    
+    const isValid = (
       personalValidation.isValid &&
       educationValidation.isValid &&
       experienceValidation.isValid &&
       skillsValidation.isValid
     );
+    
+    console.log("Form validation result:", isValid ? "Valid" : "Invalid", newErrors);
+    
+    return isValid;
   };
 
   const handleSave = async () => {
-    console.log("Starting save process...");
+    console.log("##### Starting save process #####");
 
     if (!validateForm()) {
-      console.log("Form validation failed");
+      console.log("Form validation failed, aborting save");
       toast.error("Please fill in all required fields");
       return;
     }
 
     setLoading(true);
     try {
+      if (!user?.primaryEmailAddress?.emailAddress) {
+        console.error("No user email found");
+        throw new Error("User email not found. Please ensure you are logged in.");
+      }
+
+      console.log("Creating resume with user email:", user.primaryEmailAddress.emailAddress);
+
       // Prepare the data for storage by sanitizing
       const sanitizedResumeInfo = {
         ...resumeInfo,
@@ -127,6 +146,8 @@ export default function DefaultResumeForm({
       };
 
       const isDefaultResume = !isEditing;
+      console.log("Setting isDefault to:", isDefaultResume);
+      
       const resumeData = {
         resumeId: resumeId,
         resumeTitle: isDefaultResume
@@ -136,20 +157,33 @@ export default function DefaultResumeForm({
         jobDesc: sanitizedResumeInfo.jobTitle || "",
         resumeText: "",
         resumeSections: JSON.stringify(sanitizedResumeInfo),
-        createdBy: user?.primaryEmailAddress?.emailAddress,
+        createdBy: user.primaryEmailAddress.emailAddress,
         createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
         isDefault: isDefaultResume,
       };
 
+      console.log("Saving resume with data:", {
+        resumeId: resumeData.resumeId,
+        resumeTitle: resumeData.resumeTitle,
+        isDefault: resumeData.isDefault,
+        email: resumeData.createdBy,
+        jobDesc: resumeData.jobDesc?.substring(0, 20) + "...",
+      });
+
       if (isEditing) {
         // Update existing resume
+        console.log(`Updating existing resume (ID: ${existingResumeId})`);
         await db
           .update(Resume)
           .set(resumeData)
           .where(eq(Resume.resumeId, existingResumeId));
+          
+        console.log("Resume updated successfully");
       } else {
         // Create new resume
-        await db.insert(Resume).values(resumeData);
+        console.log("Inserting new resume to database");
+        const result = await db.insert(Resume).values(resumeData);
+        console.log("Resume created successfully with isDefault =", isDefaultResume, "DB result:", result);
       }
 
       // Collect analytics data
@@ -157,21 +191,47 @@ export default function DefaultResumeForm({
         // Detect resume type based on content
         const resumeType = detectResumeType(sanitizedResumeInfo);
         await recordResumeType(resumeId, resumeType);
-        
+
         // Extract and record technologies used
         const technologies = extractTechnologies(sanitizedResumeInfo);
         for (const tech of technologies) {
           await recordTechStack(tech);
         }
-        
-        console.log('Analytics data collected:', { resumeType, technologies });
+
+        console.log("Analytics data collected:", { resumeType, technologies });
       } catch (analyticsError) {
         // Don't block the main flow if analytics fails
-        console.error('Error collecting analytics data:', analyticsError);
+        console.error("Error collecting analytics data:", analyticsError);
       }
 
       toast.success(`Resume ${isEditing ? "updated" : "saved"} successfully!`);
-      router.push("/dashboard/resume");
+      
+      // Call onComplete callback if provided
+      if (onComplete && typeof onComplete === 'function') {
+        console.log("Calling onComplete callback");
+        onComplete();
+        
+        // Reload the page to refresh the UI state
+        if (isDefaultResume) {
+          console.log("Scheduling page reload");
+          
+          // Set a flag in localStorage to indicate we should skip the modal on next load
+          try {
+            localStorage.setItem('defaultResumeCreated', 'true');
+            localStorage.setItem('defaultResumeCreatedTime', Date.now().toString());
+          } catch (e) {
+            console.error("Could not access localStorage:", e);
+          }
+          
+          setTimeout(() => {
+            console.log("Reloading page");
+            window.location.href = '/dashboard/resume'; // Use full URL to ensure clean reload
+          }, 1000); // Wait for the dialog to close
+        }
+      } else {
+        console.log("Redirecting to resume listing page");
+        router.push("/dashboard/resume");
+      }
     } catch (error) {
       console.error(
         `Failed to ${isEditing ? "update" : "save"} resume:`,
@@ -202,9 +262,12 @@ export default function DefaultResumeForm({
         format,
         resumeData: resumeInfo,
       };
-      
+
       // Debug log to see what data is being sent
-      console.log("Exporting resume data:", JSON.stringify(exportData.resumeData, null, 2));
+      console.log(
+        "Exporting resume data:",
+        JSON.stringify(exportData.resumeData, null, 2)
+      );
 
       if (format === "PDF") {
         // For PDF, open in a new window/tab for printing
@@ -285,7 +348,7 @@ export default function DefaultResumeForm({
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">
           {isEditing ? "Edit Resume" : "Create Your Default Resume"}
@@ -293,21 +356,21 @@ export default function DefaultResumeForm({
       </div>
 
       <div className="space-y-6">
-        <div className="bg-card rounded-lg shadow-sm">
+        <div className="bg-card rounded-lg shadow-sm p-4">
           <PersonalDetail params={{ resumeId }} errors={errors.personal} />
         </div>
-        <div className="bg-card rounded-lg shadow-sm">
+        <div className="bg-card rounded-lg shadow-sm p-4">
           <Education params={{ resumeId }} errors={errors.education} />
         </div>
-        <div className="bg-card rounded-lg shadow-sm">
+        <div className="bg-card rounded-lg shadow-sm p-4">
           <Experience params={{ resumeId }} errors={errors.experience} />
         </div>
 
-        <div className="bg-card rounded-lg shadow-sm">
+        <div className="bg-card rounded-lg shadow-sm p-4">
           <Project params={{ resumeId }} />
         </div>
 
-        <div className="bg-card rounded-lg shadow-sm">
+        <div className="bg-card rounded-lg shadow-sm p-4">
           <Skills params={{ resumeId }} errors={errors.skills} />
         </div>
       </div>

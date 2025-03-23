@@ -48,11 +48,12 @@ function AddResume() {
         .select()
         .from(Resume)
         .where(eq(Resume.isDefault, true))
+        .where(eq(Resume.createdBy, user.primaryEmailAddress.emailAddress))
         .then((res) => res[0]);
 
       if (!defaultResume) {
         toast.error("No default resume found. Please create a default resume first.");
-        router.push("/dashboard/resume/new");
+        setOpenDialog(false);
         return;
       }
 
