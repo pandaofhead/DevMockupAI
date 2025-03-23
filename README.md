@@ -17,17 +17,6 @@ A powerful application that provides resume and interview preparation tools for 
 - **Resume Tailoring**: AI-powered tool to tailor your resume to specific job descriptions
 - **Interview Coaching**: Get personalized interview preparation advice
 - **Tech Stack Matching**: Highlight relevant skills based on job requirements
-- **Credit System**: Limits AI generation to 3 credits per user to manage API usage
-
-## AI Credit System
-
-The application includes a credit system to manage AI resource usage:
-
-- Each user receives 3 AI generation credits
-- Generating an interview consumes 1 credit
-- Using AI to improve a resume section consumes 1 credit
-- Credit usage is tracked in the database
-- Users can see their remaining credits on the dashboard
 
 ## Getting Started
 
@@ -99,3 +88,7 @@ The application uses AI models:
 - **Google's Gemini**: Used for interview coaching and conversation, and resume tailoring.
 
 To switch between models or configure them further, check the API routes in `app/api/` directory.
+
+## License
+
+This project is licensed under the [Apache 2.0 License](LICENSE).

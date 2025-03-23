@@ -106,13 +106,6 @@ const Workflow = () => {
       description:
         "With our analytics, you can see your performance and improve your skills.",
     },
-    {
-      title: "CHAT WITH AI COACH",
-      imageSrc: "/img/example4.png",
-      imageAlt: "Example 3",
-      reverse: false,
-      description: "Chat with AI to get help with your interview preparation.",
-    },
   ];
 
   return (
