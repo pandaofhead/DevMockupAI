@@ -20,11 +20,11 @@ function DashboardLayout({ children }) {
     <div className="flex flex-row m-0 bg-white min-h-[768px] dark:bg-slate-800">
       <Sidebar />
       {children}
-      {/* <FloatButton
+      <FloatButton
         icon={<RobotOutlined fontSize="40px" />}
         onClick={showModal}
       />
-      <Modal
+      {/* <Modal
         title=""
         centered
         open={isModalOpen}

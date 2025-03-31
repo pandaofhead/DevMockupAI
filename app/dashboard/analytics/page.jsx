@@ -71,126 +71,101 @@ function Analytics() {
   const [techCategoryData, setTechCategoryData] = useState([]);
 
   const RESUME_COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
-  
+
   // Category colors for tech skills
   const CATEGORY_COLORS = {
     frontend: "indigo-500",
     backend: "green-500",
     database: "blue-500",
-    devops: "purple-500"
+    devops: "purple-500",
   };
-  
+
   // Category icons for tech skills
   const getCategoryIcon = (category) => {
-    switch(category) {
-      case 'frontend': return <Github className="h-5 w-5 text-indigo-500" />;
-      case 'backend': return <Terminal className="h-5 w-5 text-green-500" />;
-      case 'database': return <Database className="h-5 w-5 text-blue-500" />;
-      case 'devops': return <TrendingUp className="h-5 w-5 text-purple-500" />;
-      default: return <Github className="h-5 w-5 text-gray-500" />;
+    switch (category) {
+      case "frontend":
+        return <Github className="h-5 w-5 text-indigo-500" />;
+      case "backend":
+        return <Terminal className="h-5 w-5 text-green-500" />;
+      case "database":
+        return <Database className="h-5 w-5 text-blue-500" />;
+      case "devops":
+        return <TrendingUp className="h-5 w-5 text-purple-500" />;
+      default:
+        return <Github className="h-5 w-5 text-gray-500" />;
     }
   };
-  
+
   // Get category background color class for progress bars
   const getCategoryColorClass = (category) => {
-    switch(category) {
-      case 'frontend': return "bg-indigo-500";
-      case 'backend': return "bg-green-500";
-      case 'database': return "bg-blue-500";
-      case 'devops': return "bg-purple-500";
-      default: return "bg-gray-500";
+    switch (category) {
+      case "frontend":
+        return "bg-indigo-500";
+      case "backend":
+        return "bg-green-500";
+      case "database":
+        return "bg-blue-500";
+      case "devops":
+        return "bg-purple-500";
+      default:
+        return "bg-gray-500";
     }
   };
 
-  // Fetch data when user is loaded or timeFrame changes
+  // Load mockup data
   useEffect(() => {
-    if (!isUserLoaded || !user) return;
-    
-    async function fetchAnalyticsData() {
-      setIsLoading(true);
-      try {
-        // Fetch resume type data
-        const resumeTypeResponse = await fetch(`/api/analytics/resume-type?timeFrame=${timeFrame}`);
-        if (resumeTypeResponse.ok) {
-          const data = await resumeTypeResponse.json();
-          setResumeTypeData(data.length ? data : [
-            { name: "Frontend Dev", value: 45 },
-            { name: "Backend Dev", value: 30 },
-            { name: "Full Stack", value: 25 },
-          ]);
-        }
+    // Simulate loading
+    setTimeout(() => {
+      // Set mockup data
+      setResumeTypeData([
+        { name: "Frontend Dev", value: 45 },
+        { name: "Backend Dev", value: 30 },
+        { name: "Full Stack", value: 25 },
+      ]);
 
-        // Fetch tech stack data
-        const techStackResponse = await fetch(`/api/analytics/tech-stack?timeFrame=${timeFrame}`);
-        if (techStackResponse.ok) {
-          const data = await techStackResponse.json();
-          setTechStackData(data.length ? data : [
-            { name: "React", count: 38 },
-            { name: "Node.js", count: 30 },
-            { name: "TypeScript", count: 28 },
-            { name: "Next.js", count: 25 },
-            { name: "Python", count: 20 },
-            { name: "AWS", count: 15 },
-          ]);
-        }
-        
-        // Fetch tech categories data
-        const techCategoriesResponse = await fetch(`/api/analytics/tech-stack?timeFrame=${timeFrame}&format=categories`);
-        if (techCategoriesResponse.ok) {
-          const data = await techCategoriesResponse.json();
-          setTechCategoryData(data);
-        }
+      setTechStackData([
+        { name: "React", count: 38 },
+        { name: "Node.js", count: 30 },
+        { name: "TypeScript", count: 28 },
+        { name: "Next.js", count: 25 },
+        { name: "Python", count: 20 },
+        { name: "AWS", count: 15 },
+      ]);
 
-        // Fetch interview performance data
-        const interviewResponse = await fetch(
-          `/api/analytics/interview?timeFrame=${timeFrame}&dataType=performance`
-        );
-        if (interviewResponse.ok) {
-          const data = await interviewResponse.json();
-          setInterviewPerformanceData(data.length ? data : [
-            { month: "Jan", technical: 65, behavioral: 70 },
-            { month: "Feb", technical: 68, behavioral: 72 },
-            { month: "Mar", technical: 75, behavioral: 78 },
-            { month: "Apr", technical: 80, behavioral: 76 },
-            { month: "May", technical: 78, behavioral: 82 },
-            { month: "Jun", technical: 85, behavioral: 85 },
-          ]);
-        }
+      setTechCategoryData([
+        { category: "frontend", percentage: 42 },
+        { category: "backend", percentage: 35 },
+        { category: "database", percentage: 15 },
+        { category: "devops", percentage: 8 },
+      ]);
 
-        // Fetch job type success data
-        const jobTypeResponse = await fetch(
-          `/api/analytics/interview?timeFrame=${timeFrame}&dataType=jobTypeSuccess`
-        );
-        if (jobTypeResponse.ok) {
-          const data = await jobTypeResponse.json();
-          setJobTypeSuccessData(data.length ? data : [
-            { name: "Frontend", success: 75, failed: 25 },
-            { name: "Backend", success: 65, failed: 35 },
-            { name: "Full Stack", success: 70, failed: 30 },
-            { name: "DevOps", success: 60, failed: 40 },
-            { name: "ML Engineer", success: 55, failed: 45 },
-          ]);
-        }
+      setInterviewPerformanceData([
+        { month: "Jan", technical: 65, behavioral: 70 },
+        { month: "Feb", technical: 68, behavioral: 72 },
+        { month: "Mar", technical: 75, behavioral: 78 },
+        { month: "Apr", technical: 80, behavioral: 76 },
+        { month: "May", technical: 78, behavioral: 82 },
+        { month: "Jun", technical: 85, behavioral: 85 },
+      ]);
 
-        // Fetch AI suggestion data
-        const aiSuggestionResponse = await fetch(`/api/analytics/ai-suggestions?timeFrame=${timeFrame}`);
-        if (aiSuggestionResponse.ok) {
-          const data = await aiSuggestionResponse.json();
-          setAiSuggestionData(data.length ? data : [
-            { name: "Resume Edits", accepted: 85, rejected: 15 },
-            { name: "Interview Tips", accepted: 78, rejected: 22 },
-            { name: "Project Suggestions", accepted: 65, rejected: 35 },
-          ]);
-        }
-      } catch (error) {
-        console.error("Error fetching analytics data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+      setJobTypeSuccessData([
+        { name: "Frontend", success: 75, failed: 25 },
+        { name: "Backend", success: 65, failed: 35 },
+        { name: "Full Stack", success: 70, failed: 30 },
+        { name: "DevOps", success: 60, failed: 40 },
+        { name: "ML Engineer", success: 55, failed: 45 },
+      ]);
 
-    fetchAnalyticsData();
-  }, [isUserLoaded, user, timeFrame]);
+      setAiSuggestionData([
+        { name: "Resume Edits", accepted: 85, rejected: 15 },
+        { name: "Interview Tips", accepted: 78, rejected: 22 },
+        { name: "Project Suggestions", accepted: 65, rejected: 35 },
+      ]);
+
+      // Set loading to false after data is loaded
+      setIsLoading(false);
+    }, 1000); // 1 second delay to simulate loading
+  }, []);
 
   const LoadingState = () => (
     <div className="flex items-center justify-center h-64">
@@ -414,14 +389,22 @@ function Analytics() {
                       <LoadingState />
                     ) : (
                       techCategoryData.map((item, index) => (
-                        <div key={index} className="flex items-center justify-between">
+                        <div
+                          key={index}
+                          className="flex items-center justify-between"
+                        >
                           <div className="flex items-center gap-2">
                             {getCategoryIcon(item.category)}
-                            <span className="capitalize">{item.category} Development</span>
+                            <span className="capitalize">
+                              {item.category} Development
+                            </span>
                           </div>
                           <div className="w-1/2 bg-secondary/10 rounded-full h-2.5">
                             <div
-                              className={getCategoryColorClass(item.category) + " h-2.5 rounded-full"}
+                              className={
+                                getCategoryColorClass(item.category) +
+                                " h-2.5 rounded-full"
+                              }
                               style={{ width: `${item.percentage}%` }}
                             ></div>
                           </div>
@@ -487,7 +470,9 @@ function Analytics() {
                     <div className="flex items-center gap-3 p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
                       <CheckCircle className="h-5 w-5 text-green-500" />
                       <div>
-                        <p className="font-medium">Strong technical knowledge</p>
+                        <p className="font-medium">
+                          Strong technical knowledge
+                        </p>
                         <p className="text-sm text-muted-foreground">
                           Mentioned in 78% of positive feedback
                         </p>
